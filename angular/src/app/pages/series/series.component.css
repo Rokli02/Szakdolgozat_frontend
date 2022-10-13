@@ -1,0 +1,32 @@
+.container {
+  margin: 3em auto;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  flex: 0 0 30%;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  height: fit-content;
+  justify-content: space-around;
+  flex-basis: 33%;
+  text-align: center;
+  margin-bottom: 3em;
+}
+
+.search-item {
+  width: fit-content;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: center;
+}

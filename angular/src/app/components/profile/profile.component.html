@@ -1,0 +1,21 @@
+<div id="profile">
+  <button mat-icon-button id="profile-button" (click)="toggle()">
+    <mat-icon class="profile-icon">manage_accounts</mat-icon>
+  </button>
+  <section class="profile-data" *ngIf="open">
+    <div id="profile-username">
+      <div>{{user!.username}}</div>
+      <div id="profile-role">{{user!.role.name}}</div>
+    </div>
+    <div class="profile-details">
+      <div>{{user!.name}}</div>
+      <div>{{user!.email}}</div>
+      <div id="profile-footer">
+        <span>Regisztráció: {{user!.created.split('T')[0]}}</span>
+        <button mat-icon-button title="Kilépés" color="warn" (click)="exit()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

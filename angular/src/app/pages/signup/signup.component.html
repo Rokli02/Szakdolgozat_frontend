@@ -1,0 +1,59 @@
+<div id="signup-container">
+  <div>
+    <span class="title">Regisztráció</span>
+  </div>
+  <form [formGroup]="formGroup" id="signup-form" (submit)="submit()">
+    <span class="sub-title">Személyes adatok</span>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-placeholder>Név</mat-placeholder>
+        <mat-error>Kötelező mező!</mat-error>
+        <input matInput type="text" formControlName="name"/>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-placeholder>Születési dátum</mat-placeholder>
+        <mat-error>Kötelező mező!</mat-error>
+        <input matInput type="date" formControlName="birthdate"/>
+      </mat-form-field>
+    </div>
+    <span class="sub-title">Fiók adatok</span>
+    <div class="left-aligned-row">
+      <mat-form-field class="form-field">
+        <mat-placeholder>Felhasználónév</mat-placeholder>
+        <mat-error>Kötelező mező!</mat-error>
+        <input matInput type="text" formControlName="username"/>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-placeholder>Email</mat-placeholder>
+        <mat-error>Kötelező mező!</mat-error>
+        <input matInput type="email" formControlName="email"/>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-placeholder>Email újra</mat-placeholder>
+        <mat-error>{{getError("emailAgain")}}</mat-error>
+        <input matInput type="email" formControlName="emailAgain"/>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field class="form-field">
+        <mat-placeholder>Jelszó</mat-placeholder>
+        <mat-error>Kötelező mező!</mat-error>
+        <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password"/>
+      </mat-form-field>
+      <mat-form-field class="form-field">
+        <mat-placeholder>Jelszó újra</mat-placeholder>
+        <mat-error>{{getError("passwordAgain")}}</mat-error>
+        <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="passwordAgain"/>
+      </mat-form-field>
+    </div>
+    <div class="show-password" (click)="toggle()">
+      <input id="show-password-button" type="checkbox" [checked]="showPassword"/>
+      <label id="show-password-text">Mutasd a jelszót!</label>
+    </div>
+    <div id="form-button">
+      <button mat-raised-button color="accent" [disabled]="!formGroup.valid">Regisztráció</button>
+    </div>
+  </form>
+</div>

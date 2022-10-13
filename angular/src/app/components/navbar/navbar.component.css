@@ -1,0 +1,94 @@
+#navbar {
+  background-color: var(--secondary-color);
+  width: 100%;
+  min-height: 3.5em;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.6);
+  /*
+     Z-index magasabbra állítva, mert belelógott dolgokba
+  */
+  z-index: 20;
+}
+
+#left-navbar-section {
+  column-gap: 1.5em;
+  text-align: left;
+}
+
+#middle-navbar-section {
+  justify-content: center;
+}
+
+.navbar-section {
+  display: inline-flex;
+  align-items: center;
+  flex-basis: 33%;
+  flex-grow: 1;
+  padding: 4px 16px;
+}
+
+.navbar-button {
+  font-size: 1.5em;
+  text-align: center;
+  padding: 0px 24px;
+  line-height: 1.8em;
+}
+
+.navbar-auth-text {
+  font-size: 1.8em;
+}
+
+.navbar-auth-icon {
+  height: auto;
+  font-size: 1.8em;
+  margin-right: 0.5em;
+  align-items: flex-end;
+}
+
+@media screen and (max-width: 1200px) {
+  #middle-navbar-section {
+    justify-content: right;
+  }
+
+  .navbar-section:last-child {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .navbar-section {
+    padding: 0px 12px;
+  }
+
+  .navbar-button {
+    font-size: large;
+    padding: 0px 12px;
+    line-height: 2em;
+  }
+
+  .navbar-auth-text {
+    display: none;
+  }
+
+  .navbar-auth-icon {
+    font-size: 1.5em;
+    margin-right: auto;
+  }
+
+  #navbar {
+    min-height: 2.5em;
+  }
+
+  #left-navbar-section {
+    column-gap: 0.3em;
+  }
+
+  #middle-navbar-section {
+    justify-content: end;
+  }
+}

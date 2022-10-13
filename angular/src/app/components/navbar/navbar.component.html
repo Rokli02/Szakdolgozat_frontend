@@ -1,0 +1,23 @@
+<header id="navbar">
+  <section id="left-navbar-section" class="navbar-section">
+    <app-sidebar *ngIf="sidebarItems !== undefined" [items]="sidebarItems"></app-sidebar>
+    <a routerLink="/series" title="Sorozatok" mat-button class="navbar-button">Sorozatok</a>
+    <a routerLink="/newsfeed" title="Újdonságok" mat-button class="navbar-button">Újdonságok</a>
+  </section>
+  <section id="middle-navbar-section" class="navbar-section">
+    <app-profile *ngIf="hasUser(); else noUser" [user]="user"></app-profile>
+    <ng-template #noUser>
+        <a routerLink="/login" title="Bejelentkezés" mat-button *ngIf="!isLoginPage; else inSignUp">
+          <mat-icon class="navbar-auth-icon">key</mat-icon>
+          <span class="navbar-auth-text">Bejelentkezés</span>
+        </a>
+        <ng-template #inSignUp>
+          <a routerLink="/signup" title="Regisztráció" mat-button>
+            <mat-icon class="navbar-auth-icon">settings_accessibility</mat-icon>
+            <span class="navbar-auth-text">Regisztráció</span>
+          </a>
+        </ng-template>
+    </ng-template>
+  </section>
+  <section id="right-navbar-section" class="navbar-section"></section>
+</header>
