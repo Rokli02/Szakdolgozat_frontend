@@ -1,18 +1,18 @@
 <main class="container">
   <header class="search">
-    <div class="search-item"></div>
     <div class="search-item">
-      <app-search-bar></app-search-bar>
+      <mat-slide-toggle [checked]="opts.direction" (change)="setOption('direction', !opts.direction)">{{opts.direction ? "Növekvő sorrend" : "Csökkenő sorrend"}}</mat-slide-toggle>
     </div>
     <div class="search-item">
-      <app-drop-down-bar></app-drop-down-bar>
+      <app-search-bar (searchValue)="setOption('filter', $event)"></app-search-bar>
+    </div>
+    <div class="search-item">
+      <app-drop-down-bar [action]="true" [header]="'Rendezés'" [options]="getOrderOptions()" (selected)="setOption('order', $event)"></app-drop-down-bar>
     </div>
   </header>
   <div class="items">
-    <app-series-item></app-series-item>
-    <app-series-item></app-series-item>
-    <app-series-item></app-series-item>
-    <app-series-item></app-series-item>
-    <app-series-item></app-series-item>
+    <div *ngFor="let series of serieses">
+      <app-series-item [series]="series"></app-series-item>
+    </div>
   </div>
 </main>

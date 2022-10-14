@@ -1,14 +1,14 @@
 <div class="series-item">
   <header>
-    <span class="series-name">Random név</span>
+    <label class="series-name">{{series.title}}</label>
   </header>
   <div>
-    <div class="series-prodyear">2000</div>
-    <div class="series-length">20 perc</div>
-    <div class="series-category">Akcijó, tyriller, mezse</div>
+    <div class="series-prodyear">{{series.prodYear}}</div>
+    <div class="series-length">{{series.length}} perc</div>
+    <div class="series-category">{{getCategories()}}</div>
   </div>
   <footer>
-    <div class="age-limit">18</div>
-    <app-drop-down-bar></app-drop-down-bar>
+    <label class="age-limit" [ngStyle]="{'border-color': getLimitColor()}">{{series.ageLimit}}</label>
+    <app-drop-down-bar [header]="'Évadok'" [options]="getOptions()"></app-drop-down-bar>
   </footer>
 </div>

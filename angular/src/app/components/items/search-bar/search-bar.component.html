@@ -1,1 +1,15 @@
-<p>search-bar works!</p>
+<div class="search-bar-container">
+  <label class="search-bar-header">Keresőmező</label>
+  <mat-form-field class="search-field">
+    <input class="search-input" type="text" (input)="startTimer()"
+      matInput
+      autocomplete="off"
+      [formControl]="inputValue"
+      [matAutocomplete]="auto"/>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of options" [value]="option.value">
+        {{option.shownValue}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

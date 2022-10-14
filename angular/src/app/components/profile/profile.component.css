@@ -1,3 +1,7 @@
+#profile {
+  z-index: 19;
+}
+
 #profile-button {
   min-height: min-content;
   min-width: min-content;

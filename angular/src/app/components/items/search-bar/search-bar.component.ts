@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DropdownItem } from 'src/app/models/menu.model';
 
 @Component({
   selector: 'app-search-bar',
@@ -6,10 +8,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
-
-  constructor() { }
+  @Input() options: DropdownItem[];
+  @Output() searchValue = new EventEmitter<string>();
+  inputValue = new FormControl('');
+  private clockId!: NodeJS.Timeout;
+  constructor() {
+    this.options = [];
+  }
 
   ngOnInit(): void {
   }
 
+  startTimer = () => {
+    if(this.clockId) {
+      clearTimeout(this.clockId);
+    }
+    this.clockId = setTimeout(() => {
+      this.searchValue.emit(this.inputValue.value);
+      clearTimeout(this.clockId);
+    }, 620);
+  }
 }

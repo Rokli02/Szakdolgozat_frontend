@@ -1,7 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { lastValueFrom, Observable, Subject, Subscription } from 'rxjs';
+import { lastValueFrom, Subject, Subscription } from 'rxjs';
 import { LoginData, NewUser, User } from '../models/user.model';
 import { SidebarItem, StoredSidebarItem } from '../models/menu.model';
 import { Router } from '@angular/router';
@@ -67,6 +67,15 @@ export class AuthService {
 
   getUserObserver = (setterFunc: (user?: User) => void): Subscription => {
     return this.userObserver.subscribe(setterFunc);
+  }
+
+  getAuthHeader = () => {
+    if(!this.token) {
+      return new HttpHeaders()
+    }
+
+    return new HttpHeaders()
+      .set("Authorization", this.token);
   }
 
   logout = () => {
