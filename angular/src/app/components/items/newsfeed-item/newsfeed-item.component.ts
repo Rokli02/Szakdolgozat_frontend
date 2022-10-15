@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Newsfeed } from 'src/app/models/newsfeed.model';
 
 @Component({
   selector: 'app-newsfeed-item',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./newsfeed-item.component.css']
 })
 export class NewsfeedItemComponent implements OnInit {
-
+  @Input() newsfeed!: Newsfeed;
   constructor() { }
 
   ngOnInit(): void {

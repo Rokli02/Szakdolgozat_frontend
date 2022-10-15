@@ -7,21 +7,20 @@
       <mat-icon class="dropdown-icon">{{open ? "expand_less" : "expand_more"}}</mat-icon>
     </label>
   </div>
-  <div class="dropdown-body" *ngIf="open && this.options && this.options.length > 0; else noOptions"
+  <div class="dropdown-body" *ngIf="open"
   [ngStyle]="{'border-top': open ? '2px solid var(--primary-color)' : 'none'}">
-    <span class="dropdown-item-container" *ngFor="let option of options">
-      <div class="dropdown-body-item" (click)="onClick(option)">{{option.shownValue}}</div>
-      <hr class="divider" />
+    <span *ngIf="this.options && this.options.length > 0; else noOptions">
+      <span class="dropdown-item-container" *ngFor="let option of options">
+        <div class="dropdown-body-item" (click)="onClick(option)">{{option.shownValue}}</div>
+        <!-- <hr class="divider" /> -->
+      </span>
     </span>
-  </div>
-  <ng-template #noOptions>
-    <div class="dropdown-body" *ngIf="open"
-    [ngStyle]="{'border-top': open ? '2px solid var(--primary-color)' : 'none'}">
+    <ng-template #noOptions>
       <span class="dropdown-item-container">
         <div class="dropdown-body-item">
           Üres...
         </div>
       </span>
-    </div>
-  </ng-template>
+    </ng-template>
+  </div>
 </div>

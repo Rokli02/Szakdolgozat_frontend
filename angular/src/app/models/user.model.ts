@@ -22,3 +22,8 @@ export type NewUser = {
   email: string;
   password: string;
 };
+
+export type UserPageModel = {
+  users: User[];
+  count: number;
+}

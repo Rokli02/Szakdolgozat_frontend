@@ -8,6 +8,24 @@ export interface Series {
   categories: Category[];
 };
 
+export interface UserSeries {
+  id?: number;
+  season: number;
+  episode: number;
+  series: Series;
+  status: Status;
+}
+
+export type SeriesPageModel = {
+  serieses: Series[];
+  count: number;
+}
+
+export type UserSeriesPageModel = {
+  userserieses: UserSeries[];
+  count: number;
+}
+
 export type Season = {
   id?: number;
   season: number;
@@ -15,6 +33,11 @@ export type Season = {
 };
 
 export type Category = {
+  id?: number;
+  name: string;
+}
+
+export type Status = {
   id?: number;
   name: string;
 }

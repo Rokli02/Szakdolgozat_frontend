@@ -1,6 +1,6 @@
 .dropdown-container {
   position: relative;
-  margin: auto 8px;
+  margin: auto;
   width: 280px;
   min-width: fit-content;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);

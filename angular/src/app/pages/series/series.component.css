@@ -23,7 +23,6 @@
 
 .search-item {
   width: fit-content;
-  max-width: 33%;
   width: 33%;
 }
 
@@ -33,4 +32,14 @@
   flex-direction: row;
   gap: 2em;
   justify-content: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 99%;
+  }
+
+  .search-item {
+    width: 100%;
+  }
 }

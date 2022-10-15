@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DropdownItem } from '../models/menu.model';
-import { Series } from '../models/series.model';
+import { Series, SeriesPageModel } from '../models/series.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -14,7 +14,7 @@ export class SeriesService {
   constructor(private http: HttpClient,
               private authService: AuthService) { }
 
-  getSerieses = async (page: number, size: number, filter?: string, order?: string, direction?: boolean): Promise<{ serieses: Series[], count: number}> => {
+  getSerieses = async (page: number, size: number, filter?: string, order?: string, direction?: boolean): Promise<SeriesPageModel> => {
     let params = new HttpParams({ fromObject: { size } });
 
     if(order && order !== '') {
@@ -28,16 +28,32 @@ export class SeriesService {
       params = params.set("filt", filter);
     }
 
-    return await lastValueFrom(this.http.get<{ serieses: Series[], count: number}>(`${environment.API_URL}serieses/page/${page}`, {
+    try {
+      const response = await lastValueFrom(this.http.get<SeriesPageModel>(`${environment.API_URL}serieses/page/${page}`, {
       params: params,
       headers: this.authService.getAuthHeader()
-    }))
+      }))
+      return response;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
   }
 
   getSeries = async (id: number): Promise<Series> => {
-    return await lastValueFrom(this.http.get<Series>(`${environment.API_URL}serieses/${id}`, {
+    try {
+      const response = await lastValueFrom(this.http.get<Series>(`${environment.API_URL}serieses/${id}`, {
       headers: this.authService.getAuthHeader()
-    }));
+      }));
+      return response;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
   }
 
   getOrders = (): DropdownItem[] => {

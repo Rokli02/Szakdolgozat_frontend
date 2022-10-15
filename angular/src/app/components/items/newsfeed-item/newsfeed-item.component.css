@@ -1,0 +1,44 @@
+.newsfeed-item {
+  margin: 4px auto 8px;
+  padding: 16px 40px 20px 24px;
+  width: 75%;
+  background-color: var(--primary-color);
+  color: var(--primary-font-color);
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.newsfeed-header {
+  margin-bottom: 20px;
+}
+
+.newsfeed-body {
+  margin-left: 32px;
+  padding-left: 14px;
+  font-size: 16px;
+  border-left: 2px solid #0000002b;
+}
+
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.header-subtitle {
+  padding-left: 18px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.modification {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.series-name {
+  font-size: 22px;
+  font-weight: 400;
+}

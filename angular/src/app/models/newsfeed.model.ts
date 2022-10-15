@@ -9,3 +9,8 @@ export interface Newsfeed {
     title: string;
   }
 }
+
+export type NewsfeedPageModel = {
+  newsfeeds: Newsfeed[];
+  count: number;
+}

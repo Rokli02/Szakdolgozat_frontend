@@ -22,7 +22,7 @@ export class AuthService {
     return new Promise<{ message: string }> (async (resolve, reject) => {
       try {
         const response = await lastValueFrom(this.http.post<LoginData>(`${environment.API_URL}auth/login`, { usernameOrEmail, password }));
-        this.token = response.token;
+        this.token = "Bearer " + response.token;
         this.user = response.user;
         this.userObserver.next(this.user);
         resolve({ message: "Logged in succesfully!" });

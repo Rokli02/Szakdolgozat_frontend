@@ -1,1 +1,17 @@
-<p>userseries-item works!</p>
+<div class="series-item">
+  <header>
+    <label class="series-name">{{userseries.series.title}}</label>
+  </header>
+  <div>
+    <div class="seasons">{{userseries.season}}. évad, {{userseries.episode}}. rész</div>
+    <div class="series-prodyear">{{userseries.series.prodYear}}</div>
+    <div class="series-length">{{userseries.series.length}} perc</div>
+    <div class="series-category">{{getCategories()}}</div>
+  </div>
+  <footer>
+    <label class="age-limit" [ngStyle]="{'border-color': getLimitColor()}">{{userseries.series.ageLimit}}</label>
+    <div class="status">
+      <label>{{userseries.status.name}}</label>
+    </div>
+  </footer>
+</div>

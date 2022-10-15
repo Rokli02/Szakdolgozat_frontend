@@ -1,1 +1,16 @@
-<p>newsfeed-item works!</p>
+<div class="newsfeed-item">
+  <div class="newsfeed-header">
+    <div class="header-title">
+      <label class="title">{{newsfeed.title}}</label>
+      <label class="modification">{{newsfeed.modification.split("T")[0]}}</label>
+    </div>
+    <div class="header-subtitle">
+      <label class="series-name">{{newsfeed.series.title}}</label>
+    </div>
+  </div>
+  <div class="newsfeed-body">
+    <label>
+      {{newsfeed.description}}
+    </label>
+  </div>
+</div>

@@ -15,7 +15,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { SeriesComponent } from './pages/series/series.component';
 import { NewsfeedComponent } from './pages/newsfeed/newsfeed.component';
 import { UserSeriesComponent } from './pages/user-series/user-series.component';
-import { ClickOutsideDirective } from './directive/clickOutside';
+import { ClickOutsideDirective } from './directives/clickOutside';
 import { DropDownBarComponent } from './components/items/drop-down-bar/drop-down-bar.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { SearchBarComponent } from './components/items/search-bar/search-bar.component';

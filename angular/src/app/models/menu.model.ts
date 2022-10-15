@@ -23,3 +23,15 @@ export interface PageOptions {
 }
 
 export type PageOptionsKeys = "page" | "size" | "order" | "filter" | "direction";
+
+export interface UserSeriesPageOptions extends PageOptions {
+  status?: number;
+}
+
+export type UserSeriesPageOptionsKeys = PageOptionsKeys | "status";
+
+export type ErrorMessage = {
+  error: {
+    message: string;
+  };
+}

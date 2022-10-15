@@ -1,0 +1,45 @@
+.container {
+  margin: 3em auto;
+  padding-bottom: 10em;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  flex: 0 0 30%;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  height: fit-content;
+  justify-content: space-around;
+  align-items: center;
+  flex: 0 0 33%;
+  text-align: center;
+  margin-bottom: 3em;
+}
+
+.search-item {
+  width: fit-content;
+  width: 33%;
+}
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 2em;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 99%;
+  }
+
+  .search-item {
+    width: 100%;
+  }
+}

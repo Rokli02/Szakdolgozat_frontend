@@ -10,9 +10,14 @@
       <app-drop-down-bar [action]="true" [header]="'Rendezés'" [options]="getOrderOptions()" (selected)="setOption('order', $event)"></app-drop-down-bar>
     </div>
   </header>
-  <div class="items">
+  <div class="items" *ngIf="serieses.length > 0; else noSeries">
     <div *ngFor="let series of serieses">
       <app-series-item [series]="series"></app-series-item>
     </div>
   </div>
+  <ng-template #noSeries>
+    <div class="items">
+      <h1>Nincsennek megjeleníthető sorozatok</h1>
+    </div>
+  </ng-template>
 </main>
