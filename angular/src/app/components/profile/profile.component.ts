@@ -21,6 +21,10 @@ export class ProfileComponent implements OnInit {
     this.open = !this.open;
   }
 
+  close = () => {
+    this.open = false;
+  }
+
   exit = () => {
     this.authService.logout();
   }

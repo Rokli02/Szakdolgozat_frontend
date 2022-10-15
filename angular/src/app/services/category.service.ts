@@ -15,7 +15,7 @@ export class CategoryService {
 
   getStatuses = async () => {
     try {
-      const response = await lastValueFrom(this.http.get<Category[]>(`${environment.API_URL}categories`, {
+      const response = await lastValueFrom(this.http.get<{ categories: Category[] }>(`${environment.API_URL}categories`, {
       headers: this.authService.getAuthHeader()
       }));
       return response;

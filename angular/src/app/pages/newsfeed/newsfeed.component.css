@@ -26,6 +26,10 @@
   width: 33%;
 }
 
+.direction {
+  margin-bottom: 20px;
+}
+
 .items {
   display: flex;
   flex-wrap: wrap;

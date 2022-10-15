@@ -26,21 +26,21 @@ export class SeriesComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.getSerieses(25);
+    this.getSerieses();
   }
 
   setOption = (name: PageOptionsKeys, value: string | number | boolean) => {
     this.opts[name] = value as never;
-    this.getSerieses(25);
+    this.getSerieses();
   }
 
   getOrderOptions = (): DropdownItem[] => {
     return this.seriesService.getOrders();
   }
 
-  getSerieses = async (initSize?: number) => {
+  getSerieses = async () => {
     try {
-      const response = await this.seriesService.getSerieses(this.opts.page, initSize ? initSize : this.opts.size, this.opts.filter, this.opts.order, this.opts.direction);
+      const response = await this.seriesService.getSerieses(this.opts.page, this.opts.size, this.opts.filter, this.opts.order, this.opts.direction);
       this.serieses = response.serieses ?? [];
       this.count = response.count;
 

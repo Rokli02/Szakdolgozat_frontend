@@ -33,14 +33,14 @@ export class NewsfeedComponent implements OnInit {
     } else {
       this.isPersonal = false;
     }
-    this.getNewsfeeds(25);
+    this.getNewsfeeds();
   }
 
-  getNewsfeeds = async (initSize?: number) => {
+  getNewsfeeds = async () => {
     try {
       const response = this.isPersonal
-      ? await this.newsfeedService.getPersonalNewsfeeds(this.opts.page, initSize ? initSize : this.opts.size, this.opts.filter, this.opts.order, this.opts.direction)
-      : await this.newsfeedService.getNewsfeeds(this.opts.page, initSize ? initSize : this.opts.size, this.opts.filter, this.opts.order, this.opts.direction);
+      ? await this.newsfeedService.getPersonalNewsfeeds(this.opts.page, this.opts.size, this.opts.filter, this.opts.order, this.opts.direction)
+      : await this.newsfeedService.getNewsfeeds(this.opts.page, this.opts.size, this.opts.filter, this.opts.order, this.opts.direction);
       this.newsfeeds = response.newsfeeds ?? [];
       this.count = response.count;
     } catch(err) {
@@ -67,7 +67,7 @@ export class NewsfeedComponent implements OnInit {
 
   setOption = (name: PageOptionsKeys, value: string | number | boolean) => {
     this.opts[name] = value as never;
-    this.getNewsfeeds(25);
+    this.getNewsfeeds();
   }
 
   getOrderOptions = (): DropdownItem[] => {

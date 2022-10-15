@@ -22,7 +22,6 @@
 }
 
 .search-item {
-  width: fit-content;
   width: 33%;
 }
 
@@ -32,6 +31,10 @@
   flex-direction: row;
   gap: 2em;
   justify-content: center;
+}
+
+.direction {
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1200px) {

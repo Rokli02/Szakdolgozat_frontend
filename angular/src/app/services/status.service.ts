@@ -15,7 +15,7 @@ export class StatusService {
 
   getStatuses = async () => {
     try {
-      const response = await lastValueFrom(this.http.get<Status[]>(`${environment.API_URL}statuses`, {
+      const response = await lastValueFrom(this.http.get<{ statuses: Status[] }>(`${environment.API_URL}statuses`, {
       headers: this.authService.getAuthHeader()
       }));
       return response;

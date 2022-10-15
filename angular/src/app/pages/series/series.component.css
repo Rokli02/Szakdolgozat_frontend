@@ -34,6 +34,10 @@
   justify-content: center;
 }
 
+.direction {
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 1200px) {
   .container {
     width: 99%;
