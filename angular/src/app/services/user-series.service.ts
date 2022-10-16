@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DropdownItem } from '../models/menu.model';
-import { UserSeriesPageModel } from '../models/series.model';
+import { Series, Status, UserSeries, UserSeriesPageModel } from '../models/series.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -38,6 +38,88 @@ export class UserSeriesService {
         headers: this.authService.getAuthHeader()
       }))
       return response;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  getUserSeries = async (id: number) => {
+    try {
+      const response = await lastValueFrom(this.http.get<{ series: UserSeries}>(`${environment.API_URL}user/series/${id}`, {
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.series;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  saveUserSeries = async (newUserseries: UserSeries) => {
+    try {
+      const response = await lastValueFrom(this.http.post<{ series: UserSeries }>(`${environment.API_URL}user/series`, {
+        newUserseries
+      },{
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.series;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  defaultSaveUserSeries = async (seriesId: number) => {
+    const newUserseries: UserSeries = {
+       series: { id: seriesId } as Series,
+       season: 1,
+       episode: 1,
+       status: { id: 1 } as Status
+    }
+    try {
+      const response = await lastValueFrom(this.http.post<{ series: UserSeries }>(`${environment.API_URL}user/series`, {
+        newUserseries
+      },{
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.series;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  updateUserSeries = async (id: number, updateUserseries: UserSeries) => {
+    try {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}user/series/${id}`, {
+        updateUserseries
+      },{
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.message;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  deleteUserSeries = async (id: number) => {
+    try {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}user/series/${id}`, {
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.message;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();

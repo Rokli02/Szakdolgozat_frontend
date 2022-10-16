@@ -10,6 +10,7 @@ import { DropdownItem } from 'src/app/models/menu.model';
 export class SearchBarComponent implements OnInit {
   @Input() options: DropdownItem[];
   @Output() searchValue = new EventEmitter<string>();
+  @Output() selectedValue = new EventEmitter<any>();
   inputValue = new FormControl('');
   private clockId!: NodeJS.Timeout;
   constructor() {
@@ -17,6 +18,11 @@ export class SearchBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  setAutocompleteValue = (event: any) => {
+    this.selectedValue.emit(event.option.value);
+    this.inputValue.setValue("");
   }
 
   startTimer = () => {

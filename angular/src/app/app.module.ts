@@ -28,6 +28,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SeriesHandlerComponent } from './pages/handlers/series-handler/series-handler.component';
+import { NewsfeedHandlerComponent } from './pages/handlers/newsfeed-handler/newsfeed-handler.component';
+import { UserHandlerComponent } from './pages/handlers/user-handler/user-handler.component';
+import { UserseriesHandlerComponent } from './pages/handlers/userseries-handler/userseries-handler.component';
+import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +51,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     LogoutComponent,
     DropDownBarComponent,
     ClickOutsideDirective,
-    SearchBarComponent
+    SearchBarComponent,
+    SeriesHandlerComponent,
+    NewsfeedHandlerComponent,
+    UserHandlerComponent,
+    UserseriesHandlerComponent,
+    MiscHandlerComponent
   ],
   imports: [
     BrowserModule,

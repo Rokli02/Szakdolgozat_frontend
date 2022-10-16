@@ -9,13 +9,21 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService{
   private token?: string;
   private user?: User;
   private userObserver!: Subject<User | undefined>;
   constructor(private http: HttpClient,
               private router: Router) {
     this.userObserver = new Subject();
+    const tempToken = localStorage.getItem("token");
+    const tempUser = localStorage.getItem("user");
+    if(tempToken) {
+      this.token = tempToken;
+    }
+    if(tempUser) {
+      this.user = JSON.parse(tempUser);
+    }
   }
 
   login = (usernameOrEmail: string, password: string): Promise<{ message: string }> => {
@@ -24,6 +32,8 @@ export class AuthService {
         const response = await lastValueFrom(this.http.post<LoginData>(`${environment.API_URL}auth/login`, { usernameOrEmail, password }));
         this.token = "Bearer " + response.token;
         this.user = response.user;
+        localStorage.setItem("token", this.token);
+        localStorage.setItem("user", JSON.stringify(this.user));
         this.userObserver.next(this.user);
         resolve({ message: "Logged in succesfully!" });
       } catch(err) {
@@ -79,8 +89,11 @@ export class AuthService {
   }
 
   logout = () => {
+    console.log('logout');
     this.token = undefined;
     this.user = undefined;
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     this.userObserver.next(this.user);
     this.router.navigate(['/'], { replaceUrl: true });
   }
@@ -109,6 +122,12 @@ const SidebarItems: StoredSidebarItem[] = [
     name: "Híreim",
     link: "/user/newsfeed",
     order: 2,
+    right: ["user"]
+  },
+  {
+    name: "Sorozat módosítás",
+    link: "/user/handle/series",
+    order: 3,
     right: ["user"]
   },
   {

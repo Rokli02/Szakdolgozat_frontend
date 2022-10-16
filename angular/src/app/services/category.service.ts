@@ -13,12 +13,12 @@ export class CategoryService {
   constructor(private http: HttpClient,
               private authService: AuthService) { }
 
-  getStatuses = async () => {
+  getCategories = async () => {
     try {
       const response = await lastValueFrom(this.http.get<{ categories: Category[] }>(`${environment.API_URL}categories`, {
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.categories;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();
@@ -27,14 +27,14 @@ export class CategoryService {
     }
   }
 
-  saveStatus = async (newCategory: Category) => {
+  saveCategory = async (newCategory: Category) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ message: string }>(`${environment.API_URL}categories`, {
+      const response = await lastValueFrom(this.http.post<{ category: Category }>(`${environment.API_URL}categories`, {
         newCategory
       }, {
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.category;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();
@@ -43,14 +43,14 @@ export class CategoryService {
     }
   }
 
-  updateStatus = async (id: number, updatedCategory: Category) => {
+  updateCategory = async (id: number, updatedCategory: Category) => {
     try {
       const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}statuses/${id}`, {
         updatedCategory
       },{
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.message;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();

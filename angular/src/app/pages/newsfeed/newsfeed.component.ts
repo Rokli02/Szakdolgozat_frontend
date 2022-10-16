@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { DropdownItem, ErrorMessage, PageOptions, PageOptionsKeys } from 'src/app/models/menu.model';
 import { Newsfeed } from 'src/app/models/newsfeed.model';
 import { NewsfeedService } from 'src/app/services/newsfeed.service';
@@ -17,7 +17,7 @@ export class NewsfeedComponent implements OnInit {
   private isPersonal!: boolean;
   constructor(private newsfeedService: NewsfeedService,
               private snackbar: MatSnackBar,
-              private route: ActivatedRoute) {
+              private route: Router) {
     this.newsfeeds = [];
     this.count = -1;
     this.opts = {
@@ -28,7 +28,7 @@ export class NewsfeedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.route.snapshot.routeConfig?.path === "user/newsfeed") {
+    if(this.route.url === "/user/newsfeed") {
       this.isPersonal = true;
     } else {
       this.isPersonal = false;

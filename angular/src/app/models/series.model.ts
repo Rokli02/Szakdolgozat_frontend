@@ -22,7 +22,7 @@ export type SeriesPageModel = {
 }
 
 export type UserSeriesPageModel = {
-  userserieses: UserSeries[];
+  serieses: UserSeries[];
   count: number;
 }
 

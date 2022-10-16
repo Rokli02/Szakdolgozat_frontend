@@ -18,7 +18,7 @@ export class StatusService {
       const response = await lastValueFrom(this.http.get<{ statuses: Status[] }>(`${environment.API_URL}statuses`, {
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.statuses;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();
@@ -29,12 +29,12 @@ export class StatusService {
 
   saveStatus = async (newStatus: Status) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ message: string }>(`${environment.API_URL}statuses`, {
+      const response = await lastValueFrom(this.http.post<{ status: Status }>(`${environment.API_URL}statuses`, {
         newStatus
       }, {
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.status;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();
@@ -50,7 +50,7 @@ export class StatusService {
       },{
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.message;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();

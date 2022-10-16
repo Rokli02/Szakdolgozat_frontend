@@ -5,9 +5,9 @@
       matInput
       autocomplete="off"
       [formControl]="inputValue"
-      [matAutocomplete]="auto"/>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of options" [value]="option.value">
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setAutocompleteValue($event)">
+      <mat-option *ngFor="let option of options" [value]="option.value" >
         {{option.shownValue}}
       </mat-option>
     </mat-autocomplete>

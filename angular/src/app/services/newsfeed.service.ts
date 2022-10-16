@@ -64,7 +64,66 @@ export class NewsfeedService {
       }
       throw { error: (err as HttpErrorResponse).error};
     }
+  }
 
+  getNewsfeed = async (id: number) => {
+    try {
+      const response = await lastValueFrom(this.http.get<{ newsfeed: Newsfeed}>(`${environment.API_URL}newsfeeds/${id}`, {
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.newsfeed;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  saveNewsfeed = async (newNewsfeed: Newsfeed) => {
+    try {
+      const response = await lastValueFrom(this.http.post<{ newsfeed: Newsfeed}>(`${environment.API_URL}newsfeeds`, {
+        newNewsfeed
+      }, {
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.newsfeed;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  updateNewsfeed = async (id: number, updatedNewsfeed: Newsfeed) => {
+    try {
+      const response = await lastValueFrom(this.http.post<{ message: string }>(`${environment.API_URL}newsfeeds/${id}`, {
+        updatedNewsfeed
+      }, {
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.message;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  deleteNewsfeed = async (id: number) => {
+    try {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}newsfeeds/${id}`, {
+        headers: this.authService.getAuthHeader()
+      }))
+      return response.message;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
   }
 
   getOrders = (): DropdownItem[] => {

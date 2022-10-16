@@ -44,10 +44,42 @@ export class SeriesService {
 
   getSeries = async (id: number): Promise<Series> => {
     try {
-      const response = await lastValueFrom(this.http.get<Series>(`${environment.API_URL}serieses/${id}`, {
+      const response = await lastValueFrom(this.http.get<{ series: Series }>(`${environment.API_URL}serieses/${id}`, {
       headers: this.authService.getAuthHeader()
       }));
-      return response;
+      return response.series;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  saveSeries = async (newSeries: Series) => {
+    try {
+      const response = await lastValueFrom(this.http.post<{ series: Series }>(`${environment.API_URL}serieses`, {
+        newSeries
+      }, {
+        headers: this.authService.getAuthHeader()
+      }));
+      return response.series;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  updateSeries = async (id: number, updatedSeries: Series) => {
+    try {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}serieses/${id}`, {
+        updatedSeries
+      }, {
+        headers: this.authService.getAuthHeader()
+      }));
+      return response.message;
     } catch(err) {
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();

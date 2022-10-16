@@ -33,10 +33,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.user = this.authService.getUser();
+    if(this.user) {
+      this.sidebarItems = this.authService.getSidebarItems();
+    }
     this.userSub = this.authService.getUserObserver((nextUser) => {
       this.user = nextUser;
       this.sidebarItems = this.authService.getSidebarItems();
-      console.log(nextUser);
     })
   }
 

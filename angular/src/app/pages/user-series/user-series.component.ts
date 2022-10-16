@@ -36,7 +36,7 @@ export class UserSeriesComponent implements OnInit {
   getUserSerieses = async () => {
     try {
       const response = await this.userSeriesService.getUserSerieses(this.opts.page, this.opts.size, this.opts.status, this.opts.filter, this.opts.order, this.opts.direction);
-      this.userserieses = response.userserieses ?? [];
+      this.userserieses = response.serieses ?? [];
       this.count = response.count;
     } catch(err) {
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
@@ -46,7 +46,7 @@ export class UserSeriesComponent implements OnInit {
   pushUserSerieses = async () => {
     try {
       const response = await this.userSeriesService.getUserSerieses(this.opts.page, this.opts.size, this.opts.status, this.opts.filter, this.opts.order, this.opts.direction);
-      this.userserieses.push(...response.userserieses);
+      this.userserieses.push(...response.serieses);
       this.count = response.count;
 
     } catch(err) {
@@ -67,7 +67,7 @@ export class UserSeriesComponent implements OnInit {
     try {
       const result = await this.statusService.getStatuses();
       this.statusOptions = [{ shownValue: "Nincs", value: 0 }];
-      this.statusOptions.push(...result.statuses.map((status) => ({ value: status.id, shownValue: status.name }) as DropdownItem));
+      this.statusOptions.push(...result.map((status) => ({ value: status.id, shownValue: status.name }) as DropdownItem));
     } catch(err) {
       console.log(err);
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
