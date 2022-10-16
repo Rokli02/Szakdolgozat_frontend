@@ -4,38 +4,76 @@
     <a (click)="routeTo('change')" class="sub-navbar-item">Módosítás</a>
   </div>
   <div class="container">
-    <div class="search">
-      <app-search-bar [options]="[]" (searchValue)="captureValue($event)"></app-search-bar>
+    <div class="search" *ngIf="!addNew">
+      <app-search-bar [options]="seriesOptions" (searchValue)="captureValue($event)" (selectedValue)="autocompleteValue($event)"></app-search-bar>
     </div>
-    <div class="form-container" *ngIf="seriesId">
-      <div class="form-header">
-        <div class="title">
-          <label>HEADER</label>
+    <div class="form-container" *ngIf="addNew || seriesId">
+      <form [formGroup]="formGroup" (submit)="submit()">
+        <div class="form-header">
+          <div class="title">
+            <label>Sorozat {{addNew ? 'hozzáadás' : 'módosítás'}}</label>
+          </div>
+          <div class="id" *ngIf="seriesId">
+            <label>ID: {{seriesId}}</label>
+          </div>
         </div>
-        <div class="id">
-          <label>ID: 20</label>
+        <div class="form-details">
+          <div class="details-row">
+            <div class="details-column">
+              <mat-form-field class="form-field">
+                <mat-label>Cím</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="title"/>
+                <mat-error>Hibás mező!</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="details-column">
+              <mat-form-field class="form-field">
+                <mat-label>Hossza</mat-label>
+                <input matInput type="number" autocomplete="off" formControlName="length"/>
+                <mat-error>Hibás mező!</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="details-row">
+            <div class="details-column">
+              <mat-form-field class="form-field">
+                <mat-label>Megjelenési év</mat-label>
+                <input matInput type="number" min="1900" autocomplete="off" formControlName="prodYear"/>
+                <mat-error>Hibás mező!</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="details-column">
+              <mat-form-field class="form-field">
+                <mat-label>Korhatár</mat-label>
+                <input matInput type="number" min="1" autocomplete="off" formControlName="ageLimit"/>
+                <mat-error>Hibás mező!</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="details-row">
+            <div class="details-column">
+              <div class="form-field form-season-field">
+                <mat-form-field class="season-field">
+                  <mat-label>Évad</mat-label>
+                  <input matInput type="number" min="1" autocomplete="off" [formControl]="seasonControl"/>
+                  <mat-error>Hibás mező!</mat-error>
+                </mat-form-field>
+                <mat-form-field class="season-field">
+                  <mat-label>Epizód</mat-label>
+                  <input matInput type="number" min="1" autocomplete="off" [formControl]="episodeControl"/>
+                  <mat-error>Hibás mező!</mat-error>
+                </mat-form-field>
+                <button class="season-button" mat-raised-button color="primary" type="button" (click)="saveSeason()">Mentés</button>
+              </div>
+              <app-drop-down-bar [header]="'Évadok'" [changeHeader]="false" [action]="true" [options]="getSeasonOptions()" (selected)="removeSeason($event)"></app-drop-down-bar>
+            </div>
+            <div class="details-column">
+              <app-drop-down-bar [header]="'Kategóriák'" [changeHeader]="false" [action]="true" [options]="getCategoryOptions()" (selected)="handleCategory($event)"></app-drop-down-bar>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="form-details">
-        <div class="details-row">
-          <div>Cím: feafea</div>
-          <div>Kategória: agegaegaer</div>
-        </div>
-        <div class="details-row">
-          <div>Kiadási év: aefaegare</div>
-          <div>Hossz: 20 feagaere</div>
-        </div>
-      </div>
-      <form>
-        <div class="form-drop-bars">
-          <app-drop-down-bar [header]="'Évad'"></app-drop-down-bar>
-          <app-drop-down-bar [header]="'Epizód'"></app-drop-down-bar>
-          <app-drop-down-bar [header]="'Állapot'"></app-drop-down-bar>
-        </div>
-        <button class="form-button" mat-raised-button>Mentés</button>
-        <button class="form-button" mat-raised-button color="warn">Törlés</button>
+        <button class="form-button" mat-raised-button [disabled]="!formGroup.valid">Mentés</button>
       </form>
     </div>
   </div>
 </div>
-<p>series-handler works!</p>

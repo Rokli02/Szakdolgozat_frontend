@@ -9,6 +9,7 @@ import { DropdownItem } from 'src/app/models/menu.model';
 export class DropDownBarComponent implements OnInit {
   open: boolean;
   @Input() header: string;
+  @Input() changeHeader: boolean;
   @Input() options: DropdownItem[];
   @Input() action: boolean;
   @Output() selected = new EventEmitter<any>();
@@ -17,6 +18,7 @@ export class DropDownBarComponent implements OnInit {
   constructor() {
     this.open = false;
     this.action = false;
+    this.changeHeader = true;
     this.options = [];
     this.header = "Unknown";
   }
@@ -37,10 +39,12 @@ export class DropDownBarComponent implements OnInit {
     if(!this.action) {
       return;
     }
-    if(!selectedValue.value) {
-      this.selectedValue = this.header;
-    } else {
-      this.selectedValue = selectedValue.shownValue;
+    if(this.changeHeader) {
+      if(!selectedValue.value) {
+        this.selectedValue = this.header;
+      } else {
+        this.selectedValue = selectedValue.shownValue;
+      }
     }
     this.selected.emit(selectedValue.value);
   }

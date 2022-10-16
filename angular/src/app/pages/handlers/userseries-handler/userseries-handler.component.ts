@@ -95,7 +95,7 @@ export class UserseriesHandlerComponent implements OnInit {
   }
 
   seriesDoesntHaveSeasons = () => {
-    return !this.selectedUserSeries?.series.seasons || this?.selectedUserSeries.series.seasons.length < 1;
+    return !this.selectedUserSeries?.series.seasons || this.selectedUserSeries?.series.seasons.length < 1;
   }
 
   getSeasonOptions = () => {

@@ -1,5 +1,5 @@
 <div class="dropdown-container"
-  clickOutside (clickOutside)="close()"
+  (clickOutside)="close()"
   [ngStyle]="{'border-radius': open ? '8px 8px 0px 0px' : '8px'}">
   <div class="dropdown-header" (click)="toggle()">
     <label>{{selectedValue}}</label>
@@ -11,7 +11,8 @@
   [ngStyle]="{'border-top': open ? '2px solid var(--primary-color)' : 'none'}">
     <span *ngIf="this.options && this.options.length > 0; else noOptions">
       <span class="dropdown-item-container" *ngFor="let option of options">
-        <div class="dropdown-body-item" (click)="onClick(option)">{{option.shownValue}}</div>
+        <div class="dropdown-body-item" [ngClass]="option.highlight ? 'highlight' : ''"
+          (click)="onClick(option)">{{option.shownValue}}</div>
         <!-- <hr class="divider" /> -->
       </span>
     </span>

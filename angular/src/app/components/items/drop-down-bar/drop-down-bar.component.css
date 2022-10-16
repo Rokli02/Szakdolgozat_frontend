@@ -82,6 +82,21 @@
   display: none;
 }
 
+.highlight {
+  position: relative;
+}
+
+.highlight::after {
+  width: 200%;
+  height: 100%;
+  top: 0%;
+  left: -50%;
+  content: "";
+  position: absolute;
+  border-radius: 8px;
+  background-color: rgba(150, 150, 150, 0.15);
+}
+
 @media screen and (max-width: 700px) {
   .dropdown-container {
     width: 245px;

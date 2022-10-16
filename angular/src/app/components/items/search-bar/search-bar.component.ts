@@ -22,6 +22,7 @@ export class SearchBarComponent implements OnInit {
 
   setAutocompleteValue = (event: any) => {
     this.selectedValue.emit(event.option.value);
+    this.options = [];
     this.inputValue.setValue("");
   }
 

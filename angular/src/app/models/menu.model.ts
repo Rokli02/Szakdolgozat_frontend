@@ -10,8 +10,9 @@ export interface StoredSidebarItem extends SidebarItem {
 }
 
 export interface DropdownItem {
-  value?: number | string;
   shownValue: string;
+  highlight?: boolean;
+  value?: number | string;
 }
 
 export interface PageOptions {
