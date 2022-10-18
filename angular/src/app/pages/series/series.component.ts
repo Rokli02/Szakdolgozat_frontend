@@ -39,6 +39,7 @@ export class SeriesComponent implements OnInit {
   }
 
   getSerieses = async () => {
+    this.opts["page"] = 1;
     try {
       const response = await this.seriesService.getSerieses(this.opts.page, this.opts.size, this.opts.filter, this.opts.order, this.opts.direction);
       this.serieses = response.serieses ?? [];

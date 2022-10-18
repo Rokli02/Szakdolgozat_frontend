@@ -37,6 +37,7 @@ export class NewsfeedComponent implements OnInit {
   }
 
   getNewsfeeds = async () => {
+    this.opts["page"] = 1;
     try {
       const response = this.isPersonal
       ? await this.newsfeedService.getPersonalNewsfeeds(this.opts.page, this.opts.size, this.opts.filter, this.opts.order, this.opts.direction)

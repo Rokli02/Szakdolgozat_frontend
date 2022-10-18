@@ -59,7 +59,7 @@ export class SeriesService {
   saveSeries = async (newSeries: Series) => {
     try {
       const response = await lastValueFrom(this.http.post<{ series: Series }>(`${environment.API_URL}serieses`, {
-        newSeries
+        ...newSeries
       }, {
         headers: this.authService.getAuthHeader()
       }));
@@ -75,7 +75,7 @@ export class SeriesService {
   updateSeries = async (id: number, updatedSeries: Series) => {
     try {
       const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}serieses/${id}`, {
-        updatedSeries
+        ...updatedSeries
       }, {
         headers: this.authService.getAuthHeader()
       }));

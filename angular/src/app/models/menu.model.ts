@@ -36,3 +36,7 @@ export type ErrorMessage = {
     message: string;
   };
 }
+
+export type ConfirmationDialogData = {
+  question: string;
+}

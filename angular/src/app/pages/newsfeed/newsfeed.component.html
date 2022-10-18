@@ -11,8 +11,8 @@
     </div>
   </header>
   <div class="items" *ngIf="newsfeeds.length > 0; else noNewsfeed">
-    <div *ngFor="let newsfeed of newsfeeds">
-      <app-newsfeed-item [newsfeed]="newsfeed"></app-newsfeed-item>
+    <div >
+      <app-newsfeed-item [newsfeed]="newsfeed" *ngFor="let newsfeed of newsfeeds"></app-newsfeed-item>
     </div>
   </div>
   <ng-template #noNewsfeed>

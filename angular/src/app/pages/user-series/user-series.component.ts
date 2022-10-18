@@ -34,6 +34,7 @@ export class UserSeriesComponent implements OnInit {
   }
 
   getUserSerieses = async () => {
+    this.opts["page"] = 1;
     try {
       const response = await this.userSeriesService.getUserSerieses(this.opts.page, this.opts.size, this.opts.status, this.opts.filter, this.opts.order, this.opts.direction);
       this.userserieses = response.serieses ?? [];
@@ -44,6 +45,10 @@ export class UserSeriesComponent implements OnInit {
   }
 
   pushUserSerieses = async () => {
+    if(this.userserieses.length === this.count) {
+      return;
+    }
+
     try {
       const response = await this.userSeriesService.getUserSerieses(this.opts.page, this.opts.size, this.opts.status, this.opts.filter, this.opts.order, this.opts.direction);
       this.userserieses.push(...response.serieses);

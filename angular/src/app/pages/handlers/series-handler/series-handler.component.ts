@@ -16,11 +16,12 @@ export class SeriesHandlerComponent implements OnInit {
   formGroup!: FormGroup;
   seasonControl!: FormControl;
   episodeControl!: FormControl;
-  addNew!: boolean;
+  addNew: boolean;
   seriesId?: number;
   seriesOptions: DropdownItem[];
   private categories!: Category[];
   private selectedSeries?: Series;
+  private removableSeasons: Season[];
   constructor(private fb: FormBuilder,
               private seriesService: SeriesService,
               private categoryService: CategoryService,
@@ -29,6 +30,7 @@ export class SeriesHandlerComponent implements OnInit {
               private route: ActivatedRoute) {
     this.addNew = true;
     this.seriesOptions = [];
+    this.removableSeasons = [];
   }
 
   async ngOnInit() {
@@ -36,12 +38,12 @@ export class SeriesHandlerComponent implements OnInit {
       title: ["", [Validators.required]],
       length: ["", [Validators.required, Validators.min(1)]],
       prodYear: ["", [Validators.required, Validators.min(1900)]],
-      ageLimit: ["", [Validators.required, Validators.min(1), Validators.max(24)]],
+      ageLimit: ["", [Validators.required, Validators.min(1), Validators.max(99)]],
       seasons: [[]],
       categories: [[]]
     });
-    this.seasonControl = this.fb.control('', [Validators.min(1)]);
-    this.episodeControl = this.fb.control('', [Validators.min(1)]);
+    this.seasonControl = this.fb.control('', [Validators.required, Validators.min(1)]);
+    this.episodeControl = this.fb.control('', [Validators.required, Validators.min(1)]);
     this.categories = await this.categoryService.getCategories();
 
     const tempId = this.route.snapshot.paramMap.get("id");
@@ -54,22 +56,109 @@ export class SeriesHandlerComponent implements OnInit {
         this.setValues(this.selectedSeries);
       } catch(err) {
         this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+        this.router.navigateByUrl(`/admin/series`, { replaceUrl: true });
       }
     }
   }
 
-  submit = () => {
-    // Logika eldönteni, hogy mentés, vagy módosítás
-    // Amennyiben módosítás, akkor melyik mezőket küldje el
-    console.log(this.formGroup.value);
+  submit = async () => {
+    if(!this.formGroup.valid) {
+      return;
+    }
+
+    const formSeries: Series = {
+      title: this.formGroup.get("title")?.value,
+      prodYear: this.formGroup.get("prodYear")?.value,
+      length: this.formGroup.get("length")?.value,
+      ageLimit: this.formGroup.get("ageLimit")?.value,
+      seasons: this.formGroup.get("seasons")?.value,
+      categories: this.formGroup.get("categories")?.value,
+    }
+    if(this.addNew) {
+      try {
+        const response = await this.seriesService.saveSeries(formSeries);
+        if(response) {
+          this.snackbar.open("Sorozat sikeresen mentve!", 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+        }
+        this.resetValues();
+      } catch(err) {
+        this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+      }
+    } else {
+      const updateSeries: Series = {} as Series;
+
+      if(formSeries.title !== this.selectedSeries?.title) {
+        updateSeries.title = formSeries.title;
+      }
+      if(formSeries.prodYear !== this.selectedSeries?.prodYear) {
+        updateSeries.prodYear = formSeries.prodYear;
+      }
+      if(formSeries.length !== this.selectedSeries?.length) {
+        updateSeries.length = formSeries.length;
+      }
+      if(formSeries.ageLimit !== this.selectedSeries?.ageLimit) {
+        updateSeries.ageLimit = formSeries.ageLimit;
+      }
+
+
+    if(this.selectedSeries?.categories && this.selectedSeries?.categories.length > 0) {
+      updateSeries.categories = [];
+      const categoryMap: Map<number, Category> = new Map<number, Category>();
+      for(let ct of this.selectedSeries?.categories) {
+        if(ct.id)
+          categoryMap.set(ct.id, { ...ct, remove: true });
+      }
+
+      for(let category of formSeries.categories) {
+        if(category.id)
+          categoryMap.set(category.id, category);
+      }
+
+      categoryMap.forEach((value, id) => {
+        updateSeries.categories.push(value);
+      });
+
+      } else if(formSeries.categories && formSeries.categories.length > 0) {
+        updateSeries.categories = formSeries.categories
+      }
+
+      if(!this.selectedSeries?.seasons || this.selectedSeries?.seasons.length < 0) {
+        updateSeries.seasons = formSeries.seasons;
+      } else {
+        updateSeries.seasons = [];
+
+        for(let season of formSeries.seasons) {
+          if((!season.id && season.season && season.episode)
+          || (season.id && season.season && season.episode)) {
+            updateSeries.seasons.push(season);
+          }
+        }
+      }
+      updateSeries.seasons.push(...this.removableSeasons);
+      try {
+        if(!this.seriesId) {
+          this.snackbar.open("Hiányzó ID, nyisd meg újra a módosítandó sorozatot!", 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+          return;
+        }
+        const response = await this.seriesService.updateSeries(this.seriesId, updateSeries);
+        if(response) {
+          this.snackbar.open("Sorozat sikeresen módosítva!", 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+        }
+      } catch(err) {
+        this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+      }
+    }
   }
 
   autocompleteValue = async (value: any) => {
     if(!isNaN(value)) {
       this.seriesId = value as number;
-      this.router.navigateByUrl(`/admin/series/${this.seriesId}`, { replaceUrl: true });
-      this.selectedSeries = await this.seriesService.getSeries(this.seriesId);
-      this.setValues(this.selectedSeries);
+      await this.router.navigateByUrl(`/admin/series/${this.seriesId}`, { replaceUrl: true });
+      try {
+        this.setValues(await this.seriesService.getSeries(this.seriesId));
+      } catch(err) {
+        this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+      }
     }
   }
 
@@ -80,7 +169,7 @@ export class SeriesHandlerComponent implements OnInit {
       ? response.serieses
         .map((series) => ({
           value: series.id,
-          shownValue: `${series.id}. ${series.title}, ${series.prodYear}`
+          shownValue: `${series.title}, ${series.prodYear}`
         }) as DropdownItem)
       : [];
     } catch(err) {
@@ -91,29 +180,29 @@ export class SeriesHandlerComponent implements OnInit {
   saveSeason = () => {
     if(this.seasonControl.value && this.episodeControl.value) {
       const seasonArray: Season[] = this.formGroup.get("seasons")?.value;
-      const newSeasons: Season = { season: this.seasonControl.value, episode: this.episodeControl.value }
-
-      if(!seasonArray) {
-        this.formGroup.get("seasons")?.setValue([]);
-      }
+      const newSeason: Season = { season: this.seasonControl.value, episode: this.episodeControl.value }
 
       let index = -1;
       let i = 0;
       for(const season of seasonArray) {
         if(season.season === this.seasonControl.value) {
           index = i;
+          newSeason.id = season.id;
           break;
         }
         i++;
       }
 
       if(index === -1) {
-        seasonArray.push(newSeasons);
+        seasonArray.push(newSeason);
       } else {
-        seasonArray[index] = newSeasons;
+        seasonArray[index] = newSeason;
       }
+
       this.seasonControl.setValue("");
       this.episodeControl.setValue("");
+      this.seasonControl.markAsUntouched({ onlySelf: true });
+      this.episodeControl.markAsUntouched({ onlySelf: true });
       this.formGroup.get("seasons")?.setValue(seasonArray);
     }
   }
@@ -123,7 +212,15 @@ export class SeriesHandlerComponent implements OnInit {
       return;
     }
 
-    const seasonArray: Season[] = this.formGroup.get("seasons")?.value.filter((sn: Season) => sn.season !== season);
+    const seasonArray: Season[] = this.formGroup.get("seasons")?.value.filter((sn: Season) => {
+      if(sn.season === season) {
+        if(sn.id) {
+          this.removableSeasons.push({ id: sn.id} as Season);
+        }
+        return false;
+      }
+      return true;
+    });
     this.formGroup.get("seasons")?.setValue(seasonArray);
   }
 
@@ -133,7 +230,6 @@ export class SeriesHandlerComponent implements OnInit {
     }
 
     const categoryArray: Category[] = this.formGroup.get("categories")?.value ?? [];
-    // Eldönteni, hogy szerepel-e már a listában, vagy sem
     if(categoryArray.find((category) => category.id === id)) {
       this.formGroup.get("categories")?.setValue(categoryArray.filter((ct) => ct.id !== id));
     } else {
@@ -180,6 +276,7 @@ export class SeriesHandlerComponent implements OnInit {
     this.selectedSeries = undefined;
     this.seriesId = undefined;
     this.seriesOptions = [];
+    this.removableSeasons = [];
 
     this.seasonControl.setValue("");
     this.episodeControl.setValue("");
@@ -205,7 +302,6 @@ export class SeriesHandlerComponent implements OnInit {
   }
 
   routeTo = (type: string) => {
-
     switch (type) {
       case "new":
         this.addNew = true;

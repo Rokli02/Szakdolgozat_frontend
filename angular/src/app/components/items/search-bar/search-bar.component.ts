@@ -9,12 +9,16 @@ import { DropdownItem } from 'src/app/models/menu.model';
 })
 export class SearchBarComponent implements OnInit {
   @Input() options: DropdownItem[];
+  @Input() header: string;
+  @Input() width: string;
   @Output() searchValue = new EventEmitter<string>();
   @Output() selectedValue = new EventEmitter<any>();
   inputValue = new FormControl('');
   private clockId!: NodeJS.Timeout;
   constructor() {
     this.options = [];
+    this.header = "Keresőmező"
+    this.width = '350px'
   }
 
   ngOnInit(): void {

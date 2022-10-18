@@ -11,7 +11,7 @@
   [ngStyle]="{'border-top': open ? '2px solid var(--primary-color)' : 'none'}">
     <span *ngIf="this.options && this.options.length > 0; else noOptions">
       <span class="dropdown-item-container" *ngFor="let option of options">
-        <div class="dropdown-body-item" [ngClass]="option.highlight ? 'highlight' : ''"
+        <div class="dropdown-body-item" [ngClass]="{ 'highlight': option.highlight }"
           (click)="onClick(option)">{{option.shownValue}}</div>
         <!-- <hr class="divider" /> -->
       </span>

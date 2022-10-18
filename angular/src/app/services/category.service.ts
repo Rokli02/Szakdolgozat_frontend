@@ -30,7 +30,7 @@ export class CategoryService {
   saveCategory = async (newCategory: Category) => {
     try {
       const response = await lastValueFrom(this.http.post<{ category: Category }>(`${environment.API_URL}categories`, {
-        newCategory
+        ...newCategory
       }, {
       headers: this.authService.getAuthHeader()
       }));
@@ -46,7 +46,7 @@ export class CategoryService {
   updateCategory = async (id: number, updatedCategory: Category) => {
     try {
       const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}statuses/${id}`, {
-        updatedCategory
+        ...updatedCategory
       },{
       headers: this.authService.getAuthHeader()
       }));

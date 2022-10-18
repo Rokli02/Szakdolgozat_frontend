@@ -30,7 +30,7 @@ export class StatusService {
   saveStatus = async (newStatus: Status) => {
     try {
       const response = await lastValueFrom(this.http.post<{ status: Status }>(`${environment.API_URL}statuses`, {
-        newStatus
+        ...newStatus
       }, {
       headers: this.authService.getAuthHeader()
       }));
@@ -44,9 +44,10 @@ export class StatusService {
   }
 
   updateStatus = async (id: number, updatedStatus: Status) => {
+    console.log(updatedStatus);
     try {
       const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}statuses/${id}`, {
-        updatedStatus
+        ...updatedStatus
       },{
       headers: this.authService.getAuthHeader()
       }));

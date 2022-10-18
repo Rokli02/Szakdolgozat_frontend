@@ -1,1 +1,38 @@
-<p>misc-handler works!</p>
+<div class="container">
+  <div class="sub-container">
+    <div class="title">
+      <label>Sorozat állapotok</label>
+    </div>
+    <div class="selected-id" *ngIf="selectedStatus">ID: {{selectedStatus.id}}</div>
+    <form>
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Állapot megnevezés</mat-label>
+          <input matInput type="text" autocomplete="off" [formControl]="statusControl" required/>
+        </mat-form-field>
+        <app-drop-down-bar [header]="'Állapotok'" [options]="statusOptions" [changeHeader]="false"
+          [action]="true" (selected)="selectStatus($event)"></app-drop-down-bar>
+      </div>
+      <button class="form-button" mat-raised-button color="primary" type="button"
+        (click)="submitStatus()" [disabled]="!statusControl.valid">Mentés</button>
+    </form>
+  </div>
+  <div class="sub-container">
+    <div class="title">
+      <label>Kategóriák</label>
+    </div>
+    <div class="selected-id" *ngIf="selectedCategory">ID: {{selectedCategory.id}}</div>
+    <form>
+      <div class="form-row">
+        <mat-form-field class="form-field">
+          <mat-label>Kategória megnevezés</mat-label>
+          <input matInput type="text" autocomplete="off" [formControl]="categoryControl" required/>
+        </mat-form-field>
+        <app-drop-down-bar [header]="'Kategóriák'" [options]="categoryOptions" [changeHeader]="false"
+          [action]="true" (selected)="selectCategory($event)"></app-drop-down-bar>
+      </div>
+      <button class="form-button" mat-raised-button color="primary" type="button"
+        (click)="submitCategory()" [disabled]="!categoryControl.valid">Mentés</button>
+    </form>
+  </div>
+</div>

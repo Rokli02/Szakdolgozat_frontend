@@ -1,5 +1,5 @@
-<div class="search-bar-container">
-  <label class="search-bar-header">Keresőmező</label>
+<div class="search-bar-container" [style.width]="width">
+  <label class="search-bar-header">{{header}}</label>
   <mat-form-field class="search-field">
     <input class="search-input" type="text" (input)="startTimer()"
       matInput

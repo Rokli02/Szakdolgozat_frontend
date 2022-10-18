@@ -1,1 +1,43 @@
-<p>newsfeed-handler works!</p>
+<div>
+  <div class="sub-navbar">
+    <a (click)="routeTo('new')" class="sub-navbar-item">Új hozzáadás</a>
+    <a (click)="routeTo('change')" class="sub-navbar-item">Módosítás</a>
+  </div>
+  <div class="container">
+    <div class="search" *ngIf="!addNew">
+      <app-search-bar [options]="newsfeedOptions" (searchValue)="captureValue($event)" (selectedValue)="autocompleteValue($event)"></app-search-bar>
+    </div>
+    <div class="form-container" *ngIf="addNew || newsfeedId">
+      <form [formGroup]="formGroup" novalidate (submit)="submit()">
+        <div class="form-header">
+          <div class="title">
+            <label>Újdonság {{addNew ? 'hozzáadás' : 'módosítás'}}</label>
+          </div>
+          <div class="id" *ngIf="newsfeedId">
+            <label>ID: {{newsfeedId}}</label>
+          </div>
+        </div>
+        <div class="form-details">
+          <div class="details-row first-row">
+            <mat-form-field class="newsfeed-title">
+              <mat-label>Cím</mat-label>
+              <input matInput type="text" autocomplete="off" formControlName="title"/>
+            </mat-form-field>
+            <app-search-bar class="series-search" [options]="seriesOptions" [header]="'Sorozat'" [width]="'100%'" (searchValue)="captureSeriesValue($event)" (selectedValue)="autocompleteSeriesValue($event)"></app-search-bar>
+          </div>
+          <div class="details-row" *ngIf="series">
+            <label class="series-col">Sorozat címe: {{series.title}}</label>
+            <label class="series-col">Sorozat megjelenése: {{series.prodYear}}</label>
+          </div>
+          <div class="details-row">
+            <mat-form-field class="description">
+              <mat-label>Leírás</mat-label>
+              <textarea rows="6" matInput formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <button class="form-button" type="submit" mat-raised-button [disabled]="!isValid()">Mentés</button>
+        <button class="form-button" type="button" mat-raised-button color="warn" *ngIf="!addNew" (click)="remove()">Törlés</button>
+      </form>
+  </div>
+</div>

@@ -81,14 +81,16 @@ export class NewsfeedService {
   }
 
   saveNewsfeed = async (newNewsfeed: Newsfeed) => {
+    console.log(newNewsfeed);
     try {
-      const response = await lastValueFrom(this.http.post<{ newsfeed: Newsfeed}>(`${environment.API_URL}newsfeeds`, {
-        newNewsfeed
+      const response = await lastValueFrom(this.http.post<{ newsfeed: Newsfeed}>(`${environment.API_URL}newsfeeds/edit`, {
+        ...newNewsfeed
       }, {
         headers: this.authService.getAuthHeader()
       }))
       return response.newsfeed;
     } catch(err) {
+      console.log(err);
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();
       }
@@ -98,8 +100,8 @@ export class NewsfeedService {
 
   updateNewsfeed = async (id: number, updatedNewsfeed: Newsfeed) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ message: string }>(`${environment.API_URL}newsfeeds/${id}`, {
-        updatedNewsfeed
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}newsfeeds/edit/${id}`, {
+        ...updatedNewsfeed
       }, {
         headers: this.authService.getAuthHeader()
       }))
@@ -114,7 +116,7 @@ export class NewsfeedService {
 
   deleteNewsfeed = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}newsfeeds/${id}`, {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}newsfeeds/edit/${id}`, {
         headers: this.authService.getAuthHeader()
       }))
       return response.message;

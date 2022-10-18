@@ -5,8 +5,9 @@ export interface Newsfeed {
   description: string;
   modification: string;
   series: {
-    id?: number;
+    id: number;
     title: string;
+    prodYear: number;
   }
 }
 

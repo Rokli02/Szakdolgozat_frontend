@@ -61,7 +61,7 @@ export class UserService {
   updateUser = async (id: number, updatedUser: NewUser) => {
     try {
       const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}users/${id}`, {
-        updatedUser
+        ...updatedUser
       },{
       headers: this.authService.getAuthHeader()
       }))

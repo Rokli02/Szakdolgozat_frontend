@@ -12,7 +12,7 @@
 }
 
 .search-field {
-  width: 95%;
+  width: 100%;
   text-align: center;
   color: var(--primary-font-color);
 }

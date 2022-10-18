@@ -35,6 +35,7 @@ export type Season = {
 export type Category = {
   id?: number;
   name: string;
+  remove?: boolean;
 }
 
 export type Status = {

@@ -8,7 +8,7 @@
       <app-search-bar [options]="seriesOptions" (searchValue)="captureValue($event)" (selectedValue)="autocompleteValue($event)"></app-search-bar>
     </div>
     <div class="form-container" *ngIf="addNew || seriesId">
-      <form [formGroup]="formGroup" (submit)="submit()">
+      <form [formGroup]="formGroup" novalidate (submit)="submit()">
         <div class="form-header">
           <div class="title">
             <label>Sorozat {{addNew ? 'hozzáadás' : 'módosítás'}}</label>
@@ -63,7 +63,9 @@
                   <input matInput type="number" min="1" autocomplete="off" [formControl]="episodeControl"/>
                   <mat-error>Hibás mező!</mat-error>
                 </mat-form-field>
-                <button class="season-button" mat-raised-button color="primary" type="button" (click)="saveSeason()">Mentés</button>
+                <button class="season-button" mat-raised-button color="primary" type="button" (click)="saveSeason()" [disabled]="!seasonControl.valid || !episodeControl.valid">
+                  Mentés
+                </button>
               </div>
               <app-drop-down-bar [header]="'Évadok'" [changeHeader]="false" [action]="true" [options]="getSeasonOptions()" (selected)="removeSeason($event)"></app-drop-down-bar>
             </div>

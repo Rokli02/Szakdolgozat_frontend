@@ -19,6 +19,12 @@ import { ClickOutsideDirective } from './directives/clickOutside';
 import { DropDownBarComponent } from './components/items/drop-down-bar/drop-down-bar.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { SearchBarComponent } from './components/items/search-bar/search-bar.component';
+import { ConfirmationComponent } from './components/items/confirmation/confirmation.component';
+import { SeriesHandlerComponent } from './pages/handlers/series-handler/series-handler.component';
+import { NewsfeedHandlerComponent } from './pages/handlers/newsfeed-handler/newsfeed-handler.component';
+import { UserHandlerComponent } from './pages/handlers/user-handler/user-handler.component';
+import { UserseriesHandlerComponent } from './pages/handlers/userseries-handler/userseries-handler.component';
+import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -28,11 +34,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { SeriesHandlerComponent } from './pages/handlers/series-handler/series-handler.component';
-import { NewsfeedHandlerComponent } from './pages/handlers/newsfeed-handler/newsfeed-handler.component';
-import { UserHandlerComponent } from './pages/handlers/user-handler/user-handler.component';
-import { UserseriesHandlerComponent } from './pages/handlers/userseries-handler/userseries-handler.component';
-import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler
     NewsfeedHandlerComponent,
     UserHandlerComponent,
     UserseriesHandlerComponent,
-    MiscHandlerComponent
+    MiscHandlerComponent,
+    ConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler
     MatInputModule,
     MatSnackBarModule,
     MatAutocompleteModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
