@@ -1,4 +1,7 @@
 <div class="newsfeed-item">
+  <button class="edit-button" mat-icon-button (click)="editNewsfeed()" *ngIf="canAccess">
+    <mat-icon class="edit-icon">build</mat-icon>
+  </button>
   <div class="newsfeed-header">
     <div class="header-title">
       <label class="title">{{newsfeed.title}}</label>

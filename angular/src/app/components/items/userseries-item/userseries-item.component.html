@@ -1,4 +1,7 @@
 <div class="series-item">
+  <button class="float-button" mat-icon-button (click)="editSeries()" *ngIf="canEdit">
+    <mat-icon class="float-icon">build</mat-icon>
+  </button>
   <header>
     <label class="series-name">{{userseries.series.title}}</label>
   </header>

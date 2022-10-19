@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DropdownItem } from '../models/menu.model';
-import { NewUser, User, UserPageModel } from '../models/user.model';
+import { NewUser, Role, User, UserPageModel } from '../models/user.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -48,7 +48,7 @@ export class UserService {
       const response = await lastValueFrom(this.http.get<{ user: User }>(`${environment.API_URL}users/${id}`, {
       headers: this.authService.getAuthHeader()
       }))
-      return response;
+      return response.user;
     } catch(err) {
       if((err as HttpErrorResponse
         ).status === 401) {
@@ -77,10 +77,25 @@ export class UserService {
 
   deleteUser = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}users/${id}`, {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}users/${id}`, {
       headers: this.authService.getAuthHeader()
       }))
       return response.message;
+    } catch(err) {
+      if((err as HttpErrorResponse
+        ).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
+  getRoles = async () => {
+    try {
+      const response = await lastValueFrom(this.http.get<{ roles: Role[] }>(`${environment.API_URL}auth/roles`, {
+      headers: this.authService.getAuthHeader()
+      }))
+      return response.roles;
     } catch(err) {
       if((err as HttpErrorResponse
         ).status === 401) {

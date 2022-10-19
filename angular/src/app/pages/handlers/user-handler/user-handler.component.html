@@ -1,1 +1,61 @@
-<p>user-handler works!</p>
+<div class="container">
+  <div class="sub-container">
+    <div class="search-field">
+      <app-search-bar (searchValue)="captureValue($event)"></app-search-bar>
+    </div>
+    <div class="table">
+      <app-user-table [searchValue]="filter" (selectedUserId)="setValues($event)"></app-user-table>
+    </div>
+  </div>
+  <div class="sub-container">
+    <div class="header">
+      <h1>
+        Felhasználó
+      </h1>
+      <div class="id">
+        <label>ID: {{userId ? userId : '?'}}</label>
+      </div>
+    </div>
+    <div class="form-container">
+      <form [formGroup]="formGroup" (submit)="submit()">
+        <div class="form-row">
+          <mat-form-field class="form-col">
+            <mat-label>Név</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="name"/>
+          </mat-form-field>
+          <mat-form-field class="form-col">
+            <mat-label>Születési dátum</mat-label>
+            <input matInput type="date" autocomplete="off" formControlName="birthdate"/>
+          </mat-form-field>
+        </div>
+        <div class="form-row">
+          <mat-form-field class="form-col">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="email"/>
+          </mat-form-field>
+          <div class="form-col">
+            <app-drop-down-bar
+                [header]="'Szerepkör'" [options]="getRoleOptions()" [action]="true" [width]="'100%'" (selected)="setRole($event)"
+            ></app-drop-down-bar>
+          </div>
+        </div>
+        <div class="form-row">
+          <mat-form-field class="form-col">
+            <mat-label>Jelszó</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="password"/>
+            <button mat-icon-button matSuffix (click)="togglePasswordLock()" type="button">
+              <mat-icon>{{lockPassword ? 'lock' : 'lock_open'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="form-row">
+          <div class="form-col form-footer">
+            <div *ngIf="userId"></div>
+            <button mat-raised-button type="submit">Mentés</button>
+            <mat-slide-toggle [checked]="activated" (change)="toggleActivate()" *ngIf="userId">Deaktiválva</mat-slide-toggle>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

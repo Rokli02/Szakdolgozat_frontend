@@ -1,4 +1,4 @@
-<div class="dropdown-container"
+<div class="dropdown-container" [style.width]="width"
   (clickOutside)="close()"
   [ngStyle]="{'border-radius': open ? '8px 8px 0px 0px' : '8px'}">
   <div class="dropdown-header" (click)="toggle()">

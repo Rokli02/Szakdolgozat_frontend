@@ -122,7 +122,6 @@ export class NewsfeedHandlerComponent implements OnInit {
         } catch(err) {
           this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
         }
-        console.log("Törlés");
       }
     });
   }

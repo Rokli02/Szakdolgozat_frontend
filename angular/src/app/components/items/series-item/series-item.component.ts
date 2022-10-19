@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DropdownItem } from 'src/app/models/menu.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { DropdownItem, ErrorMessage } from 'src/app/models/menu.model';
 import { Series } from 'src/app/models/series.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserSeriesService } from 'src/app/services/user-series.service';
 
 @Component({
   selector: 'app-series-item',
@@ -9,11 +13,19 @@ import { Series } from 'src/app/models/series.model';
 })
 export class SeriesItemComponent implements OnInit {
   @Input() series!: Series;
-
-  constructor() {
+  canEdit: boolean;
+  canAdd: boolean;
+  constructor(private router: Router,
+              private snackbar: MatSnackBar,
+              private authService: AuthService,
+              private userSeriesService: UserSeriesService) {
+    this.canEdit = false;
+    this.canAdd = false;
   }
 
   ngOnInit(): void {
+    this.canEdit = this.authService.hasRight(["siteManager", "admin"]);
+    this.canAdd = this.authService.hasRight(["user"]);
   }
 
   getOptions = (): DropdownItem[] => {
@@ -49,5 +61,22 @@ export class SeriesItemComponent implements OnInit {
     }
 
     return '#51D911'
+  }
+
+  editSeries = () => {
+    this.router.navigateByUrl(`/admin/series/${this.series.id}`);
+  }
+
+  addSeries = async () => {
+    try {
+      if(this.series.id) {
+        const response = await this.userSeriesService.defaultSaveUserSeries(this.series.id);
+        if(response) {
+          this.snackbar.open("Sorozat sikeresen felvéve!", 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+        }
+      }
+    } catch(err) {
+      this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+    }
   }
 }

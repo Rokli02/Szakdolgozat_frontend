@@ -11,6 +11,9 @@ import { NewsfeedComponent } from './pages/newsfeed/newsfeed.component';
 import { SeriesComponent } from './pages/series/series.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { UserSeriesComponent } from './pages/user-series/user-series.component';
+import { AdminCanActivateService } from './services/admin-can-activate.service';
+import { SiteManagerCanActivateService } from './services/site-manager-can-activate.service';
+import { UserCanActivateService } from './services/user-can-activate.service';
 
 const routes: Routes = [
   {
@@ -40,6 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
+    canActivate: [UserCanActivateService],
     children: [
       {
         path: 'newsfeed',
@@ -61,6 +65,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
+    canActivate: [SiteManagerCanActivateService],
     children: [
       {
         path: 'series',
@@ -88,10 +93,12 @@ const routes: Routes = [
       },
       {
         path: 'user',
+        canActivate: [AdminCanActivateService],
         component: UserHandlerComponent
       },
       {
         path: 'user/:id',
+        canActivate: [AdminCanActivateService],
         component: UserHandlerComponent
       }
     ],

@@ -1,0 +1,75 @@
+.table {
+  display: table;
+  margin: 8px auto 0px;
+  width: 95%;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.paginator {
+  background-color: var(--primary-color);
+  width: 95%;
+  margin: 0px auto 6px;
+}
+
+.mat-row .mat-cell {
+  background-color: var(--primary-variant-color);
+  cursor: pointer;
+}
+
+.mat-row,
+.mat-row .mat-cell {
+  min-height: 50px;
+  max-height: 50px;
+  height: 50px;
+}
+
+.mat-header-cell {
+  background-color: var(--primary-color);
+  text-align: center;
+  cursor: default;
+}
+
+.mat-row .mat-cell:first-of-type,
+.mat-header-cell:first-of-type {
+  padding-left: 8px;
+}
+
+.mat-row:hover {
+  box-shadow: 0px 0px 4px rgb(255, 255, 255),
+    0px 0px 8px rgba(255, 255, 255, 0.5), 0px 0px 10px rgba(255, 255, 255, 0.2);
+}
+
+.header {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  display: none;
+  transition: rotate 0.3s;
+}
+
+.header.active .icon {
+  display: initial;
+  rotate: 180deg;
+}
+
+.active.asc .icon {
+  rotate: 360deg;
+}
+
+@media screen and (max-width: 1200px) {
+  .hide-created {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .hide-email {
+    display: none;
+  }
+}

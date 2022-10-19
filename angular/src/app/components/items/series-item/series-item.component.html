@@ -1,4 +1,10 @@
 <div class="series-item">
+  <button class="float-button" mat-icon-button (click)="editSeries()" *ngIf="canEdit">
+    <mat-icon class="float-icon">build</mat-icon>
+  </button>
+  <button class="float-button" mat-icon-button (click)="addSeries()" *ngIf="canAdd">
+    <mat-icon class="float-icon">add</mat-icon>
+  </button>
   <header>
     <label class="series-name">{{series.title}}</label>
   </header>

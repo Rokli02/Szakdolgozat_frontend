@@ -1,0 +1,97 @@
+<div>
+  <table mat-table [dataSource]="userTableElements" class="table">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="header" (click)="selectOrder(undefined)" [ngClass]="{'active': order === undefined, 'asc': asc === true}">
+          ID
+          <mat-icon class="icon">
+            expand_more
+          </mat-icon>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element">{{element.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="header" (click)="selectOrder('name')" [ngClass]="{'active': order === 'name', 'asc': asc === true}">
+          Név
+          <mat-icon class="icon">
+            expand_more
+          </mat-icon>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef class="hide-email">
+        <div class="header" (click)="selectOrder('email')" [ngClass]="{'active': order === 'email', 'asc': asc === true}">
+          Email
+          <mat-icon class="icon">
+            expand_more
+          </mat-icon>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element" class="hide-email">{{element.email}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthdate">
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="header" (click)="selectOrder('birthdate')" [ngClass]="{'active': order === 'birthdate', 'asc': asc === true}">
+          Születésnap
+          <mat-icon class="icon">
+            expand_more
+          </mat-icon>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element">{{element.birthdate.split("T")[0]}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef>
+        Szerepkör
+      </th>
+      <td mat-cell *matCellDef="let element">{{element.role}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef>
+        Aktív
+      </th>
+      <td mat-cell *matCellDef="let element">{{element.active}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef class="hide-created">
+        <div class="header" (click)="selectOrder('created')" [ngClass]="{'active': order === 'created', 'asc': asc === true}">
+          Fiók létrehozása
+          <mat-icon class="icon" >
+            expand_more
+          </mat-icon>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element" class="hide-created">{{element.created.split("T")[0]}}</td>
+    </ng-container>
+
+    <tr
+        mat-header-row
+        *matHeaderRowDef="columns"
+    ></tr>
+    <tr
+        mat-row
+        (click)="selectUser(row)"
+        *matRowDef="let row; columns: columns;"
+    ></tr>
+  </table>
+
+  <mat-paginator class="paginator"
+                 [pageSizeOptions]="[10, 25]"
+                 [length]="dataCount"
+                 [pageSize]="size"
+                 [pageIndex]="page"
+                 (page)="setPageData($event)"
+                 showFirstLastButtons
+                 aria-label="Válassz oldalt!">
+  </mat-paginator>
+</div>

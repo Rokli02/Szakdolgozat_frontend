@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserSeries } from 'src/app/models/series.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-userseries-item',
@@ -8,9 +10,14 @@ import { UserSeries } from 'src/app/models/series.model';
 })
 export class UserseriesItemComponent implements OnInit {
   @Input() userseries!: UserSeries;
-  constructor() { }
+  canEdit: boolean;
+  constructor(private router: Router,
+              private authService: AuthService) {
+    this.canEdit = false;
+  }
 
   ngOnInit(): void {
+    this.canEdit = this.authService.hasRight(['user']);
   }
 
   getCategories = (): string => {
@@ -34,5 +41,9 @@ export class UserseriesItemComponent implements OnInit {
     }
 
     return '#51D911'
+  }
+
+  editSeries = () => {
+    this.router.navigateByUrl(`/user/handle/series/${this.userseries.series.id}`);
   }
 }

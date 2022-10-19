@@ -9,6 +9,7 @@ import { DropdownItem } from 'src/app/models/menu.model';
 export class DropDownBarComponent implements OnInit {
   open: boolean;
   @Input() header: string;
+  @Input() width: string;
   @Input() changeHeader: boolean;
   @Input() options: DropdownItem[];
   @Input() action: boolean;
@@ -18,6 +19,7 @@ export class DropDownBarComponent implements OnInit {
   constructor() {
     this.open = false;
     this.action = false;
+    this.width = '280px';
     this.changeHeader = true;
     this.options = [];
     this.header = "Unknown";

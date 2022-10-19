@@ -25,6 +25,7 @@ import { NewsfeedHandlerComponent } from './pages/handlers/newsfeed-handler/news
 import { UserHandlerComponent } from './pages/handlers/user-handler/user-handler.component';
 import { UserseriesHandlerComponent } from './pages/handlers/userseries-handler/userseries-handler.component';
 import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler.component';
+import { UserTableComponent } from './components/user-table/user-table.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +36,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserHandlerComponent,
     UserseriesHandlerComponent,
     MiscHandlerComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    UserTableComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +77,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatAutocompleteModule,
     MatSlideToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

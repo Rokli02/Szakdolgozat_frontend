@@ -62,6 +62,23 @@
   border-radius: 50%;
 }
 
+.float-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  right: 3px;
+  top: 3px;
+  font-size: 12px;
+}
+
+.float-icon {
+  font-size: 18px;
+  color: var(--green);
+}
+
 @media screen and (max-width: 600px) {
   .series-item {
     width: 350px;
