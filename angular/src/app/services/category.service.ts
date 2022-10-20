@@ -45,7 +45,7 @@ export class CategoryService {
 
   updateCategory = async (id: number, updatedCategory: Category) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}statuses/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}categories/${id}`, {
         ...updatedCategory
       },{
       headers: this.authService.getAuthHeader()

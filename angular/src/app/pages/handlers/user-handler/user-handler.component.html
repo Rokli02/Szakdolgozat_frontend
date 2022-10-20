@@ -35,7 +35,9 @@
           </mat-form-field>
           <div class="form-col">
             <app-drop-down-bar
-                [header]="'Szerepkör'" [options]="getRoleOptions()" [action]="true" [width]="'100%'" (selected)="setRole($event)"
+                [header]="'Szerepkör'" [options]="getRoleOptions()"
+                [action]="true" [width]="'100%'" (selected)="setRole($event)"
+                [changeHeader]="false"
             ></app-drop-down-bar>
           </div>
         </div>
@@ -52,7 +54,7 @@
           <div class="form-col form-footer">
             <div *ngIf="userId"></div>
             <button mat-raised-button type="submit">Mentés</button>
-            <mat-slide-toggle [checked]="activated" (change)="toggleActivate()" *ngIf="userId">Deaktiválva</mat-slide-toggle>
+            <mat-slide-toggle [checked]="activated" (change)="toggleActivate()" *ngIf="userId">{{activated ? 'Aktiválva' : 'Deaktiválva'}}</mat-slide-toggle>
           </div>
         </div>
       </form>
