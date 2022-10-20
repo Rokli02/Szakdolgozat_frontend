@@ -6,7 +6,7 @@
     <div class="form-container" *ngIf="selectedUserSeries">
       <div class="form-header">
         <div class="title">
-          <label>HEADER</label>
+          <label>Sorozat módosítás</label>
         </div>
         <div class="id">
           <label>ID: {{selectedUserSeries.series.id}}</label>
@@ -22,18 +22,18 @@
           <div>Hossz: {{selectedUserSeries.series.length}} perc</div>
         </div>
       </div>
-      <form (submit)="submit()">
+      <div>
         <div class="form-drop-bars">
-          <app-drop-down-bar [header]="selectedUserSeries.season === undefined || seriesDoesntHaveSeasons() ? 'Évad' : getSeasonHeader()"
-            [options]="getSeasonOptions()" (selected)="setSeasonOption($event)"></app-drop-down-bar>
-          <app-drop-down-bar [header]="selectedUserSeries.episode === undefined || seriesDoesntHaveSeasons() ? 'Epizód' : getEpisodeHeader()"
-            [options]="getEpisodeOptions()" (selected)="setEpisodeOption($event)"></app-drop-down-bar>
-          <app-drop-down-bar [header]="selectedUserSeries.status === undefined ? 'Állapot' : selectedUserSeries.status.name"
+          <app-drop-down-bar [header]="selectedSeason?.season + '. Évad'" [action]="true"
+            [options]="seasonOptions" (selected)="setSeasonOption($event)"></app-drop-down-bar>
+          <app-drop-down-bar [header]="selectedEpisode + '. Epizód'" [action]="true"
+            [options]="episodeOptions" (selected)="setEpisodeOption($event)"></app-drop-down-bar>
+          <app-drop-down-bar [header]="selectedStatus?.name+''" [action]="true"
             [options]="statusOptions" (selected)="setStatusOption($event)"></app-drop-down-bar>
         </div>
-        <button class="form-button" mat-raised-button type="submit">Mentés</button>
-        <button class="form-button" mat-raised-button color="warn" type="button">Törlés</button>
-      </form>
+        <button class="form-button" mat-raised-button (click)="submit()">Mentés</button>
+        <button class="form-button" mat-raised-button (click)="remove()" color="warn">Törlés</button>
+      </div>
     </div>
   </div>
 </div>

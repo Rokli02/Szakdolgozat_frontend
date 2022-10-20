@@ -35,20 +35,26 @@
 
 .profile-data {
   position: absolute;
+  overflow: hidden;
   top: 90%;
   left: calc(50% - 150px);
   width: 300px;
-  height: 175px;
+  max-height: 0px;
   min-height: min-content;
-  padding: 1.3em 0.8em;
   border-radius: 8px;
   background-color: var(--primary-color);
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.4);
+  transition: all 0.5s;
 }
 
 .profile-details {
   margin-top: 16px;
   font-size: 16px;
+}
+
+.open {
+  max-height: 175px;
+  padding: 1.3em 0.8em;
 }
 
 @media screen and (max-width: 1200px) {

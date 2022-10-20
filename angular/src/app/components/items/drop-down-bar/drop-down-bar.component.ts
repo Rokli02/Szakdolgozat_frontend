@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DropdownItem } from 'src/app/models/menu.model';
 
 @Component({
@@ -6,7 +6,7 @@ import { DropdownItem } from 'src/app/models/menu.model';
   templateUrl: './drop-down-bar.component.html',
   styleUrls: ['./drop-down-bar.component.css']
 })
-export class DropDownBarComponent implements OnInit {
+export class DropDownBarComponent implements OnInit, OnChanges {
   open: boolean;
   @Input() header: string;
   @Input() width: string;
@@ -23,6 +23,11 @@ export class DropDownBarComponent implements OnInit {
     this.changeHeader = true;
     this.options = [];
     this.header = "Unknown";
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['header'] && this.changeHeader) {
+      this.selectedValue = changes['header'].currentValue;
+    }
   }
 
   ngOnInit(): void {

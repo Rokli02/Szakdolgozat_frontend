@@ -2,7 +2,7 @@
   <button id="sidebar-icon-button" (click)="toggle()" mat-button>
     <mat-icon id="sidebar-icon" title="Oldalsáv">menu</mat-icon>
   </button>
-  <div id="sidebar-body" [hidden]="closed">
+  <div class="sidebar-body" [ngClass]="{'expanded': !closed}">
     <div class="sidebar-item" *ngFor="let item of items">
       <a class="sidebar-item-text" [routerLink]="item.link" (click)="toggle()">{{item.name}}</a>
       <hr class="sidebar-spacer" />

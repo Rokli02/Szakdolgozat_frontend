@@ -46,7 +46,7 @@
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.35);
 }
 
-.form-container > form {
+.form-container > div {
   margin: 16px;
   padding: 16px;
   padding-bottom: 32px;
@@ -68,6 +68,7 @@
 .details-row {
   margin-left: 20px;
   width: 100%;
+  font-size: 20px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -113,7 +114,7 @@
     width: 90%;
   }
 
-  .form-container > form {
+  .form-container > div {
     padding-bottom: 16px;
   }
 

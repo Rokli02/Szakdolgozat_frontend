@@ -4,11 +4,11 @@
   <div class="dropdown-header" (click)="toggle()">
     <label>{{selectedValue}}</label>
     <label>
-      <mat-icon class="dropdown-icon">{{open ? "expand_less" : "expand_more"}}</mat-icon>
+      <mat-icon class="dropdown-icon" [ngClass]="{'expanded': open}">expand_more</mat-icon>
     </label>
   </div>
-  <div class="dropdown-body" *ngIf="open"
-  [ngStyle]="{'border-top': open ? '2px solid var(--primary-color)' : 'none'}">
+  <div class="dropdown-body" [ngClass]="{'open': open}"
+ >
     <span *ngIf="this.options && this.options.length > 0; else noOptions">
       <span class="dropdown-item-container" *ngFor="let option of options">
         <div class="dropdown-body-item" [ngClass]="{ 'highlight': option.highlight }"

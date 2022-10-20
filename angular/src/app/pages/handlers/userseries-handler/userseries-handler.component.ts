@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationComponent } from 'src/app/components/items/confirmation/confirmation.component';
 import { DropdownItem, ErrorMessage } from 'src/app/models/menu.model';
 import { Season, Status, UserSeries } from 'src/app/models/series.model';
 import { StatusService } from 'src/app/services/status.service';
@@ -13,70 +15,111 @@ import { UserSeriesService } from 'src/app/services/user-series.service';
 })
 export class UserseriesHandlerComponent implements OnInit {
   seriesId?: number;
-  selectedUserSeries?: UserSeries;
   seriesOptions: DropdownItem[];
   statusOptions: DropdownItem[];
-  private selectedSeason?: Season;
-  private selectedEpisode?: number;
-  private selectedStatusId?: number;
+  seasonOptions: DropdownItem[];
+  episodeOptions: DropdownItem[];
+  selectedSeason?: Season;
+  selectedEpisode?: number;
+  selectedStatus?: Status;
+  selectedUserSeries?: UserSeries;
+  private statuses: Status[];
   constructor(private userSeriesService: UserSeriesService,
               private statusService: StatusService,
               private snackbar: MatSnackBar,
-              private route: ActivatedRoute) {
+              private dialog: MatDialog,
+              private route: ActivatedRoute,
+              private router: Router) {
     this.seriesOptions = [];
     this.statusOptions = [];
+    this.seasonOptions = [];
+    this.episodeOptions = [];
+    this.statuses = [];
   }
 
   async ngOnInit() {
     const tempId = this.route.snapshot.paramMap.get("id");
     if(tempId) {
       this.seriesId = Number(tempId);
-      this.selectedUserSeries = await this.userSeriesService.getUserSeries(this.seriesId);
-      this.resetSelectedDatas()
+      try {
+        this.statuses = await this.statusService.getStatuses();
+        this.selectedUserSeries = await this.userSeriesService.getUserSeries(this.seriesId);
+        if(!this.selectedUserSeries) {
+          this.snackbar.open("Váratlan hiba, töltsd újra a módosítandó sorozatot!", 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+          this.router.navigateByUrl("user/handle/series", { replaceUrl: true });
+          return;
+        }
+
+        this.setStatusOption(this.selectedUserSeries.status.id as number);
+        const season: Season = this.selectedUserSeries.series.seasons.find((season) => season.season === this.selectedUserSeries?.season) as Season;
+        if(season) {
+          this.setSeasonOption(season)
+        }
+        this.setEpisodeOption(this.selectedUserSeries.episode);
+      } catch(err) {
+        this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+        // this.resetSelectedDatas()
+      }
     }
-    this.getStatusOptions();
   }
 
-  submit = () => {
+  submit = async () => {
     let updateUserSeries: UserSeries = {} as UserSeries;
-    if(this.selectedSeason) {
+    if(this.selectedSeason && this.selectedSeason.season !== this.selectedUserSeries?.season) {
       updateUserSeries.season = this.selectedSeason?.season;
     }
 
-    if(this.selectedEpisode) {
+    if(this.selectedEpisode && this.selectedEpisode !== this.selectedUserSeries?.episode) {
       updateUserSeries.episode = this.selectedEpisode;
     }
 
-    if(this.selectedStatusId) {
-      updateUserSeries.status = { id: this.selectedStatusId } as Status;
+    if(this.selectedStatus && this.selectedStatus.id !== this.selectedUserSeries?.status.id) {
+      updateUserSeries.status = { id: this.selectedStatus.id } as Status;
     }
 
-    console.log(updateUserSeries);
-  }
-
-  getSeasonHeader = () => {
-    return `${this.selectedUserSeries?.season}. évad`;
-  }
-
-  getEpisodeHeader = () => {
-    return `${this.selectedUserSeries?.episode}. epizód`;
-  }
-
-  getCategories = (): string => {
-    if(this.selectedUserSeries) {
-      return this.selectedUserSeries.series.categories.map((category) => category.name).join(", ") as string;
+    if(!this.changeHappened() || !this.seriesId) {
+      this.snackbar.open("Eddig nem történt adat változtatás!", 'X', { duration: 4000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+      return;
     }
-    return "";
-  }
-
-  autocompleteValue = async (value: any) => {
-    this.seriesId = value;
-    if(this.seriesId) {
-      this.selectedUserSeries = await this.userSeriesService.getUserSeries(this.seriesId);
-      if(this.selectedUserSeries && this.selectedUserSeries.series.seasons && this.selectedUserSeries.series.seasons.length > 0) {
-        this.selectedSeason = this.selectedUserSeries.series.seasons[0];
+    try {
+      const result = await this.userSeriesService.updateUserSeries(this.seriesId, updateUserSeries);
+      if(result) {
+        this.snackbar.open(result, 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+        this.router.navigateByUrl("/user/series");
+        return;
       }
+    } catch(err) {
+      this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
     }
+  }
+
+  remove = () => {
+      const dialogRef = this.dialog.open(ConfirmationComponent, { data: { question: "Biztos szeretnéd törölni a sorozatot?" }});
+
+      dialogRef.afterClosed().subscribe(async (response) => {
+        if(response) {
+          if(!this.seriesId) {
+            this.snackbar.open("Váratlan hiba merült fel, töltsd újra a törlendő sorozatot!", 'X', { duration: 4000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+            return;
+          }
+          try {
+            const res = await this.userSeriesService.deleteUserSeries(this.seriesId);
+            if(res) {
+              this.snackbar.open(res, 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+              this.router.navigateByUrl("/user/series");
+              return;
+            }
+          } catch(err) {
+            this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+          }
+        }
+      });
+  }
+
+  changeHappened = (): boolean | undefined => {
+    return (this.selectedSeason && this.selectedUserSeries && this.selectedSeason.season !== this.selectedUserSeries?.season) ||
+      (this.selectedEpisode && this.selectedUserSeries && this.selectedEpisode !== this.selectedUserSeries?.episode) ||
+      (this.selectedStatus && this.selectedUserSeries && this.selectedStatus.id !== this.selectedUserSeries?.status.id);
   }
 
   captureValue = async (value: string) => {
@@ -86,11 +129,23 @@ export class UserseriesHandlerComponent implements OnInit {
       ? response.serieses
         .map((userseries) => ({
           value: userseries.series.id,
-          shownValue: `${userseries.series.id}. ${userseries.series.title}, ${userseries.series.prodYear}`
+          shownValue: `${userseries.series.title}, ${userseries.series.prodYear}`
         }) as DropdownItem)
       : [];
     } catch(err) {
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+    }
+  }
+
+  autocompleteValue = async (value: any) => {
+    this.seriesId = value;
+    if(this.seriesId) {
+      this.selectedUserSeries = await this.userSeriesService.getUserSeries(this.seriesId);
+      this.router.navigateByUrl(`user/handle/series/${this.seriesId}`, { replaceUrl: true });
+      this.resetSelectedDatas();
+      this.getSeasonOptions();
+      this.getEpisodeOptions();
+      this.getStatusOptions();
     }
   }
 
@@ -101,51 +156,62 @@ export class UserseriesHandlerComponent implements OnInit {
   getSeasonOptions = () => {
     if(this.selectedUserSeries) {
       if(this.seriesDoesntHaveSeasons()) {
-        return [];
+        this.seasonOptions = [];
+        return;
       }
 
-      const options: DropdownItem[] = [];
-      options.push(...this.selectedUserSeries.series.seasons?.map((season) => ({ value: season, shownValue: `${season.season}. évad` }) as unknown as DropdownItem));
-      return this.seriesOptions;
+      this.seasonOptions = this.selectedUserSeries.series.seasons?.map((season) => ({ value: season, shownValue: `${season.season}. Évad`, highlight: season.season === this.selectedSeason?.season }) as DropdownItem);
+      return;
     }
 
-    return [];
+    this.seasonOptions = [];
   }
 
   setSeasonOption = (season: Season) => {
     this.selectedSeason = season;
+    this.setEpisodeOption(1);
+    this.getSeasonOptions();
   }
 
   getEpisodeOptions = () => {
     if(this.selectedUserSeries && this.selectedSeason && !this.seriesDoesntHaveSeasons()) {
       const options: DropdownItem[] = [];
-      for (let index = 1; index < this.selectedSeason.episode; index++) {
-        options.push({ value: index, shownValue: `${index}. epizód` });
+      for (let index = 1; index <= this.selectedSeason.episode; index++) {
+        options.push({ value: index, shownValue: `${index}. Epizód`, highlight: index === this.selectedEpisode });
       }
-      return this.seriesOptions;
+      this.episodeOptions =  options;
+      return;
     }
 
-    return [];
+    this.episodeOptions = [];
   }
 
   setEpisodeOption = (episode: number) => {
     this.selectedEpisode = episode;
+    this.getEpisodeOptions();
   }
 
   getStatusOptions = async () => {
-    this.statusOptions = (await this.statusService.getStatuses()).map((status) => ({ value: status.id, shownValue: status.name }));
+    this.statusOptions = this.statuses.map((status) => ({ value: status.id, shownValue: status.name, highlight: status.id === this.selectedStatus?.id }));
   }
 
   setStatusOption = (statusId: number) => {
-    this.selectedStatusId = statusId;
+    this.selectedStatus = this.statuses.find(status => status.id === statusId);
+    this.getStatusOptions();
+  }
+
+  getCategories = (): string => {
+    if(this.selectedUserSeries) {
+      return this.selectedUserSeries.series.categories.map((category) => category.name).join(", ") as string;
+    }
+    return "";
   }
 
   resetSelectedDatas = () => {
     if(this.selectedUserSeries && this.selectedUserSeries.series.seasons && this.selectedUserSeries.series.seasons.length > 0) {
       this.selectedSeason = this.selectedUserSeries.series.seasons.find((season) => season.season === this.selectedUserSeries?.season);
+      this.selectedEpisode = this.selectedUserSeries?.episode;
+      this.selectedStatus = this.selectedUserSeries?.status;
     }
-
-    this.selectedEpisode = undefined;
-    this.selectedStatusId = undefined;
   }
 }

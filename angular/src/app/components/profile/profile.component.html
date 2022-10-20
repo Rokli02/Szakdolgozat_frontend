@@ -2,7 +2,7 @@
   <button mat-icon-button id="profile-button" (click)="toggle()">
     <mat-icon class="profile-icon">manage_accounts</mat-icon>
   </button>
-  <section class="profile-data" *ngIf="open">
+  <section class="profile-data" [ngClass]="{'open': open}">
     <div id="profile-username">
       <div>{{user!.username}}</div>
       <div id="profile-role">{{user!.role.name}}</div>

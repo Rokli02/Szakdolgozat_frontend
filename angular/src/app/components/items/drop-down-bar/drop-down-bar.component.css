@@ -8,6 +8,7 @@
 
 .dropdown-header {
   margin: auto 12px auto 16px;
+  min-height: 36px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -22,10 +23,12 @@
 }
 
 .dropdown-icon {
+  display: flex;
   font-size: 28px;
   font-weight: 700;
   justify-content: center;
   align-items: center;
+  transition: rotate 0.3s;
 }
 
 .dropdown-body {
@@ -33,15 +36,22 @@
   text-align: center;
   z-index: 3;
   min-height: fit-content;
-  max-height: 145px;
-  overflow-y: scroll;
+  max-height: 0px;
+  overflow: hidden;
   cursor: default;
   scroll-behavior: smooth;
-  top: 100%;
+  top: 79%;
   left: 0%;
   width: 100%;
+  transition: max-height 0.25s, top 0.08s;
   border-radius: 0px 0px 8px 8px;
   background-color: var(--primary-variant-color);
+}
+
+.open {
+  top: 90%;
+  max-height: 145px;
+  overflow-y: scroll;
 }
 
 .dropdown-body::-webkit-scrollbar {
@@ -94,6 +104,10 @@
   position: absolute;
   border-radius: 8px;
   background-color: rgba(150, 150, 150, 0.15);
+}
+
+.expanded {
+  rotate: -180deg;
 }
 
 @media screen and (max-width: 700px) {

@@ -16,14 +16,19 @@
   font-size: 36px;
 }
 
-#sidebar-body {
+.sidebar-body {
   position: absolute;
   background-color: var(--primary-color);
-  left: 0%;
+  left: -100%;
   top: 100%;
   width: 320px;
   min-height: 400px;
   box-shadow: 2px 2px 4px rgb(60, 60, 60, 0.7);
+  transition: all 0.45s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.expanded {
+  left: 0%;
 }
 
 .sidebar-item {

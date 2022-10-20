@@ -7,7 +7,7 @@
       <app-user-table [searchValue]="filter" (selectedUserId)="setValues($event)"></app-user-table>
     </div>
   </div>
-  <div class="sub-container">
+  <div class="sub-container" *ngIf="selectedUser">
     <div class="header">
       <h1>
         Felhasználó

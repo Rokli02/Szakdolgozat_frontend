@@ -76,7 +76,6 @@
 
 .float-icon {
   font-size: 18px;
-  color: var(--green);
 }
 
 @media screen and (max-width: 600px) {

@@ -51,12 +51,12 @@ export class UserHandlerComponent implements OnInit {
 
   submit = async () => {
     if(!this.activated) {
-      const dialogRef = this.dialog.open(ConfirmationComponent, { data: {question: "Biztos szeretnéd törölni?"} });
+      const dialogRef = this.dialog.open(ConfirmationComponent, { data: {question: "Biztos szeretnéd deaktiválni?"} });
 
       dialogRef.afterClosed().subscribe(async (response) => {
         if(response) {
           if(!this.userId) {
-            this.snackbar.open("Nem sikerült törölni, töltsd újra a törlendő újdonságot!", 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+            this.snackbar.open("Nem sikerült deaktiválni, töltsd újra a deaktiválandó felhasználót!", 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
             return;
           }
 
@@ -132,6 +132,11 @@ export class UserHandlerComponent implements OnInit {
       if(typeof this.selectedUser.active === "boolean") {
         this.activated = this.selectedUser.active;
       }
+      if(this.activated) {
+        this.formGroup.enable({ onlySelf: true });
+      } else {
+        this.formGroup.disable({ onlySelf: true });
+      }
       this.router.navigateByUrl(`/admin/user/${userId}`, { replaceUrl: true });
     } catch(err) {
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
@@ -164,11 +169,13 @@ export class UserHandlerComponent implements OnInit {
   }
 
   togglePasswordLock = () => {
-    this.lockPassword = !this.lockPassword;
-    if(this.lockPassword) {
-      this.formGroup.get("password")?.disable({ onlySelf: true });
-    } else {
-      this.formGroup.get("password")?.enable({ onlySelf: true });
+    if(this.activated) {
+      this.lockPassword = !this.lockPassword;
+      if(this.lockPassword) {
+        this.formGroup.get("password")?.disable({ onlySelf: true });
+      } else {
+        this.formGroup.get("password")?.enable({ onlySelf: true });
+      }
     }
   }
 
@@ -176,9 +183,11 @@ export class UserHandlerComponent implements OnInit {
     this.activated = !this.activated;
     if(this.activated) {
       this.formGroup.enable({ onlySelf: true });
+
     } else {
       this.formGroup.disable({ onlySelf: true });
     }
-    console.log(this.activated);
+    this.lockPassword = true;
+    this.formGroup.get("password")?.disable({ onlySelf: true });
   }
 }
