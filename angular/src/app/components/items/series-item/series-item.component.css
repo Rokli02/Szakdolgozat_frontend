@@ -78,8 +78,16 @@
   font-size: 18px;
 }
 
+.season-drop-down {
+  width: 280px;
+}
+
 @media screen and (max-width: 600px) {
   .series-item {
     width: 350px;
+  }
+
+  .season-drop-down {
+    width: 255px;
   }
 }
