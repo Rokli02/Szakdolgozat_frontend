@@ -3,19 +3,28 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom, Subject, Subscription } from 'rxjs';
 import { LoginData, NewUser, User } from '../models/user.model';
-import { SidebarItem, StoredSidebarItem } from '../models/menu.model';
+import { BackendLocations, SidebarItem, StoredSidebarItem } from '../models/menu.model';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService{
+  private backendLocation: string;
+  private backendLocations: BackendLocations;
   private token?: string;
   private user?: User;
   private userObserver!: Subject<User | undefined>;
   constructor(private http: HttpClient,
               private router: Router) {
     this.userObserver = new Subject();
+
+    this.backendLocations = {
+      fastify: environment.FASTIFY_API_URL,
+      express: environment.EXPRESS_API_URL
+    }
+    this.backendLocation = this.backendLocations["fastify"];
+
     const tempToken = localStorage.getItem("token");
     const tempUser = localStorage.getItem("user");
     if(tempToken) {
@@ -29,7 +38,7 @@ export class AuthService{
   login = (usernameOrEmail: string, password: string): Promise<{ message: string }> => {
     return new Promise<{ message: string }> (async (resolve, reject) => {
       try {
-        const response = await lastValueFrom(this.http.post<LoginData>(`${environment.API_URL}auth/login`, { usernameOrEmail, password }));
+        const response = await lastValueFrom(this.http.post<LoginData>(`${this.backendLocation}auth/login`, { usernameOrEmail, password }));
         this.token = "Bearer " + response.token;
         this.user = response.user;
         localStorage.setItem("token", this.token);
@@ -45,7 +54,7 @@ export class AuthService{
   signup = (newUser: NewUser): Promise<{ message: string }> => {
     return new Promise<{ message: string }> (async (resolve, reject) => {
       try {
-        const response = await lastValueFrom(this.http.post<{ message: string }>(`${environment.API_URL}auth/signup`, { ...newUser }));
+        const response = await lastValueFrom(this.http.post<{ message: string }>(`${this.backendLocation}auth/signup`, { ...newUser }));
         resolve(response);
       } catch(err) {
         reject({ message: (err as HttpErrorResponse).error.message })
@@ -108,6 +117,18 @@ export class AuthService{
       .map((item) => ({ name: item.name, link: item.link }) as SidebarItem);
 
     return items;
+  }
+
+  getBackendLocation = ():string => {
+    return this.backendLocation;
+  }
+
+  changeBackendLocation = (name: string) => {
+    this.backendLocation = this.backendLocations[name];
+  }
+
+  isBackendActive = (name: string): boolean => {
+    return this.backendLocation === this.backendLocations[name];
   }
 }
 

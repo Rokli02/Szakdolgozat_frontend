@@ -29,7 +29,7 @@ export class UserService {
     }
 
     try {
-      const response = await lastValueFrom(this.http.get<UserPageModel>(`${environment.API_URL}users/page/${page}`, {
+      const response = await lastValueFrom(this.http.get<UserPageModel>(`${this.authService.getBackendLocation()}users/page/${page}`, {
       params: params,
       headers: this.authService.getAuthHeader()
       }))
@@ -45,7 +45,7 @@ export class UserService {
 
   getUser = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.get<{ user: User }>(`${environment.API_URL}users/${id}`, {
+      const response = await lastValueFrom(this.http.get<{ user: User }>(`${this.authService.getBackendLocation()}users/${id}`, {
       headers: this.authService.getAuthHeader()
       }))
       return response.user;
@@ -60,7 +60,7 @@ export class UserService {
 
   updateUser = async (id: number, updatedUser: NewUser) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}users/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}users/${id}`, {
         ...updatedUser
       },{
       headers: this.authService.getAuthHeader()
@@ -77,7 +77,7 @@ export class UserService {
 
   deleteUser = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}users/${id}`, {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${this.authService.getBackendLocation()}users/${id}`, {
       headers: this.authService.getAuthHeader()
       }))
       return response.message;
@@ -92,7 +92,7 @@ export class UserService {
 
   getRoles = async () => {
     try {
-      const response = await lastValueFrom(this.http.get<{ roles: Role[] }>(`${environment.API_URL}auth/roles`, {
+      const response = await lastValueFrom(this.http.get<{ roles: Role[] }>(`${this.authService.getBackendLocation()}auth/roles`, {
       headers: this.authService.getAuthHeader()
       }))
       return response.roles;

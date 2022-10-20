@@ -27,7 +27,7 @@ export class NewsfeedService {
     }
 
     try {
-      const response = await lastValueFrom(this.http.get<NewsfeedPageModel>(`${environment.API_URL}newsfeeds/page/${page}`, {
+      const response = await lastValueFrom(this.http.get<NewsfeedPageModel>(`${this.authService.getBackendLocation()}newsfeeds/page/${page}`, {
       params: params,
       headers: this.authService.getAuthHeader()
       }))
@@ -53,7 +53,7 @@ export class NewsfeedService {
     }
 
     try {
-      const response = await lastValueFrom(this.http.get<NewsfeedPageModel>(`${environment.API_URL}newsfeeds/personal/page/${page}`, {
+      const response = await lastValueFrom(this.http.get<NewsfeedPageModel>(`${this.authService.getBackendLocation()}newsfeeds/personal/page/${page}`, {
         params: params,
         headers: this.authService.getAuthHeader()
       }))
@@ -68,7 +68,7 @@ export class NewsfeedService {
 
   getNewsfeed = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.get<{ newsfeed: Newsfeed}>(`${environment.API_URL}newsfeeds/${id}`, {
+      const response = await lastValueFrom(this.http.get<{ newsfeed: Newsfeed}>(`${this.authService.getBackendLocation()}newsfeeds/${id}`, {
         headers: this.authService.getAuthHeader()
       }))
       return response.newsfeed;
@@ -83,7 +83,7 @@ export class NewsfeedService {
   saveNewsfeed = async (newNewsfeed: Newsfeed) => {
     console.log(newNewsfeed);
     try {
-      const response = await lastValueFrom(this.http.post<{ newsfeed: Newsfeed}>(`${environment.API_URL}newsfeeds/edit`, {
+      const response = await lastValueFrom(this.http.post<{ newsfeed: Newsfeed}>(`${this.authService.getBackendLocation()}newsfeeds/edit`, {
         ...newNewsfeed
       }, {
         headers: this.authService.getAuthHeader()
@@ -100,7 +100,7 @@ export class NewsfeedService {
 
   updateNewsfeed = async (id: number, updatedNewsfeed: Newsfeed) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}newsfeeds/edit/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}newsfeeds/edit/${id}`, {
         ...updatedNewsfeed
       }, {
         headers: this.authService.getAuthHeader()
@@ -116,7 +116,7 @@ export class NewsfeedService {
 
   deleteNewsfeed = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}newsfeeds/edit/${id}`, {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${this.authService.getBackendLocation()}newsfeeds/edit/${id}`, {
         headers: this.authService.getAuthHeader()
       }))
       return response.message;

@@ -29,7 +29,7 @@ export class SeriesService {
     }
 
     try {
-      const response = await lastValueFrom(this.http.get<SeriesPageModel>(`${environment.API_URL}serieses/page/${page}`, {
+      const response = await lastValueFrom(this.http.get<SeriesPageModel>(`${this.authService.getBackendLocation()}serieses/page/${page}`, {
       params: params,
       headers: this.authService.getAuthHeader()
       }))
@@ -44,7 +44,7 @@ export class SeriesService {
 
   getSeries = async (id: number): Promise<Series> => {
     try {
-      const response = await lastValueFrom(this.http.get<{ series: Series }>(`${environment.API_URL}serieses/${id}`, {
+      const response = await lastValueFrom(this.http.get<{ series: Series }>(`${this.authService.getBackendLocation()}serieses/${id}`, {
       headers: this.authService.getAuthHeader()
       }));
       return response.series;
@@ -58,7 +58,7 @@ export class SeriesService {
 
   saveSeries = async (newSeries: Series) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ series: Series }>(`${environment.API_URL}serieses`, {
+      const response = await lastValueFrom(this.http.post<{ series: Series }>(`${this.authService.getBackendLocation()}serieses`, {
         ...newSeries
       }, {
         headers: this.authService.getAuthHeader()
@@ -74,7 +74,7 @@ export class SeriesService {
 
   updateSeries = async (id: number, updatedSeries: Series) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}serieses/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}serieses/${id}`, {
         ...updatedSeries
       }, {
         headers: this.authService.getAuthHeader()

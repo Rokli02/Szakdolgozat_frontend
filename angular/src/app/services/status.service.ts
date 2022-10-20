@@ -15,7 +15,7 @@ export class StatusService {
 
   getStatuses = async () => {
     try {
-      const response = await lastValueFrom(this.http.get<{ statuses: Status[] }>(`${environment.API_URL}statuses`, {
+      const response = await lastValueFrom(this.http.get<{ statuses: Status[] }>(`${this.authService.getBackendLocation()}statuses`, {
       headers: this.authService.getAuthHeader()
       }));
       return response.statuses;
@@ -29,7 +29,7 @@ export class StatusService {
 
   saveStatus = async (newStatus: Status) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ status: Status }>(`${environment.API_URL}statuses`, {
+      const response = await lastValueFrom(this.http.post<{ status: Status }>(`${this.authService.getBackendLocation()}statuses`, {
         ...newStatus
       }, {
       headers: this.authService.getAuthHeader()
@@ -46,7 +46,7 @@ export class StatusService {
   updateStatus = async (id: number, updatedStatus: Status) => {
     console.log(updatedStatus);
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}statuses/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}statuses/${id}`, {
         ...updatedStatus
       },{
       headers: this.authService.getAuthHeader()

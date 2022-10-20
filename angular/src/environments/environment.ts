@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: "http://localhost:5002/api/",
+  EXPRESS_API_URL: "http://localhost:5001/api/",
+  FASTIFY_API_URL: "http://localhost:5002/api/",
 };
 
 /*

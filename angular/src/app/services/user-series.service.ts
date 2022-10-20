@@ -33,7 +33,7 @@ export class UserSeriesService {
     }
 
     try {
-      const response = await lastValueFrom(this.http.get<UserSeriesPageModel>(`${environment.API_URL}user/series/page/${page}`, {
+      const response = await lastValueFrom(this.http.get<UserSeriesPageModel>(`${this.authService.getBackendLocation()}user/series/page/${page}`, {
         params: params,
         headers: this.authService.getAuthHeader()
       }))
@@ -48,7 +48,7 @@ export class UserSeriesService {
 
   getUserSeries = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.get<{ series: UserSeries}>(`${environment.API_URL}user/series/${id}`, {
+      const response = await lastValueFrom(this.http.get<{ series: UserSeries}>(`${this.authService.getBackendLocation()}user/series/${id}`, {
         headers: this.authService.getAuthHeader()
       }))
       return response.series;
@@ -62,7 +62,7 @@ export class UserSeriesService {
 
   saveUserSeries = async (newUserseries: UserSeries) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ series: UserSeries }>(`${environment.API_URL}user/series`, {
+      const response = await lastValueFrom(this.http.post<{ series: UserSeries }>(`${this.authService.getBackendLocation()}user/series`, {
         ...newUserseries
       },{
         headers: this.authService.getAuthHeader()
@@ -84,7 +84,7 @@ export class UserSeriesService {
        status: { id: 1 } as Status
     }
     try {
-      const response = await lastValueFrom(this.http.post<{ series: UserSeries }>(`${environment.API_URL}user/series`, {
+      const response = await lastValueFrom(this.http.post<{ series: UserSeries }>(`${this.authService.getBackendLocation()}user/series`, {
         ...newUserseries
       },{
         headers: this.authService.getAuthHeader()
@@ -100,7 +100,7 @@ export class UserSeriesService {
 
   updateUserSeries = async (id: number, updateUserseries: UserSeries) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}user/series/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}user/series/${id}`, {
         ...updateUserseries
       },{
         headers: this.authService.getAuthHeader()
@@ -116,7 +116,7 @@ export class UserSeriesService {
 
   deleteUserSeries = async (id: number) => {
     try {
-      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${environment.API_URL}user/series/${id}`, {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${this.authService.getBackendLocation()}user/series/${id}`, {
         headers: this.authService.getAuthHeader()
       }))
       return response.message;

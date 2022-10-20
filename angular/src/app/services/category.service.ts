@@ -15,7 +15,7 @@ export class CategoryService {
 
   getCategories = async () => {
     try {
-      const response = await lastValueFrom(this.http.get<{ categories: Category[] }>(`${environment.API_URL}categories`, {
+      const response = await lastValueFrom(this.http.get<{ categories: Category[] }>(`${this.authService.getBackendLocation()}categories`, {
       headers: this.authService.getAuthHeader()
       }));
       return response.categories;
@@ -29,7 +29,7 @@ export class CategoryService {
 
   saveCategory = async (newCategory: Category) => {
     try {
-      const response = await lastValueFrom(this.http.post<{ category: Category }>(`${environment.API_URL}categories`, {
+      const response = await lastValueFrom(this.http.post<{ category: Category }>(`${this.authService.getBackendLocation()}categories`, {
         ...newCategory
       }, {
       headers: this.authService.getAuthHeader()
@@ -45,7 +45,7 @@ export class CategoryService {
 
   updateCategory = async (id: number, updatedCategory: Category) => {
     try {
-      const response = await lastValueFrom(this.http.put<{ message: string }>(`${environment.API_URL}statuses/${id}`, {
+      const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}statuses/${id}`, {
         ...updatedCategory
       },{
       headers: this.authService.getAuthHeader()

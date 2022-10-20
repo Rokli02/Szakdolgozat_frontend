@@ -21,6 +21,10 @@
   justify-content: center;
 }
 
+#right-navbar-section {
+  justify-content: end;
+}
+
 .navbar-section {
   display: inline-flex;
   align-items: center;

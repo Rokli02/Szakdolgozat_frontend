@@ -26,6 +26,7 @@ import { UserHandlerComponent } from './pages/handlers/user-handler/user-handler
 import { UserseriesHandlerComponent } from './pages/handlers/userseries-handler/userseries-handler.component';
 import { MiscHandlerComponent } from './pages/handlers/misc-handler/misc-handler.component';
 import { UserTableComponent } from './components/user-table/user-table.component';
+import { BackendChooserComponent } from './components/backend-chooser/backend-chooser.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -38,6 +39,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     UserseriesHandlerComponent,
     MiscHandlerComponent,
     ConfirmationComponent,
-    UserTableComponent
+    UserTableComponent,
+    BackendChooserComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatSlideToggleModule,
     MatDialogModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

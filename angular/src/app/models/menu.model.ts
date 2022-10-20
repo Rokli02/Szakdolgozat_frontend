@@ -40,3 +40,7 @@ export type ErrorMessage = {
 export type ConfirmationDialogData = {
   question: string;
 }
+
+export type BackendLocations = {
+  [name: string]: string;
+}
