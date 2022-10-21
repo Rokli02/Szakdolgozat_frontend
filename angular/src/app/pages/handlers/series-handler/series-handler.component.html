@@ -81,6 +81,12 @@
               <button class="image-button" mat-raised-button color="primary" type="button" (click)="fileInput.click()">
                 {{selectedSeries && selectedSeries.image ? "Borítókép módosítás" : "Borítókép feltöltés"}}
               </button>
+              <button mat-icon-button title="Borítókép törlése" type="button"
+                  *ngIf="selectedSeries && selectedSeries.image" color="warn"
+                  (click)="removeImage()"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
               <div>
                 <mat-form-field class="image-offset" title="Horizontális eltolás">
                   <mat-label>X</mat-label>

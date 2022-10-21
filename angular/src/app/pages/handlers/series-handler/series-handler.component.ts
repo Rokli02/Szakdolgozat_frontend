@@ -120,18 +120,23 @@ export class SeriesHandlerComponent implements OnInit {
       if(formSeries.image) {
         updateSeries.image = formSeries.image;
       }
-      if(!this.tempImage) {
-        if(!updateSeries.image) {
-          updateSeries.image = {} as UploadableFile;
-        }
-        if(this.selectedSeries?.image) {
-          updateSeries.image.id = this.selectedSeries?.image?.id;
-          updateSeries.image.name = this.selectedSeries?.image?.name;
-        }
-        if(this.xOffset.value) {
+      if(!this.tempImage && this.selectedSeries?.image) { // Valami ellenőrzés, hogy történt-e változás
+        if(this.xOffset.value && this.selectedSeries.image.x_offset !== this.xOffset.value) {
+          if(!updateSeries.image) {
+            updateSeries.image = {
+              id: this.selectedSeries?.image?.id,
+              name: this.selectedSeries?.image?.name
+            };
+          }
           updateSeries.image.x_offset = this.xOffset.value;
         }
-        if(this.yOffset.value) {
+        if(this.yOffset.value && this.selectedSeries.image.y_offset !== this.yOffset.value) {
+          if(!updateSeries.image) {
+            updateSeries.image = {
+              id: this.selectedSeries?.image?.id,
+              name: this.selectedSeries?.image?.name
+            };
+          }
           updateSeries.image.y_offset = this.yOffset.value;
         }
       }
@@ -221,6 +226,20 @@ export class SeriesHandlerComponent implements OnInit {
         if(response) {
           this.tempImage = response;
           this.snackbar.open("Sikeres képfeltöltés", 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+        }
+      } catch(err) {
+        this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+      }
+    }
+  }
+
+  removeImage = async () => {
+    if(this.selectedSeries && this.selectedSeries.id) {
+      try {
+        const response = await this.seriesService.deleteImage(this.selectedSeries.id);
+        if(response) {
+          this.resetImageValues();
+          this.snackbar.open(response, 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
         }
       } catch(err) {
         this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });

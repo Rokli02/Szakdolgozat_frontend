@@ -34,7 +34,6 @@ export class SeriesItemComponent implements OnInit, OnChanges {
   async ngOnInit() {
     this.canEdit = this.authService.hasRight(["siteManager", "admin"]);
     this.canAdd = this.authService.hasRight(["user"]);
-
     if(this.series.image) {
       this.imageUrl = await this.imageService.getImageUrl(this.series.image?.name);
       this.offset = {

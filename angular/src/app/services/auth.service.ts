@@ -108,7 +108,9 @@ export class AuthService{
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     this.userObserver.next(this.user);
-    this.router.navigate(['/'], { replaceUrl: true });
+    this.router.navigate(['/'], { replaceUrl: true, skipLocationChange: true }).then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
   getSidebarItems = (): SidebarItem[] | undefined => {

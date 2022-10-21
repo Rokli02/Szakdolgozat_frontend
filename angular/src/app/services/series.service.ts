@@ -88,6 +88,20 @@ export class SeriesService {
     }
   }
 
+  deleteImage = async (seriesId: number) => {
+    try {
+      const response = await lastValueFrom(this.http.delete<{ message: string }>(`${this.authService.getBackendLocation()}serieses/image/${seriesId}`, {
+        headers: this.authService.getAuthHeader()
+      }));
+      return response.message;
+    } catch(err) {
+      if((err as HttpErrorResponse).status === 401) {
+        this.authService.logout();
+      }
+      throw { error: (err as HttpErrorResponse).error};
+    }
+  }
+
   getOrders = (): DropdownItem[] => {
     return [
       { shownValue: "Nincs", value: "" },
