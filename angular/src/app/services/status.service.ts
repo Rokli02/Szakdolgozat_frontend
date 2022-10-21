@@ -44,7 +44,6 @@ export class StatusService {
   }
 
   updateStatus = async (id: number, updatedStatus: Status) => {
-    console.log(updatedStatus);
     try {
       const response = await lastValueFrom(this.http.put<{ message: string }>(`${this.authService.getBackendLocation()}statuses/${id}`, {
         ...updatedStatus

@@ -74,7 +74,6 @@ export class UserSeriesComponent implements OnInit {
       this.statusOptions = [{ shownValue: "Nincs", value: 0 }];
       this.statusOptions.push(...result.map((status) => ({ value: status.id, shownValue: status.name }) as DropdownItem));
     } catch(err) {
-      console.log(err);
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
     }
   }

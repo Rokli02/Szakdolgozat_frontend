@@ -38,6 +38,7 @@
 }
 
 .form-container {
+  position: relative;
   display: block;
   margin: 32px auto;
   width: 60%;
@@ -88,14 +89,13 @@
 }
 
 .form-season-field {
+  margin: auto;
   height: fit-content;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 1em;
-  margin-bottom: 12px;
 }
 
 .season-field {
@@ -134,6 +134,16 @@
   font-size: 20px;
   font-weight: 400;
   margin: auto 20px;
+}
+
+.image-button {
+  font-size: 14px;
+  min-width: fit-content;
+}
+
+.image-offset {
+  width: 5ch;
+  margin: auto 7px;
 }
 
 @media screen and (max-width: 1100px) {

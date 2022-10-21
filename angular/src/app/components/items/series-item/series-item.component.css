@@ -5,7 +5,13 @@
   height: 250px;
   border-radius: 12px;
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.4);
-  background-color: var(--primary-color);
+  background-color: rgba(
+    var(--primary-color-rgb),
+    0.95
+  ); /* soft-light screen overlay*/
+  background-blend-mode: screen;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .series-item > header {

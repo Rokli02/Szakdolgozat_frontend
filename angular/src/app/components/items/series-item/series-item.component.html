@@ -1,4 +1,4 @@
-<div class="series-item">
+<div class="series-item" [ngStyle]="{'background-image': 'url('+imageUrl+')', 'background-position': 'top '+ offset.y +' left ' + offset.x}">
   <button class="float-button" mat-icon-button (click)="editSeries()" *ngIf="canEdit">
     <mat-icon class="float-icon">build</mat-icon>
   </button>
@@ -15,6 +15,6 @@
   </div>
   <footer>
     <label class="age-limit" [ngStyle]="{'border-color': getLimitColor()}">{{series.ageLimit}}</label>
-    <app-drop-down-bar class="season-drop-down" [header]="'Évadok'" [width]="'100%'" [options]="getOptions()"></app-drop-down-bar>
+    <app-drop-down-bar class="season-drop-down" [header]="'Évadok'" [width]="'100%'" [options]="options"></app-drop-down-bar>
   </footer>
 </div>

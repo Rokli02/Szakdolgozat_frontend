@@ -14,6 +14,7 @@ export class NewsfeedComponent implements OnInit {
   newsfeeds: Newsfeed[];
   count: number;
   opts: PageOptions;
+  orderOptions: DropdownItem[];
   private isPersonal!: boolean;
   constructor(private newsfeedService: NewsfeedService,
               private snackbar: MatSnackBar,
@@ -25,6 +26,7 @@ export class NewsfeedComponent implements OnInit {
       size: 10,
       direction: true
     };
+    this.orderOptions = [];
   }
 
   ngOnInit(): void {
@@ -34,6 +36,7 @@ export class NewsfeedComponent implements OnInit {
       this.isPersonal = false;
     }
     this.getNewsfeeds();
+    this.orderOptions = this.newsfeedService.getOrders();
   }
 
   getNewsfeeds = async () => {
@@ -69,10 +72,6 @@ export class NewsfeedComponent implements OnInit {
   setOption = (name: PageOptionsKeys, value: string | number | boolean) => {
     this.opts[name] = value as never;
     this.getNewsfeeds();
-  }
-
-  getOrderOptions = (): DropdownItem[] => {
-    return this.newsfeedService.getOrders();
   }
 
   @HostListener("window:scroll", ["$event"])

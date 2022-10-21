@@ -7,8 +7,7 @@
       <mat-icon class="dropdown-icon" [ngClass]="{'expanded': open}">expand_more</mat-icon>
     </label>
   </div>
-  <div class="dropdown-body" [ngClass]="{'open': open}"
- >
+  <div class="dropdown-body" [ngClass]="{'open': open}">
     <span *ngIf="this.options && this.options.length > 0; else noOptions">
       <span class="dropdown-item-container" *ngFor="let option of options">
         <div class="dropdown-body-item" [ngClass]="{ 'highlight': option.highlight }"

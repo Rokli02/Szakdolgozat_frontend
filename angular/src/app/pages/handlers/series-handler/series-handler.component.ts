@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TempUploadedImage, UploadableFile } from 'src/app/models/image.model';
 import { DropdownItem, ErrorMessage } from 'src/app/models/menu.model';
 import { Category, Season, Series } from 'src/app/models/series.model';
 import { CategoryService } from 'src/app/services/category.service';
+import { ImageService } from 'src/app/services/image.service';
 import { SeriesService } from 'src/app/services/series.service';
 
 @Component({
@@ -16,15 +18,19 @@ export class SeriesHandlerComponent implements OnInit {
   formGroup!: FormGroup;
   seasonControl!: FormControl;
   episodeControl!: FormControl;
+  xOffset!: FormControl;
+  yOffset!: FormControl;
   addNew: boolean;
   seriesId?: number;
   seriesOptions: DropdownItem[];
+  selectedSeries?: Series;
   private categories!: Category[];
-  private selectedSeries?: Series;
   private removableSeasons: Season[];
+  private tempImage?: TempUploadedImage;
   constructor(private fb: FormBuilder,
               private seriesService: SeriesService,
               private categoryService: CategoryService,
+              private imageService: ImageService,
               private snackbar: MatSnackBar,
               private router: Router,
               private route: ActivatedRoute) {
@@ -42,8 +48,10 @@ export class SeriesHandlerComponent implements OnInit {
       seasons: [[]],
       categories: [[]]
     });
-    this.seasonControl = this.fb.control('', [Validators.required, Validators.min(1)]);
-    this.episodeControl = this.fb.control('', [Validators.required, Validators.min(1)]);
+    this.seasonControl = this.fb.control('', [Validators.min(1)]);
+    this.episodeControl = this.fb.control('', [Validators.min(1)]);
+    this.xOffset = this.fb.control('');
+    this.yOffset = this.fb.control('');
     this.categories = await this.categoryService.getCategories();
 
     const tempId = this.route.snapshot.paramMap.get("id");
@@ -74,6 +82,16 @@ export class SeriesHandlerComponent implements OnInit {
       seasons: this.formGroup.get("seasons")?.value,
       categories: this.formGroup.get("categories")?.value,
     }
+    if(this.tempImage) {
+      formSeries.image = { ...this.tempImage };
+      if(this.xOffset.value !== "" || this.xOffset.value !== undefined) {
+        formSeries.image.x_offset = this.xOffset.value;
+      }
+      if(this.yOffset.value !== "" || this.yOffset.value !== undefined) {
+        formSeries.image.y_offset = this.yOffset.value;
+      }
+    }
+
     if(this.addNew) {
       try {
         const response = await this.seriesService.saveSeries(formSeries);
@@ -99,8 +117,24 @@ export class SeriesHandlerComponent implements OnInit {
       if(formSeries.ageLimit !== this.selectedSeries?.ageLimit) {
         updateSeries.ageLimit = formSeries.ageLimit;
       }
-
-
+      if(formSeries.image) {
+        updateSeries.image = formSeries.image;
+      }
+      if(!this.tempImage) {
+        if(!updateSeries.image) {
+          updateSeries.image = {} as UploadableFile;
+        }
+        if(this.selectedSeries?.image) {
+          updateSeries.image.id = this.selectedSeries?.image?.id;
+          updateSeries.image.name = this.selectedSeries?.image?.name;
+        }
+        if(this.xOffset.value) {
+          updateSeries.image.x_offset = this.xOffset.value;
+        }
+        if(this.yOffset.value) {
+          updateSeries.image.y_offset = this.yOffset.value;
+        }
+      }
     if(this.selectedSeries?.categories && this.selectedSeries?.categories.length > 0) {
       updateSeries.categories = [];
       const categoryMap: Map<number, Category> = new Map<number, Category>();
@@ -135,6 +169,7 @@ export class SeriesHandlerComponent implements OnInit {
         }
       }
       updateSeries.seasons.push(...this.removableSeasons);
+
       try {
         if(!this.seriesId) {
           this.snackbar.open("Hiányzó ID, nyisd meg újra a módosítandó sorozatot!", 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
@@ -143,6 +178,7 @@ export class SeriesHandlerComponent implements OnInit {
         const response = await this.seriesService.updateSeries(this.seriesId, updateSeries);
         if(response) {
           this.snackbar.open("Sorozat sikeresen módosítva!", 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+          this.router.navigateByUrl("/series");
         }
       } catch(err) {
         this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
@@ -174,6 +210,21 @@ export class SeriesHandlerComponent implements OnInit {
       : [];
     } catch(err) {
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+    }
+  }
+
+  uploadFile = async (fileEvent: any) => {
+    const uploadableFile = fileEvent.target.files[0] ?? null;
+    if(uploadableFile) {
+      try {
+        const response = await this.imageService.upload(uploadableFile)
+        if(response) {
+          this.tempImage = response;
+          this.snackbar.open("Sikeres képfeltöltés", 'X', { duration: 3000, verticalPosition: 'bottom', panelClass: ['snackbar-success'] });
+        }
+      } catch(err) {
+        this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
+      }
     }
   }
 
@@ -277,6 +328,7 @@ export class SeriesHandlerComponent implements OnInit {
     this.seriesId = undefined;
     this.seriesOptions = [];
     this.removableSeasons = [];
+    this.tempImage = undefined;
 
     this.seasonControl.setValue("");
     this.episodeControl.setValue("");
@@ -288,6 +340,16 @@ export class SeriesHandlerComponent implements OnInit {
       seasons: [],
       categories: []
     });
+    this.resetImageValues();
+  }
+
+  resetImageValues = () => {
+    if(this.selectedSeries) {
+      this.selectedSeries.image = undefined;
+    }
+    this.tempImage = undefined;
+    this.xOffset.setValue("");
+    this.yOffset.setValue("");
   }
 
   setValues = (series: Series) => {
@@ -299,6 +361,15 @@ export class SeriesHandlerComponent implements OnInit {
       seasons: series.seasons,
       categories: series.categories
     });
+
+    if(series.image) {
+      if(series.image.x_offset) {
+        this.xOffset.setValue(series.image.x_offset);
+      }
+      if(series.image.y_offset) {
+        this.yOffset.setValue(series.image.y_offset);
+      }
+    }
   }
 
   routeTo = (type: string) => {

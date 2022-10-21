@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DropdownItem, ErrorMessage } from 'src/app/models/menu.model';
 import { Series } from 'src/app/models/series.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { ImageService } from 'src/app/services/image.service';
 import { UserSeriesService } from 'src/app/services/user-series.service';
 
 @Component({
@@ -11,36 +12,57 @@ import { UserSeriesService } from 'src/app/services/user-series.service';
   templateUrl: './series-item.component.html',
   styleUrls: ['./series-item.component.css']
 })
-export class SeriesItemComponent implements OnInit {
+export class SeriesItemComponent implements OnInit, OnChanges {
   @Input() series!: Series;
   canEdit: boolean;
   canAdd: boolean;
+  imageUrl: string;
+  options: DropdownItem[];
+  offset: { x: string, y: string };
   constructor(private router: Router,
               private snackbar: MatSnackBar,
               private authService: AuthService,
+              private imageService: ImageService,
               private userSeriesService: UserSeriesService) {
     this.canEdit = false;
     this.canAdd = false;
+    this.imageUrl = "";
+    this.offset = { x: '25px', y: '-10px'};
+    this.options = [];
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.canEdit = this.authService.hasRight(["siteManager", "admin"]);
     this.canAdd = this.authService.hasRight(["user"]);
+
+    if(this.series.image) {
+      this.imageUrl = await this.imageService.getImageUrl(this.series.image?.name);
+      this.offset = {
+        x: this.series.image.x_offset as string,
+        y: this.series.image.y_offset as string
+      };
+    } else {
+      this.imageUrl = this.imageService.getDefaultImageUrl();
+    }
   }
 
-  getOptions = (): DropdownItem[] => {
-    const options: DropdownItem[] = [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes["series"]) {
+      this.getOptions();
+    }
+  }
+
+  getOptions = () => {
     if(!this.series || !this.series.seasons) {
-      return [];
+      this.options = [];
     }
 
     for(const season of this.series.seasons.sort((a, b) => a.season - b.season)) {
-      options.push({
+      this.options.push({
         shownValue: `${season.season}.évad, ${season.episode} rész`,
         value: season.id
       });
     }
-    return options;
   }
 
   getCategories = (): string => {

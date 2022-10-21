@@ -81,7 +81,6 @@ export class NewsfeedService {
   }
 
   saveNewsfeed = async (newNewsfeed: Newsfeed) => {
-    console.log(newNewsfeed);
     try {
       const response = await lastValueFrom(this.http.post<{ newsfeed: Newsfeed}>(`${this.authService.getBackendLocation()}newsfeeds/edit`, {
         ...newNewsfeed
@@ -90,7 +89,6 @@ export class NewsfeedService {
       }))
       return response.newsfeed;
     } catch(err) {
-      console.log(err);
       if((err as HttpErrorResponse).status === 401) {
         this.authService.logout();
       }

@@ -1,3 +1,5 @@
+import { UploadableFile } from './image.model';
+
 export interface Series {
   id?: number;
   title: string;
@@ -6,6 +8,7 @@ export interface Series {
   length: number;
   seasons: Season[];
   categories: Category[];
+  image?: UploadableFile;
 };
 
 export interface UserSeries {

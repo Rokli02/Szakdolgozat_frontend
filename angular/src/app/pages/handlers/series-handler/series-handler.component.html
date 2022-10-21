@@ -67,10 +67,30 @@
                   Mentés
                 </button>
               </div>
-              <app-drop-down-bar [header]="'Évadok'" [changeHeader]="false" [action]="true" [options]="getSeasonOptions()" (selected)="removeSeason($event)"></app-drop-down-bar>
             </div>
             <div class="details-column">
-              <app-drop-down-bar [header]="'Kategóriák'" [changeHeader]="false" [action]="true" [options]="getCategoryOptions()" (selected)="handleCategory($event)"></app-drop-down-bar>
+              <app-drop-down-bar class="form-field" [header]="'Kategóriák'" [width]="'100%'" [changeHeader]="false" [action]="true" [options]="getCategoryOptions()" (selected)="handleCategory($event)"></app-drop-down-bar>
+            </div>
+          </div>
+          <div class="details-row">
+            <div class="details-column">
+              <app-drop-down-bar class="form-field" [header]="'Évadok'" [width]="'100%'" [changeHeader]="false" [action]="true" [options]="getSeasonOptions()" (selected)="removeSeason($event)"></app-drop-down-bar>
+            </div>
+            <div class="details-column form-season-field">
+              <input hidden (change)="uploadFile($event)" name="image" type="file" #fileInput />
+              <button class="image-button" mat-raised-button color="primary" type="button" (click)="fileInput.click()">
+                {{selectedSeries && selectedSeries.image ? "Borítókép módosítás" : "Borítókép feltöltés"}}
+              </button>
+              <div>
+                <mat-form-field class="image-offset" title="Horizontális eltolás">
+                  <mat-label>X</mat-label>
+                  <input matInput autocomplete="off" [formControl]="xOffset"/>
+                </mat-form-field>
+                <mat-form-field class="image-offset" title="Vertikális eltolás">
+                  <mat-label>Y</mat-label>
+                  <input matInput autocomplete="off" [formControl]="yOffset"/>
+                </mat-form-field>
+              </div>
             </div>
           </div>
         </div>

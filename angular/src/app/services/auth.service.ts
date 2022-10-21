@@ -23,7 +23,12 @@ export class AuthService{
       fastify: environment.FASTIFY_API_URL,
       express: environment.EXPRESS_API_URL
     }
-    this.backendLocation = this.backendLocations["fastify"];
+    const apiUrlKey = localStorage.getItem("API_URL_KEY");
+    if(apiUrlKey) {
+      this.backendLocation = this.backendLocations[apiUrlKey];
+    } else {
+      this.backendLocation = this.backendLocations["fastify"];
+    }
 
     const tempToken = localStorage.getItem("token");
     const tempUser = localStorage.getItem("user");
@@ -98,7 +103,6 @@ export class AuthService{
   }
 
   logout = () => {
-    console.log('logout');
     this.token = undefined;
     this.user = undefined;
     localStorage.removeItem("token");
@@ -125,6 +129,7 @@ export class AuthService{
 
   changeBackendLocation = (name: string) => {
     this.backendLocation = this.backendLocations[name];
+    localStorage.setItem("API_URL_KEY", name);
   }
 
   isBackendActive = (name: string): boolean => {

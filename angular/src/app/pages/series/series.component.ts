@@ -14,6 +14,7 @@ export class SeriesComponent implements OnInit {
   serieses: Series[];
   count: number;
   opts: PageOptions;
+  orderOpts: DropdownItem[];
   constructor(private seriesService: SeriesService,
               private snackbar: MatSnackBar) {
     this.serieses = [];
@@ -22,20 +23,18 @@ export class SeriesComponent implements OnInit {
       page: 1,
       size: 10,
       direction: true
-    }
+    };
+    this.orderOpts = [];
   }
 
   async ngOnInit() {
     this.getSerieses();
+    this.orderOpts = this.seriesService.getOrders();
   }
 
   setOption = (name: PageOptionsKeys, value: string | number | boolean) => {
     this.opts[name] = value as never;
     this.getSerieses();
-  }
-
-  getOrderOptions = (): DropdownItem[] => {
-    return this.seriesService.getOrders();
   }
 
   getSerieses = async () => {
