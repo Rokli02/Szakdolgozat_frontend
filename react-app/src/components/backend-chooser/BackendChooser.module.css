@@ -1,0 +1,54 @@
+#backend-chooser {
+  z-index: 19;
+}
+
+#backend-chooser-button {
+  color: black;
+  min-height: min-content;
+  min-width: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.backend-chooser-icon {
+  font-size: 1.4em;
+  height: auto;
+}
+
+.backend-chooser-data {
+  position: absolute;
+  overflow: hidden;
+  text-align: left;
+  top: 90%;
+  right: 32px;
+  width: 0px;
+  max-height: 0px;
+  padding: 0px;
+  font-size: 14px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.4);
+  transition: all 0.5s;
+}
+
+.backend-chooser-data > div > h3 {
+  margin: 4px auto auto;
+}
+
+.open {
+  right: 12px;
+  max-height: 175px;
+  width: 260px;
+  padding: 8px 14px;
+}
+
+.radio-button-container {
+  margin: auto 8px;
+  font-size: 16px;
+  font-weight: 500;
+  height: min-content;
+}

@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+
+  --primary-font-color: #4c3444;
+  --primary-color: #dfd3c3;
+  --primary-color-rgb: 223, 211, 195;
+  --primary-variant-color: #f8ede3;
+  --secondary-color: #7d6e83;
+  --green: #4abd2d;
+  --red: #d21919;
+}
+
+.snackbar-success {
+  background-color: #f9f9f9;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--green);
+}
+
+.snackbar-success button:hover {
+  background-color: rgba(0, 255, 0, 0.05);
+}
+
+.snackbar-error {
+  background-color: #f9f9f9;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--red);
+}
+
+.snackbar-error button:hover {
+  background-color: rgba(255, 0, 0, 0.05);
+}
+
+.snackbar-error button,
+.snackbar-success button {
+  border-radius: 20%;
+  color: var(--primary-font-color);
+}
+
+html,
+body {
+  height: 100%;
+}
