@@ -2,8 +2,10 @@
   position: relative;
   margin: auto;
   min-width: fit-content;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
   background-color: var(--primary-variant-color);
+  color: var(--primary-font-color);
+  text-shadow: none;
 }
 
 .dropdown-header {

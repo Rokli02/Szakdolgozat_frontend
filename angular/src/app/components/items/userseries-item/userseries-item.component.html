@@ -1,4 +1,7 @@
-<div class="series-item">
+<div class="series-item" [ngStyle]="{'background-image': 'url('+imageUrl+')',
+    'background-position': 'top '+ offset.y +' left ' + offset.x}"
+    [ngClass]="{'defaultImage': imageService.getDefaultImageUrl() === imageUrl}"
+>
   <button class="float-button" mat-icon-button (click)="editSeries()" *ngIf="canEdit">
     <mat-icon class="float-icon">build</mat-icon>
   </button>

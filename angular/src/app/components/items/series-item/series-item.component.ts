@@ -22,8 +22,8 @@ export class SeriesItemComponent implements OnInit, OnChanges {
   constructor(private router: Router,
               private snackbar: MatSnackBar,
               private authService: AuthService,
-              private imageService: ImageService,
-              private userSeriesService: UserSeriesService) {
+              private userSeriesService: UserSeriesService,
+              public imageService: ImageService,) {
     this.canEdit = false;
     this.canAdd = false;
     this.imageUrl = "";
