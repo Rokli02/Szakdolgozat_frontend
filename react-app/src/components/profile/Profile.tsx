@@ -18,7 +18,7 @@ export const Profile = () => {
   return (
     <div id={styles["profile"]}> {/* (clickOutside)="close()" */}
       <IconButton id={styles["profile-button"]} onClick={toggle}>
-        <Icon className={styles["profile-icon"]}>manage_accounts</Icon>
+        <Icon id={styles["profile-icon"]}>manage_accounts</Icon>
       </IconButton>
       <section className={`${styles["profile-data"]} ${open ? styles["open"] : ''}`}>
         <div id={styles["profile-username"]}>

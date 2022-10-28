@@ -1,25 +1,21 @@
 import { createContext, FC, useEffect, useState } from 'react';
 import { AuthContextStatesType, AuthContextType } from '../models/auth.model';
-import { BackendLocationNames, BackendLocations, SidebarItem } from '../models/menu.model';
-import { loginRequest, getSidebarItems } from '../utils/auth-utils';
-import { setAuthHeader, setBaseUrl } from '../utils/axiosConfig';
-import { AxiosError } from 'axios';
+import { BackendLocationNames, SidebarItem } from '../models/menu.model';
+import { NewUser } from '../models/user.model';
+import { loginRequest, getSidebarItems, signupRequest } from '../utils/auth-utils';
+import { backendLocations, setAuthHeader, setBaseUrl } from '../utils/axiosConfig';
 
-const backendLocations: BackendLocations = {
-  fastify: process.env.REACT_APP_FASTIFY_API_URL as string,
-  express: process.env.REACT_APP_EXPRESS_API_URL as string
-}
-
-export const initValue: AuthContextStatesType = {
+const initValue: AuthContextStatesType = {
   backendLocation: "",
   token: undefined,
   user: undefined,
 }
 
-export const initContextValue: AuthContextType = {
+const initContextValue: AuthContextType = {
   backendLocation: "",
   user: undefined,
-  login: (loginName: string, password: string) => null,
+  login: (loginName: string, password: string) => null as any,
+  signup: (newUser: NewUser) => null as any,
   setBackendLocation: (name: BackendLocationNames) => null,
   logout: () => null,
   sidebarItems: [],
@@ -50,6 +46,7 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
       initState.user = JSON.parse(tempUser);
     }
     setState(initState);
+    setBaseUrl(initState.backendLocation);
   }, []);
 
   useEffect(() => {
@@ -59,19 +56,29 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
   const login = async (loginName: string, password: string): Promise<{ message: string }> => {
     try {
       const response = await loginRequest(loginName, password);
-      console.log(response);
       setState((pre) => ({
         ...pre,
         user: response.user,
         token: response.token
       }))
       setAuthHeader(response.token);
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response.user));
       return { message: "Sikeres bejelentkezés!" };
     } catch(err) {
-      console.log(err);
-      return { message: (err as AxiosError).message};
+      throw err;
     }
   }
+
+  const signup = async (newUser: NewUser): Promise<{ message: string }> => {
+    try {
+      const response = await signupRequest(newUser);
+      return response;
+    } catch(err) {
+      throw err;
+    }
+  }
+
   const setBackendLocation = (name: BackendLocationNames) => {
     const location = backendLocations[name];
     if(location) {
@@ -89,6 +96,8 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
       backendLocation: pre.backendLocation,
     }));
     setAuthHeader("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   }
   const getActiveBackendName = (): string => {
     for(const locName of Object.keys(backendLocations)) {
@@ -104,6 +113,7 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
       backendLocation: state.backendLocation,
       user: state.user,
       login,
+      signup,
       setBackendLocation,
       logout,
       sidebarItems,

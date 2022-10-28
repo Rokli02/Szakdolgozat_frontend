@@ -3,6 +3,7 @@
 }
 
 #profile-button {
+  color: black;
   min-height: min-content;
   min-width: min-content;
   display: flex;
@@ -29,8 +30,9 @@
   margin-top: 16px;
 }
 
-.profile-icon {
-  font-size: 32px;
+#profile-icon {
+  font-size: 1.2em;
+  height: auto;
 }
 
 .profile-data {

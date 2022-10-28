@@ -24,7 +24,7 @@ export const BackendChooser = () => {
   return (
     <div id={styles["backend-chooser"]}> {/* (clickOutside)="close()" */}
       <IconButton id={styles["backend-chooser-button"]} onClick={toggle}>
-        <Icon className={styles["backend-chooser-icon"]}>settings</Icon>
+        <Icon id={styles["backend-chooser-icon"]}>settings</Icon>
       </IconButton>
       <section className={`${styles["backend-chooser-data"]} ${open ? styles["open"] : ""}`}>
           <div>

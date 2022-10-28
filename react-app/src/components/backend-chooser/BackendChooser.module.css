@@ -4,18 +4,17 @@
 
 #backend-chooser-button {
   color: black;
-  min-height: min-content;
-  min-width: fit-content;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  min-height: min-content;
+  min-width: min-content;
   align-items: center;
   justify-content: center;
-  padding: 0;
 }
 
-.backend-chooser-icon {
-  font-size: 1.4em;
+#backend-chooser-icon {
+  font-size: 1.15em;
   height: auto;
 }
 

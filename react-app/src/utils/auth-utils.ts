@@ -6,16 +6,24 @@ export const loginRequest = async (loginName: string, password: string): Promise
   return await http.post<LoginData>("auth/login", {
     usernameOrEmail: loginName, 
     password
-  }).then((res) => res.data);
+  })
+  .then((res) => res.data)
+  .catch((err) => {
+    throw err.response.data;
+  });
 };
 
 export const signupRequest = async(newUser: NewUser): Promise<{ message: string }> => {
   return await http.post<{ message: string }>("auth/signup", {
     ...newUser
-  }).then((res) => res.data);
+  })
+  .then((res) => res.data)
+  .catch((err) => {
+    throw err.response.data;
+  });
 }
 
-const hasRight = (user: User, rights: string[]): boolean => {
+export const hasRight = (rights: string[], user?: User): boolean => {
   if(!user) {
     return false;
   }
@@ -34,7 +42,7 @@ export const getSidebarItems = (user?: User): SidebarItem[] | undefined => {
     return undefined;
   }
 
-  const items: SidebarItem[] = SidebarItems.filter((item) => item.right.length === 0 || hasRight(user, item.right))
+  const items: SidebarItem[] = SidebarItems.filter((item) => item.right.length === 0 || hasRight(item.right, user))
     .sort((a, b) => a.order - b.order)
     .map((item) => ({ name: item.name, link: item.link }) as SidebarItem);
 

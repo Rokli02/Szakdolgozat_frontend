@@ -19,10 +19,10 @@ export function Sidebar() {
       </IconButton>
       <div className={`${styles["sidebar-body"]} ${open ? styles["expanded"] : ''}`}>
         {sidebarItems && sidebarItems.map(item => (
-          <div className={styles["sidebar-item"]}>
-          <Link to={item.link} className={styles["sidebar-item-text"]} onClick={() => toggle()}>{item.name}</Link>
-          <hr className={styles["sidebar-spacer"]}/>
-        </div>
+          <div className={styles["sidebar-item"]} key={item.link}>
+            <Link to={item.link} className={styles["sidebar-item-text"]} onClick={() => toggle()}>{item.name}</Link>
+            <hr className={styles["sidebar-spacer"]}/>
+          </div>
         ))}
         
       </div>
