@@ -1,0 +1,75 @@
+.newsfeed-item {
+  position: relative;
+  margin: 12px auto 20px;
+  padding: 16px 40px 20px 24px;
+  width: 75%;
+  background-color: var(--primary-color);
+  color: var(--primary-font-color);
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.newsfeed-header {
+  margin-bottom: 20px;
+}
+
+.newsfeed-body {
+  width: 70%;
+  margin-left: 32px;
+  padding-left: 14px;
+  font-size: 16px;
+  border-left: 2px solid #0000002b;
+}
+
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.header-subtitle {
+  padding-left: 18px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.modification {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.series-name {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.edit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  left: 13px;
+  top: 83px;
+  font-size: 12px;
+}
+
+.edit-icon {
+  font-size: 16px;
+  color: var(--primary-font-color);
+}
+
+@media screen and (max-width: 1000px) {
+  .newsfeed-body {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .newsfeed-item {
+    width: 95%;
+  }
+}

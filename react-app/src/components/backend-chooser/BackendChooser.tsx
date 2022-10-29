@@ -1,12 +1,14 @@
 import styles from './BackendChooser.module.css';
 import { Icon, IconButton, RadioGroup, Radio, FormControlLabel } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../contexts/authContext';
+import { useClickOutside } from '../../utils/component-utils';
 
 export const BackendChooser = () => {
   const [ open, setOpen] = useState(false);
   const [ activeName, setActiveName ] = useState("");
   const { getActiveBackendName, setBackendLocation } = useContext(AuthContext);
+  const componentRef = useRef<any>(null);
 
   useEffect(() => {
     setActiveName(getActiveBackendName());
@@ -16,13 +18,18 @@ export const BackendChooser = () => {
     setOpen(pre => !pre);
   }
 
+  const close = () => {
+    setOpen(false);
+  };
+
   const setActiveBackend = (event: any) => {
     setActiveName(event.target.value);
     setBackendLocation(event.target.value);
   }
 
+  useClickOutside(componentRef, close);
   return (
-    <div id={styles["backend-chooser"]}> {/* (clickOutside)="close()" */}
+    <div id={styles["backend-chooser"]} ref={componentRef}>
       <IconButton id={styles["backend-chooser-button"]} onClick={toggle}>
         <Icon id={styles["backend-chooser-icon"]}>settings</Icon>
       </IconButton>

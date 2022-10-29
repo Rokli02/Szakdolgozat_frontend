@@ -22,7 +22,7 @@ type SeriesState = {
 
 export const SeriesPage = () => {
   const [orders] = useState<DropdownItem[]>(getOrders());
-  const [state, setState] = useState<SeriesState>({ page: 1, size: 12 });
+  const [state, setState] = useState<SeriesState>({ page: 1, size: 12, direction: false });
   const [series, setSeries] = useState<SeriesPageModel>({ serieses: [], count: -1 });
   const { setMessage } = useContext(SnackbarContext);
   const { logout, user } = useContext(AuthContext);
@@ -45,7 +45,7 @@ export const SeriesPage = () => {
       await getSerieses();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.page]);
+  }, [state]);
   const getSerieses = async () => {
     try {
       const response = await getSeriesesRequest(1, state.size, state.filter, state.order, state.direction);
@@ -118,7 +118,6 @@ export const SeriesPage = () => {
             <Switch size='medium' checked={state.direction} onClick={handleDirection}/>
             <span>{state.direction ? "Növekvő sorrend" : "Csökkenő sorrend"}</span>
           </div>
-          {/* <mat-slide-toggle className={styles["direction"]} [checked]="opts.direction" (change)="setOption('direction', !opts.direction)">{{opts.direction ? "Növekvő sorrend" : "Csökkenő sorrend"}}</mat-slide-toggle> */}
         </div>
         <div className={styles["search-item"]}>
           <DropdownBar action={true} header='Rendezés' options={orders} setSelected={handleSelectedOrder}/>
