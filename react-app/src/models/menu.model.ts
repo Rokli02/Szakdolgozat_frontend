@@ -15,6 +15,11 @@ export interface DropdownItem {
   value?: any;
 };
 
+export interface AutoCompleteItem {
+  label: string;
+  value: any;
+}
+
 export interface PageOptions {
   page: number;
   size: number;

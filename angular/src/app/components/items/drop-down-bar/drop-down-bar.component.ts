@@ -55,8 +55,4 @@ export class DropDownBarComponent implements OnInit, OnChanges {
     }
     this.selected.emit(selectedValue.value);
   }
-
-  getIcon = (): string => {
-    return this.open ? "expand_less" : "expand_more";
-  }
 }

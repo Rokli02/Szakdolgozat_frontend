@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { DropdownItem } from '../models/menu.model';
 import { Newsfeed, NewsfeedPageModel } from '../models/newsfeed.model';
 import { AuthService } from './auth.service';

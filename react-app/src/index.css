@@ -13,6 +13,8 @@ body {
   --primary-color-rgb: 223, 211, 195;
   --primary-variant-color: #f8ede3;
   --secondary-color: #7d6e83;
+  --green: #4abd2d;
+  --red: #d21919;
 }
 
 html,

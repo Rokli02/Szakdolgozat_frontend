@@ -1,0 +1,25 @@
+.search-bar-container {
+  margin: auto;
+  width: 350px;
+  min-height: fit-content;
+  padding: 4px 20px;
+}
+
+.search-bar-header {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 2em;
+  color: var(--primary-font-color);
+}
+
+.search-field {
+  width: 100%;
+  color: var(--primary-font-color);
+}
+
+.search-input,
+.search-input * {
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+}

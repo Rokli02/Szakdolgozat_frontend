@@ -1,0 +1,119 @@
+.dropdown-container {
+  position: relative;
+  margin: auto;
+  min-width: fit-content;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+  background-color: var(--primary-variant-color);
+  color: var(--primary-font-color);
+  text-shadow: none;
+}
+
+.dropdown-header {
+  margin: auto 12px auto 16px;
+  min-height: 36px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.dropdown-header,
+.dropdown-header * {
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  display: flex;
+  font-size: 28px;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+  transition: rotate 0.3s;
+}
+
+.dropdown-body {
+  position: absolute;
+  text-align: center;
+  z-index: 3;
+  min-height: fit-content;
+  max-height: 0px;
+  overflow: hidden;
+  cursor: default;
+  scroll-behavior: smooth;
+  top: 79%;
+  left: 0%;
+  width: 100%;
+  transition: max-height 0.25s, top 0.08s;
+  border-radius: 0px 0px 8px 8px;
+  background-color: var(--primary-variant-color);
+}
+
+.open {
+  top: 90%;
+  max-height: 145px;
+  overflow-y: scroll;
+}
+
+.dropdown-body::-webkit-scrollbar {
+  scroll-behavior: smooth;
+  width: 10px;
+  background-color: rgba(0, 0, 0, 0.07);
+  border-radius: 0px 0px 8px 0px;
+}
+
+.dropdown-body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+.dropdown-body-item {
+  margin: 4px auto;
+  width: fit-content;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  padding: 4px 12px;
+}
+
+.dropdown-body-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.divider {
+  margin: 2px auto;
+  width: 85%;
+  border: none;
+  height: 2px;
+  background-color: var(--primary-color);
+}
+
+.dropdown-item-container:last-of-type .divider {
+  display: none;
+}
+
+.highlight {
+  position: relative;
+}
+
+.highlight::after {
+  width: 200%;
+  height: 100%;
+  top: 0%;
+  left: -50%;
+  content: '';
+  position: absolute;
+  border-radius: 8px;
+  background-color: rgba(150, 150, 150, 0.15);
+}
+
+.expanded {
+  rotate: -180deg;
+}
+
+@media screen and (max-width: 700px) {
+  .dropdown-container {
+    width: 245px;
+  }
+}
