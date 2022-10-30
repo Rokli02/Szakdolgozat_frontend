@@ -1,0 +1,103 @@
+.container {
+  width: 65%;
+  margin: 36px auto;
+  padding-bottom: 1px;
+  gap: 2em;
+}
+
+.sub-container {
+  display: block;
+  margin: 32px auto;
+  padding: 8px 4px;
+  text-align: center;
+  border-radius: 16px;
+  background-color: var(--primary-color);
+}
+
+.search-field {
+  text-align: center;
+}
+
+.header {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.header > h1 {
+  padding-top: 20px;
+  margin-bottom: 4px;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.form-container {
+  width: 100%;
+  margin: 12px auto;
+  padding: 4px 4px;
+}
+
+.form-row {
+  width: 100%;
+  margin: 4px auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1em;
+}
+
+.form-col {
+  text-align: center;
+  margin: 8px auto 16px;
+  min-width: 340px;
+  width: 45%;
+  font-size: 16px;
+}
+
+.form-col-input {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.form-col-input * {
+  width: 100%;
+  text-align: center;
+}
+
+.form-footer {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.id {
+  position: absolute;
+  left: 24px;
+  top: 54px;
+}
+
+.lock-icon,
+.lock-icon * {
+  position: absolute;
+  text-align: end;
+  justify-content: end;
+  font-size: 16px;
+  max-width: fit-content;
+  max-height: fit-content;
+  right: 2%;
+}
+
+@media screen and (max-width: 1000px) {
+  .container {
+    width: 95%;
+  }
+
+  .sub-container {
+    padding: 4px 2px;
+  }
+}

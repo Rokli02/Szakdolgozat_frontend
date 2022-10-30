@@ -70,6 +70,7 @@
 
 .float-button {
   display: flex;
+  overflow: visible;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -81,7 +82,7 @@
 
 .float-icon {
   color: azure;
-  overflow: visible;
+  overflow: visible !important;
   text-shadow: 0px 0px 2px black, 0px 0px 3px black;
 }
 

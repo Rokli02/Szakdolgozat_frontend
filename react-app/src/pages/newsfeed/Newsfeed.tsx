@@ -4,7 +4,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DropdownBar } from '../../components/items/drop-down-bar/DropdownBar';
 import { NewsfeedItem } from '../../components/items/newsfeed-item/NewsfeedItem';
-import { SearchBar } from '../../components/items/search-bar/SearcBar';
+import { SearchBar } from '../../components/items/search-bar/SearchBar';
 import { AuthContext } from '../../contexts/authContext';
 import { DetectBottomContext } from '../../contexts/detectBottomContext';
 import { SnackbarContext } from '../../contexts/snackbarContext';

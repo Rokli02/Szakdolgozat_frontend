@@ -23,7 +23,7 @@ export class UserSeriesComponent implements OnInit {
     this.count = -1;
     this.opts = {
       page: 1,
-      size: 10,
+      size: 12,
       direction: true
     }
   }

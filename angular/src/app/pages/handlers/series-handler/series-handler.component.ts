@@ -320,7 +320,6 @@ export class SeriesHandlerComponent implements OnInit {
 
     return [];
   }
-
   getCategoryOptions = () => {
     const formCategories: Category[] = this.formGroup.get("categories")?.value;
     if(!this.categories) {

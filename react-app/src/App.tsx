@@ -3,6 +3,9 @@ import './App.css';
 import { Navbar } from './components/navbar/Navbar';
 import { DetectBottomProvider } from './contexts/detectBottomContext';
 import { MiscHandler } from './pages/handlers/misc-handler/MiscHandler';
+import { NewsfeedHandler } from './pages/handlers/newsfeed-handler/NewsfeedHandler';
+import { SeriesHandler } from './pages/handlers/series-handler/SeriesHandler';
+import { UserHandler } from './pages/handlers/user-handler/UserHandler';
 import { Login } from './pages/login/Login';
 import { Logout } from './pages/Logout';
 import { Newsfeed } from './pages/newsfeed/Newsfeed';
@@ -30,15 +33,14 @@ function App() {
             <Route path="handle/series/:id"/>
           </Route>
           <Route path='/admin' element={<ProtectedRoutes rights={["siteManager", 'admin']} />}>
-            <Route path='series'/>
-            <Route path='series/:id'/>
-            <Route path='newsfeed'/>
-            <Route path='newsfeed/:id'/>
+            <Route path='series' element={<SeriesHandler />}/>
+            <Route path='series/:id' element={<SeriesHandler />}/>
+            <Route path='newsfeed' element={<NewsfeedHandler />}/>
+            <Route path='newsfeed/:id' element={<NewsfeedHandler />}/>
             <Route path='misc' element={<MiscHandler />}/>
-            <Route path='misc/:id' element={<MiscHandler />}/>
             <Route element={<ProtectedRoutes rights={['admin']} />}>
-              <Route path='user'/>
-              <Route path='user/:id'/>
+              <Route path='user' element={<UserHandler />}/>
+              <Route path='user/:id' element={<UserHandler />}/>
             </Route>
           </Route>
           <Route path='*' element={<Navigate to={"/"} replace={true}/>}/>

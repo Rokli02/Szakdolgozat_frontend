@@ -51,7 +51,7 @@ export const deleteUserRequest = async (id: number): Promise<string> => {
     });
 }
 
-export const gerRolesRequest = async (): Promise<Role[]> => {
+export const getRolesRequest = async (): Promise<Role[]> => {
   return await http.get<{ roles: Role[] }>("auth/roles")
     .then((res) => res.data.roles)
     .catch((err) => {

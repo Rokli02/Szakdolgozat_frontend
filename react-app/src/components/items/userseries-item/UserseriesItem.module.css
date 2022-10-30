@@ -96,7 +96,7 @@
 
 .float-icon {
   color: azure;
-  font-size: 16px;
+  overflow: visible !important;
   text-shadow: 0px 0px 2px black, 0px 0px 3px black;
 }
 

@@ -1,0 +1,79 @@
+.table {
+  display: table;
+  margin: 20px auto 0px;
+  max-width: 95%;
+  max-height: 600px;
+  overflow-y: auto;
+  box-shadow: none !important;
+}
+
+.paginator {
+  background-color: var(--primary-color);
+}
+
+.mat-row .mat-cell {
+  background-color: var(--primary-variant-color);
+  cursor: pointer;
+  text-align: center;
+}
+
+.mat-row,
+.mat-row .mat-cell {
+  min-height: 50px;
+  max-height: 50px;
+  height: 50px;
+}
+
+.mat-header-row {
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.mat-header-cell {
+  background-color: var(--primary-color);
+  text-align: center;
+  cursor: default;
+}
+
+.mat-row .mat-cell:first-of-type,
+.mat-header-cell:first-of-type {
+  padding-left: 8px;
+}
+
+.mat-row:hover {
+  box-shadow: 0px 0px 2px rgb(255, 255, 255),
+    0px 0px 4px rgba(255, 255, 255, 0.5), 0px 0px 8px rgba(255, 255, 255, 0.2);
+}
+
+.header {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  display: none !important;
+  transition: rotate 0.3s;
+}
+
+.header.active .icon {
+  display: initial !important;
+  rotate: 180deg;
+}
+
+.active.asc .icon {
+  rotate: 360deg;
+}
+
+@media screen and (max-width: 1200px) {
+  .hide-created {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .hide-email {
+    display: none !important;
+  }
+}

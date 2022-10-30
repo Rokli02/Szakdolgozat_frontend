@@ -88,10 +88,6 @@ const routes: Routes = [
         component: MiscHandlerComponent
       },
       {
-        path: 'misc/:id',
-        component: MiscHandlerComponent,
-      },
-      {
         path: 'user',
         canActivate: [AdminCanActivateService],
         component: UserHandlerComponent

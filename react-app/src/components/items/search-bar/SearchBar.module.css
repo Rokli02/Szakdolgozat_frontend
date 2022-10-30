@@ -1,8 +1,13 @@
 .search-bar-container {
-  margin: auto;
-  width: 350px;
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  /* width: 350px; */
   min-height: fit-content;
-  padding: 4px 20px;
+  padding: 4px 4px;
 }
 
 .search-bar-header {
@@ -17,9 +22,7 @@
   color: var(--primary-font-color);
 }
 
-.search-input,
 .search-input * {
-  width: 100%;
   text-align: center;
   font-size: 16px;
 }

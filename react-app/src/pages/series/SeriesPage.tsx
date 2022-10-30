@@ -2,7 +2,7 @@ import { Switch } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { DropdownBar } from '../../components/items/drop-down-bar/DropdownBar';
-import { SearchBar } from '../../components/items/search-bar/SearcBar';
+import { SearchBar } from '../../components/items/search-bar/SearchBar';
 import { SeriesItem } from '../../components/items/series-item/SeriesItem';
 import { AuthContext } from '../../contexts/authContext';
 import { DetectBottomContext } from '../../contexts/detectBottomContext';

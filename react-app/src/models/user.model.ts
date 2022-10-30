@@ -5,7 +5,7 @@ export type User = {
   username: string;
   email: string;
   role: Role
-  created: string;
+  created?: string;
   password?: string;
   birthdate?: string;
   active?: boolean;
