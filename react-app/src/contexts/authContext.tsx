@@ -1,4 +1,5 @@
 import { createContext, FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContextStatesType, AuthContextType } from '../models/auth.model';
 import { BackendLocationNames, SidebarItem } from '../models/menu.model';
 import { NewUser } from '../models/user.model';
@@ -27,6 +28,7 @@ export const AuthContext = createContext(initContextValue);
 export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
   const [state, setState] = useState(initValue);
   const [sidebarItems, setSidebarItems] = useState<SidebarItem[] | undefined>([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const apiUrlKey = localStorage.getItem("API_URL_KEY") as BackendLocationNames;
@@ -98,6 +100,7 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
     setAuthHeader("");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    navigate("/login");
   }
   const getActiveBackendName = (): string => {
     for(const locName of Object.keys(backendLocations)) {
