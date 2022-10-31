@@ -1,6 +1,6 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Icon, IconButton, TextField } from '@mui/material';
 import { AxiosError } from 'axios';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SearchBar } from '../../../components/items/search-bar/SearchBar';
 import { SnackbarContext } from '../../../contexts/snackbarContext';
@@ -8,10 +8,11 @@ import { UploadableFile } from '../../../models/image.model';
 import { AutoCompleteItem, DropdownItem } from '../../../models/menu.model';
 import { Category, Season, Series } from '../../../models/series.model';
 import { getCategoriesRequest } from '../../../utils/category-utils';
-import { getSeriesesRequest, getSeriesRequest, saveSeriesRequest } from '../../../utils/series-utils';
+import { deleteImageRequest, getSeriesesRequest, getSeriesRequest, saveSeriesRequest, updateSeriesRequest } from '../../../utils/series-utils';
 import * as yup from 'yup';
 import styles from './SeriesHandler.module.css';
 import { DropdownBar } from '../../../components/items/drop-down-bar/DropdownBar';
+import { uploadRequest } from '../../../utils/image-utils';
 
 type SeriesFormState = {
   id?: number;
@@ -52,6 +53,7 @@ export const SeriesHandler = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { setMessage } = useContext(SnackbarContext);
+  const fileInput = useRef<any>(null);
 
   const submit = async (e: any) => {
     e.preventDefault();
@@ -60,9 +62,7 @@ export const SeriesHandler = () => {
     try {
       const result = await SeriesSchema.validate(formState);
       let saveSeries: Series = {} as Series;
-      /**
-       * kép objektum hozzáaása
-       */
+
       if(!seriesId) {
         saveSeries = {
           title: result.title,
@@ -71,7 +71,8 @@ export const SeriesHandler = () => {
           prodYear: result.prodYear,
           seasons: result.seasons,
           categories: result.categories,
-        } //TODO: kép hozzáadás
+          image: formState.image,
+        }
         const response = await saveSeriesRequest(saveSeries);
         if(response) {
           resetValues();
@@ -79,6 +80,66 @@ export const SeriesHandler = () => {
         }
       } else {
         //Meglévő módosítása
+        if(result.title !== series.title) {
+          saveSeries.title = result.title;
+        }
+        if(result.prodYear !== series.prodYear) {
+          saveSeries.prodYear = result.prodYear;
+        }
+        if(result.length !== series.length) {
+          saveSeries.length = result.length;
+        }
+        if(result.ageLimit !== series.ageLimit) {
+          saveSeries.ageLimit = result.ageLimit;
+        }
+        if(result.image) {
+          saveSeries.image = formState.image;
+        }
+
+        if(series.categories && series.categories.length > 0) {
+          saveSeries.categories = [];
+          const categoryMap: Map<number, Category> = new Map<number, Category>();
+          for(let ct of series.categories) {
+            if(ct.id)
+              categoryMap.set(ct.id, { ...ct, remove: true });
+          }
+  
+          for(let category of formState.categories) {
+            if(category.id)
+              categoryMap.set(category.id, category);
+          }
+  
+          categoryMap.forEach((value, id) => {
+            saveSeries.categories.push(value);
+          });
+  
+        } else if(formState.categories && formState.categories.length > 0) {
+          saveSeries.categories = formState.categories
+        }
+
+        saveSeries.seasons = [];
+        if(!series.seasons || series.seasons.length < 0) {
+          saveSeries.seasons = formState.seasons;
+        } else {
+          
+  
+          for(let season of formState.seasons) {
+            if((!season.id && season.season && season.episode)
+            || (season.id && season.season && season.episode)) {
+              saveSeries.seasons.push(season);
+            }
+          }
+        }
+        
+        removableSeasons.forEach(season => {
+          saveSeries.seasons.push(season);
+        })
+        
+        const response = await updateSeriesRequest(seriesId, saveSeries);
+        if(response) {
+          fetchSeriesData();
+          setMessage(response, "success");
+        }
       }
 
       setErrorMsg(errorMsg);
@@ -92,7 +153,7 @@ export const SeriesHandler = () => {
         if((err as AxiosError<any>).response.status === 401) {
           navigate("/logout");
         }
-        setMessage((err as AxiosError<any>).response.data.message)
+        setMessage((err as AxiosError<any>).response.data.message);
       }
     }
 
@@ -159,6 +220,47 @@ export const SeriesHandler = () => {
       seasons: seasonArray
     }));
   }
+  const removeImage = async () => {
+    if(seriesId) {
+      try {
+        const response = await deleteImageRequest(seriesId);
+        if(response) {
+          setMessage(response, "success");
+          fetchSeriesData();
+        }
+      } catch(err) {
+        if((err as AxiosError<any>).response.status === 401) {
+          navigate("/logout");
+        }
+        setMessage((err as AxiosError<any>).response.data.message);
+      }
+    }
+  }
+  const uploadFile = async (e) => {
+    const uploadableFile = e.target.files[0] ?? null;
+    if(uploadableFile) {
+      try {
+        const response = await uploadRequest(uploadableFile);
+        if(response) {
+          console.log("has response")
+          setFormState((pre) => ({
+            ...pre,
+            image: {
+              ...pre.image,
+              ...response,
+            }
+          }));
+          setMessage("Sikeres képfeltöltés!", "success");
+        }
+      } catch(err) {
+        console.log(err);
+        if((err as AxiosError<any>).response.status === 401) {
+          navigate("/logout");
+        }
+        setMessage((err as AxiosError<any>).response.data.message);
+      }
+    }
+  }
 
   const setSearchValueWrapper = (searchValue: string) => {
     setSearchValue(searchValue);
@@ -166,6 +268,7 @@ export const SeriesHandler = () => {
   const setAutocompleteValue = (seriesId: number) => {
     navigate(`/admin/series/${seriesId}`)
   }
+
 
   const resetValues = () => {
     setSearchValue("");
@@ -183,6 +286,15 @@ export const SeriesHandler = () => {
     setFormState((pre) => ({
       ...pre,
       [fieldName]: e.target.value,
+    }));
+  }
+  const handleImageOffsetChange = (e: any, fieldName: string) => {
+    setFormState((pre) => ({
+      ...pre,
+      image: {
+        ...pre.image,
+        [fieldName]: e.target.value,
+      }
     }));
   }
   const handleTempSeasonChange = (e: any, fieldName: string) => {
@@ -424,26 +536,31 @@ export const SeriesHandler = () => {
                   />
                 </div>
                 <div className={`${styles["details-column"]} ${styles["form-season-field"]}`}>
-                  <input hidden name="image" type="file" id="fileInput" /> {/* (change)="uploadFile($event)" */}
-                  {/* <button className={styles["image-button"]} mat-raised-button color="primary" type="button"> { (click)="fileInput.click()" }
-                    selectedSeries && selectedSeries.image ? "Borítókép módosítás" : "Borítókép feltöltés"
-                  </button> */}
-                  {/* <button mat-icon-button title="Borítókép törlése" type="button"
-                      *ngIf="selectedSeries && selectedSeries.image" color="warn"
-                      (click)="removeImage()"
-                  >
-                    <mat-icon>delete</mat-icon>
-                  </button> */}
-                  <div>
-                    {/* <mat-form-field className={styles["image-offset"]} title="Horizontális eltolás">
-                      <mat-label>X</mat-label>
-                      <input matInput autocomplete="off" [formControl]="xOffset"/>
-                    </mat-form-field>
-                    <mat-form-field className={styles["image-offset"]} title="Vertikális eltolás">
-                      <mat-label>Y</mat-label>
-                      <input matInput autocomplete="off" [formControl]="yOffset"/>
-                    </mat-form-field> */}
-                  </div>
+                  <input hidden name="image" type="file" id="image" ref={fileInput} onChange={uploadFile}/>
+                  <Button className={styles["image-button"]} type="button" variant="contained" onClick={() => fileInput.current.click()}>
+                    {formState.image ? "Borítókép módosítás" : "Borítókép feltöltés"}
+                  </Button>
+                  {formState.image &&
+                  <>
+                    <IconButton title="Borítókép törlése" type="button" color="error" onClick={removeImage}>
+                      <Icon>
+                        delete
+                      </Icon>
+                    </IconButton>
+                    <div>
+                      <div className={styles["image-offset"]} title="Horizontális eltolás">
+                        <TextField label="X" variant='standard' type='text' autoComplete='off' InputLabelProps={{ style:{transformOrigin: "50%" }}}
+                            value={formState.image.x_offset} onChange={(e) => handleImageOffsetChange(e, "x_offset")}
+                        />
+                      </div>
+                      <div className={styles["image-offset"]} title="Vertikális eltolás">
+                        <TextField label="Y" variant='standard' type='text' autoComplete='off' InputLabelProps={{ style:{transformOrigin: "50%" }}}
+                            value={formState.image.y_offset} onChange={(e) => handleImageOffsetChange(e, "y_offset")}
+                        />
+                      </div>
+                    </div>
+                  </>
+                  }
                 </div>
               </div>
             </div>

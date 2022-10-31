@@ -4,8 +4,11 @@ import http from './axiosConfig';
 export const uploadRequest = async (file: File) => {
   const formData: FormData = new FormData();
   formData.append("image", file, file.name);
-  return await http.post<TempUploadedImage>("images", {
-    formData
+  return await http.post<TempUploadedImage>("images", formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
+    
   })
     .then((res) => res.data)
     .catch((err) => {

@@ -1,5 +1,5 @@
 import { Icon } from '@mui/material';
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { DropdownItem } from '../../../models/menu.model';
 import { useClickOutside } from '../../../utils/component-utils';
 import styles from './DropdownBar.module.css';
@@ -43,6 +43,9 @@ export const DropdownBar: FC<DropdownBarProps> = ({ options, width = '280px', he
     }
   }
 
+  useEffect(() => {
+    setSelectedValueHeader(header);
+  }, [header]);
   useClickOutside(componentRef, close);
   return (
     <div

@@ -74,7 +74,7 @@ export const updateUserSeriesRequest = async (id: number, updateUserseries: User
 }
 
 export const deleteUserSeriesRequest = async (id: number) => {
-  return await http.put<{ message: string}>(`user/series/${id}`)
+  return await http.delete<{ message: string}>(`user/series/${id}`)
   .then((res) => res.data.message)
   .catch((err) => {
     throw err;

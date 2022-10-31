@@ -92,7 +92,6 @@ export class UserseriesHandlerComponent implements OnInit {
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
     }
   }
-
   remove = () => {
       const dialogRef = this.dialog.open(ConfirmationComponent, { data: { question: "Biztos szeretnéd törölni a sorozatot?" }});
 
@@ -136,7 +135,6 @@ export class UserseriesHandlerComponent implements OnInit {
       this.snackbar.open((err as ErrorMessage).error.message, 'X', { duration: 6000, verticalPosition: 'bottom', panelClass: ['snackbar-error'] });
     }
   }
-
   autocompleteValue = async (value: any) => {
     this.seriesId = value;
     if(this.seriesId) {
@@ -166,7 +164,6 @@ export class UserseriesHandlerComponent implements OnInit {
 
     this.seasonOptions = [];
   }
-
   setSeasonOption = (season: Season) => {
     this.selectedSeason = season;
     this.setEpisodeOption(1);
@@ -185,7 +182,6 @@ export class UserseriesHandlerComponent implements OnInit {
 
     this.episodeOptions = [];
   }
-
   setEpisodeOption = (episode: number) => {
     this.selectedEpisode = episode;
     this.getEpisodeOptions();
@@ -194,7 +190,6 @@ export class UserseriesHandlerComponent implements OnInit {
   getStatusOptions = async () => {
     this.statusOptions = this.statuses.map((status) => ({ value: status.id, shownValue: status.name, highlight: status.id === this.selectedStatus?.id }));
   }
-
   setStatusOption = (statusId: number) => {
     this.selectedStatus = this.statuses.find(status => status.id === statusId);
     this.getStatusOptions();

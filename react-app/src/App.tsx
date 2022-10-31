@@ -6,6 +6,7 @@ import { MiscHandler } from './pages/handlers/misc-handler/MiscHandler';
 import { NewsfeedHandler } from './pages/handlers/newsfeed-handler/NewsfeedHandler';
 import { SeriesHandler } from './pages/handlers/series-handler/SeriesHandler';
 import { UserHandler } from './pages/handlers/user-handler/UserHandler';
+import { UserseriesHandler } from './pages/handlers/userseries-handler/UserseriesHandler';
 import { Login } from './pages/login/Login';
 import { Logout } from './pages/Logout';
 import { Newsfeed } from './pages/newsfeed/Newsfeed';
@@ -29,8 +30,8 @@ function App() {
           <Route path='/user' element={<ProtectedRoutes rights={["user"]} />}>
             <Route path="newsfeed" element={<DetectBottomProvider><Newsfeed /></DetectBottomProvider>}/>
             <Route path="series" element={<DetectBottomProvider><UserSeriesPage /></DetectBottomProvider>}/>
-            <Route path="handle/series"/>
-            <Route path="handle/series/:id"/>
+            <Route path="handle/series" element={<UserseriesHandler />}/>
+            <Route path="handle/series/:id" element={<UserseriesHandler />}/>
           </Route>
           <Route path='/admin' element={<ProtectedRoutes rights={["siteManager", 'admin']} />}>
             <Route path='series' element={<SeriesHandler />}/>
@@ -46,7 +47,7 @@ function App() {
           <Route path='*' element={<Navigate to={"/"} replace={true}/>}/>
         </Routes>
       </div>
-      {/* <div className="background"></div> */}
+      <div className="background"></div>
     </>
   );
 }

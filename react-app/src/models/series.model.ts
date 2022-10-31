@@ -31,8 +31,8 @@ export type UserSeriesPageModel = {
 
 export type Season = {
   id?: number;
-  season: number;
-  episode: number;
+  season?: number;
+  episode?: number;
 };
 
 export type Category = {

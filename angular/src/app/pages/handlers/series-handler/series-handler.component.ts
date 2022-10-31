@@ -140,22 +140,22 @@ export class SeriesHandlerComponent implements OnInit {
           updateSeries.image.y_offset = this.yOffset.value;
         }
       }
-    if(this.selectedSeries?.categories && this.selectedSeries?.categories.length > 0) {
-      updateSeries.categories = [];
-      const categoryMap: Map<number, Category> = new Map<number, Category>();
-      for(let ct of this.selectedSeries?.categories) {
-        if(ct.id)
-          categoryMap.set(ct.id, { ...ct, remove: true });
-      }
+      if(this.selectedSeries?.categories && this.selectedSeries?.categories.length > 0) {
+        updateSeries.categories = [];
+        const categoryMap: Map<number, Category> = new Map<number, Category>();
+        for(let ct of this.selectedSeries?.categories) {
+          if(ct.id)
+            categoryMap.set(ct.id, { ...ct, remove: true });
+        }
 
-      for(let category of formSeries.categories) {
-        if(category.id)
-          categoryMap.set(category.id, category);
-      }
+        for(let category of formSeries.categories) {
+          if(category.id)
+            categoryMap.set(category.id, category);
+        }
 
-      categoryMap.forEach((value, id) => {
-        updateSeries.categories.push(value);
-      });
+        categoryMap.forEach((value, id) => {
+          updateSeries.categories.push(value);
+        });
 
       } else if(formSeries.categories && formSeries.categories.length > 0) {
         updateSeries.categories = formSeries.categories
