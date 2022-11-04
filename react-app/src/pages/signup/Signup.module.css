@@ -101,9 +101,10 @@
     flex-wrap: wrap;
     max-height: 160px;
   }
-
+  .left-aligned-row,
   .left-aligned-row > .form-field {
     text-align: center;
+    margin: 36px auto;
   }
 }
 

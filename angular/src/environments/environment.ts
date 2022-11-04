@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   EXPRESS_API_URL: "http://localhost:5001/api/",
   FASTIFY_API_URL: "http://localhost:5002/api/",
+  SPRING_API_URL: "http://localhost:5003/api/",
 };
 
 /*

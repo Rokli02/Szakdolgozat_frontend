@@ -21,7 +21,8 @@ export class AuthService{
 
     this.backendLocations = {
       fastify: environment.FASTIFY_API_URL,
-      express: environment.EXPRESS_API_URL
+      express: environment.EXPRESS_API_URL,
+      spring: environment.SPRING_API_URL,
     }
     const apiUrlKey = localStorage.getItem("API_URL_KEY");
     if(apiUrlKey) {

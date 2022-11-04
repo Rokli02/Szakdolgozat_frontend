@@ -48,7 +48,7 @@ export type BackendLocations = {
   [name: string]: string;
 };
 
-export type BackendLocationNames = "fastify" | "express";
+export type BackendLocationNames = "fastify" | "express" | "spring";
 
 export type SnackbarProps = {
   message: string | undefined,

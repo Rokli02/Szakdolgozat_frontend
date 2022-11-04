@@ -8,7 +8,6 @@ export const Profile = () => {
   const [ open, setOpen ] = useState(false);
   const { user, logout } = useContext(AuthContext);
   const componentRef = useRef<any>(null);
-
   const toggle = () => {
     setOpen(pre => !pre);
   }

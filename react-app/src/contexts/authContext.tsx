@@ -92,14 +92,15 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
       localStorage.setItem("API_URL_KEY", name);
     }
   }
+  
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setState((pre) => ({
       ...initValue,
       backendLocation: pre.backendLocation,
     }));
     setAuthHeader("");
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     navigate("/login");
   }
   const getActiveBackendName = (): string => {

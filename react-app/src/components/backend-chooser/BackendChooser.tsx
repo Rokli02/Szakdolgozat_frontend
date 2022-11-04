@@ -45,7 +45,7 @@ export const BackendChooser = () => {
               <FormControlLabel value="express" control={<Radio size='medium' />} label="Express" />
             </div>
             <div className={styles["radio-button-container"]}>
-              <FormControlLabel disabled value="spring" control={<Radio size='medium' />} label="Spring" />
+              <FormControlLabel value="spring" control={<Radio size='medium' />} label="Spring" />
             </div>
           </RadioGroup>
       </section>

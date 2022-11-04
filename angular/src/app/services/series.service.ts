@@ -106,9 +106,9 @@ export class SeriesService {
     return [
       { shownValue: "Nincs", value: "" },
       { shownValue: "Cím", value: "title" },
-      { shownValue: "Korhatár", value: "ageLimit"},
+      { shownValue: "Korhatár", value: "age_limit"},
       { shownValue: "Hossz", value: "length"},
-      { shownValue: "Kiadási év", value: "prodYear"}
+      { shownValue: "Kiadási év", value: "prod_year"}
     ]
   }
 }
