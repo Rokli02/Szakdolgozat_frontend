@@ -7,7 +7,7 @@
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.4);
   background-color: rgba(var(--primary-color-rgb), 0.15);
   color: azure;
-  text-shadow: 0px 0px 2px black, 0px 0px 3px black;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 3px black;
   background-blend-mode: color-dodge;
   background-repeat: no-repeat;
   background-size: cover;

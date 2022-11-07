@@ -39,14 +39,6 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
       initState.backendLocation = backendLocations["fastify"];
     }
     
-    const tempToken = localStorage.getItem("token");
-    const tempUser = localStorage.getItem("user");
-    if(tempToken) {
-      initState.token = tempToken;
-    }
-    if(tempUser) {
-      initState.user = JSON.parse(tempUser);
-    }
     setState(initState);
     setBaseUrl(initState.backendLocation);
   }, []);
@@ -65,8 +57,6 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
         token: response.token
       }))
       setAuthHeader("Bearer " + response.token);
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("user", JSON.stringify(response.user));
       return { message: "Sikeres bejelentkezés!" };
     } catch(err) {
       throw err;
@@ -95,8 +85,6 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
   }
   
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     setState((pre) => ({
       ...initValue,
       backendLocation: pre.backendLocation,
