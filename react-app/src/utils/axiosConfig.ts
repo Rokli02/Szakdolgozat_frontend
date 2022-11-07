@@ -9,14 +9,12 @@ export const backendLocations: BackendLocations = {
 
 export const http = axios.create();
 
-// http.defaults.baseURL = backendLocations.fastify;
-
-export const setBaseUrl = (path: string) => { // Talán meg kell változtatni
+export const setBaseUrl = (path: string) => {
   http.defaults.baseURL = path;
 }
 
 export const setAuthHeader = (token: string) => {
-  http.defaults.headers.common["Authorization"] = "Bearer " + token;
+  http.defaults.headers.common["Authorization"] = token;
 }
 
 export default http;

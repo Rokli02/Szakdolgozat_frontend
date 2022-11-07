@@ -47,7 +47,13 @@ export const NewsfeedHandler = () => {
     const errorMsg: NewsfeedFormErrorMessage = {} as NewsfeedFormErrorMessage;
     try {
       const result = await NewsfeedSchema.validate(formState, { abortEarly: false });
-      const updatableNewsfeed: Newsfeed = {} as Newsfeed;
+      const updatableNewsfeed: Newsfeed = {
+        series: {
+          id: result.series.id,
+          title: result.series.title,
+          prodYear: result.series.prodYear
+        },
+      } as Newsfeed;
 
       if(newsfeedId) {
         if(result.title !== newsfeed.title) {
@@ -55,13 +61,6 @@ export const NewsfeedHandler = () => {
         }
         if(result.description !== newsfeed.description) {
           updatableNewsfeed.description = result.description;
-        }
-        if(result.series.id !== newsfeed.series.id) {
-          updatableNewsfeed.series = {
-            id: result.series.id,
-            title: result.series.title,
-            prodYear: result.series.prodYear
-          } ;
         }
 
         const response = await updateNewsfeedRequest(newsfeedId, updatableNewsfeed);
@@ -71,11 +70,6 @@ export const NewsfeedHandler = () => {
       } else {
         updatableNewsfeed.title = result.title;
         updatableNewsfeed.description = result.description;
-        updatableNewsfeed.series = {
-          id: result.series.id,
-          title: result.series.title,
-          prodYear: result.series.prodYear
-        };
 
         const response = await saveNewsfeedRequest(updatableNewsfeed);
         if(response) {

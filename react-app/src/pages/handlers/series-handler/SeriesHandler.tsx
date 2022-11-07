@@ -62,7 +62,7 @@ export const SeriesHandler = () => {
     try {
       const result = await SeriesSchema.validate(formState);
       let saveSeries: Series = {} as Series;
-
+      
       if(!seriesId) {
         saveSeries = {
           title: result.title,
@@ -79,7 +79,6 @@ export const SeriesHandler = () => {
           setMessage("Sikeres sorozat hozzáadás!", "success");
         }
       } else {
-        //Meglévő módosítása
         if(result.title !== series.title) {
           saveSeries.title = result.title;
         }
@@ -156,8 +155,6 @@ export const SeriesHandler = () => {
         setMessage((err as AxiosError<any>).response.data.message);
       }
     }
-
-    console.log(formState);
 
   }
   const saveSeason = () => {
@@ -242,18 +239,17 @@ export const SeriesHandler = () => {
       try {
         const response = await uploadRequest(uploadableFile);
         if(response) {
-          console.log("has response")
           setFormState((pre) => ({
             ...pre,
             image: {
               ...pre.image,
+              id: undefined,
               ...response,
             }
           }));
           setMessage("Sikeres képfeltöltés!", "success");
         }
       } catch(err) {
-        console.log(err);
         if((err as AxiosError<any>).response.status === 401) {
           navigate("/logout");
         }

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar } from './components/navbar/Navbar';
@@ -16,10 +17,18 @@ import { Signup } from './pages/signup/Signup';
 import { UserSeriesPage } from './pages/user-series/UserSeries';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  
   return (
     <>
       <div>
         <Navbar></Navbar>
+        {
+          loading ?
+          "" :
         <Routes>
           <Route path='/' element={<Navigate to={"/series"} replace={true}/>} />
           <Route path='/series' element={<DetectBottomProvider><SeriesPage /></DetectBottomProvider>} />
@@ -45,7 +54,7 @@ function App() {
             </Route>
           </Route>
           <Route path='*' element={<Navigate to={"/"} replace={true}/>}/>
-        </Routes>
+        </Routes>}
       </div>
       <div className="background"></div>
     </>

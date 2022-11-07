@@ -28,7 +28,7 @@ export const AuthContext = createContext(initContextValue);
 export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
   const [state, setState] = useState(initValue);
   const [sidebarItems, setSidebarItems] = useState<SidebarItem[] | undefined>([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const apiUrlKey = localStorage.getItem("API_URL_KEY") as BackendLocationNames;
@@ -53,7 +53,8 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
 
   useEffect(() => {
     setSidebarItems(getSidebarItems(state.user));
-  }, [state.user]);
+    setAuthHeader(state.token ? "Bearer " + state.token : undefined);
+  }, [state.user, state.token]);
 
   const login = async (loginName: string, password: string): Promise<{ message: string }> => {
     try {
@@ -63,7 +64,7 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
         user: response.user,
         token: response.token
       }))
-      setAuthHeader(response.token);
+      setAuthHeader("Bearer " + response.token);
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
       return { message: "Sikeres bejelentkezés!" };
@@ -100,7 +101,7 @@ export const AuthProvider: FC<{children: JSX.Element}> = ({children}) => {
       ...initValue,
       backendLocation: pre.backendLocation,
     }));
-    setAuthHeader("");
+    setAuthHeader(undefined);
     navigate("/login");
   }
   const getActiveBackendName = (): string => {
