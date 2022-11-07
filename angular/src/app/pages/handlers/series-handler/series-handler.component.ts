@@ -24,9 +24,9 @@ export class SeriesHandlerComponent implements OnInit {
   seriesId?: number;
   seriesOptions: DropdownItem[];
   selectedSeries?: Series;
+  tempImage?: TempUploadedImage;
   private categories!: Category[];
   private removableSeasons: Season[];
-  private tempImage?: TempUploadedImage;
   constructor(private fb: FormBuilder,
               private seriesService: SeriesService,
               private categoryService: CategoryService,
@@ -43,7 +43,7 @@ export class SeriesHandlerComponent implements OnInit {
     this.formGroup = this.fb.group({
       title: ["", [Validators.required]],
       length: ["", [Validators.required, Validators.min(1)]],
-      prodYear: ["", [Validators.required, Validators.min(1900)]],
+      prodYear: ["", [Validators.required, Validators.min(1900), Validators.max(2100)]],
       ageLimit: ["", [Validators.required, Validators.min(1), Validators.max(99)]],
       seasons: [[]],
       categories: [[]]
@@ -120,7 +120,7 @@ export class SeriesHandlerComponent implements OnInit {
       if(formSeries.image) {
         updateSeries.image = formSeries.image;
       }
-      if(!this.tempImage && this.selectedSeries?.image) { // Valami ellenőrzés, hogy történt-e változás
+      if(!this.tempImage && this.selectedSeries?.image) {
         if(this.xOffset.value && this.selectedSeries.image.x_offset !== this.xOffset.value) {
           if(!updateSeries.image) {
             updateSeries.image = {

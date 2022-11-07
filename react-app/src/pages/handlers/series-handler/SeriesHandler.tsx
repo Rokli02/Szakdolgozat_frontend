@@ -120,8 +120,6 @@ export const SeriesHandler = () => {
         if(!series.seasons || series.seasons.length < 0) {
           saveSeries.seasons = formState.seasons;
         } else {
-          
-  
           for(let season of formState.seasons) {
             if((!season.id && season.season && season.episode)
             || (season.id && season.season && season.episode)) {
@@ -136,7 +134,8 @@ export const SeriesHandler = () => {
         
         const response = await updateSeriesRequest(seriesId, saveSeries);
         if(response) {
-          fetchSeriesData();
+          resetValues();
+          routeTo("change");
           setMessage(response, "success");
         }
       }
@@ -159,7 +158,7 @@ export const SeriesHandler = () => {
   }
   const saveSeason = () => {
     if(tempSeason.season && tempSeason.episode) {
-      const seasonArray: Season[] = formState.seasons;
+      const seasonArray: Season[] = [...formState.seasons];
       const newSeason: Season = { season: Number(tempSeason.season), episode: Number(tempSeason.episode) }
 
       let index = -1;
@@ -271,8 +270,11 @@ export const SeriesHandler = () => {
     setAutocompleteOptions([]);
     setSeriesId(undefined);
     setSeries(undefined);
+    setTempSeason(initSeason)
+    setRemovableSeasons([]);
     setFormState(formInit);
     setErrorMsg({});
+    setErrorSeasonMsg({})
   }
   const resetSeasonValues = () => {
     setTempSeason(initSeason);
@@ -352,7 +354,7 @@ export const SeriesHandler = () => {
       return formState.seasons.sort((a: Season, b: Season) => a.season - b.season).map((season: Season) => ({
         value: season.season,
         shownValue: `${season.season}. évad, ${season.episode} rész`
-      }) as DropdownItem)
+      }) as DropdownItem);
     }
 
     return [];
@@ -575,8 +577,8 @@ const SeriesSchema = yup.object().shape({
   id: yup.number(),
   title: yup.string().required("Cím megadása kötelező!"),
   length: yup.number().required("Hossz megadása kötelező!").min(1, "Legalább 1 perc hosszúnak kell lennie!"),
-  prodYear: yup.number().required("Kiadási éve megadása kötelező!").min(1900, "A kiadása legalább 1900 lehet!"),
-  ageLimit: yup.number().required("Korhatár megadása kötelező!").min(1, "A korhatár alsóhatára 1 év!"),
+  prodYear: yup.number().required("Kiadási éve megadása kötelező!").min(1900, "A kiadása legalább 1900 lehet!").max(2100, "A kiadása legfeljebb 2100 lehet!"),
+  ageLimit: yup.number().required("Korhatár megadása kötelező!").min(1, "A korhatár alsóhatára 1 év!").max(99, "A korhatár felsőhatára 99 év!"),
   seasons: yup.array().optional(),
   categories: yup.array().optional()
 });

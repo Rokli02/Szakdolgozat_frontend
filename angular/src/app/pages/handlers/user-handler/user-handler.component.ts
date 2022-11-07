@@ -74,7 +74,7 @@ export class UserHandlerComponent implements OnInit {
 
       return;
     }
-    const updatedUser: NewUser = {} as NewUser;
+    const updatedUser: NewUser = { active: true } as NewUser;
     const formUser: User = this.formGroup.value;
     if(formUser.name && formUser.name !== this.selectedUser?.name) {
       updatedUser.name = formUser.name;
@@ -94,10 +94,6 @@ export class UserHandlerComponent implements OnInit {
 
     if(formUser.password && formUser.password !== this.selectedUser?.password) {
       updatedUser.password = formUser.password;
-    }
-
-    if(!this.selectedUser?.active) {
-      updatedUser.active = true;
     }
 
     try {

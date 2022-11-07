@@ -49,7 +49,7 @@ export const UserHandler = () => {
 
       if(response.active) {
         if(response.id) {
-          const updatableUser: NewUser = { } as NewUser;
+          const updatableUser: NewUser = { active: true } as NewUser;
           if(response.name !== selectedUser.name) {
             updatableUser.name = response.name;
           }
@@ -64,9 +64,6 @@ export const UserHandler = () => {
           }
           if(response.password !== selectedUser.password && !lockPassword) {
             updatableUser.password = response.password;
-          }
-          if(response.active) {
-            updatableUser.active = response.active;
           }
 
           const resp = await updateUserRequest(response.id, updatableUser);

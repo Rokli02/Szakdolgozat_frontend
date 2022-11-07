@@ -141,7 +141,7 @@ export const Signup = () => {
           <label id={styles["show-password-text"]}>Mutasd a jelszót!</label>
         </div>
         <div id={styles["form-button"]}>
-          <Button type="submit" disabled={!SignupSchema.isValidSync(state)} variant='contained'>Regisztráció</Button>
+          <Button type="submit" variant='contained'>Regisztráció</Button>
         </div>
       </form>
     </div>
@@ -150,7 +150,7 @@ export const Signup = () => {
 
 const SignupSchema = yup.object().shape({
   name: yup.string().required("Név megadása kötelező!"),
-  birthdate: yup.date().required("Születési dátum megadása kötelező!"),
+  birthdate: yup.date().required("Születési dátum megadása kötelező!").max(new Date(Date.now()), "A jelenlegi dátumnál nem lehet későbbi!"),
   username: yup.string().required("Felhasználónév megadása kötelező!"),
   email: yup.string().email("Valid emailnek kell lennie!").required("Email megadása kötelező!"),
   emailAgain: yup.string().email("Valid emailnek kell lennie!").test("Email egyezés", "Emailek nem egyeznek", function(value) {return !this.parent?.email || value === this.parent?.email}),

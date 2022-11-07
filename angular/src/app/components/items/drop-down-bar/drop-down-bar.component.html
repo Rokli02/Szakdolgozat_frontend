@@ -10,14 +10,13 @@
   <div class="dropdown-body" [ngClass]="{'open': open}">
     <span *ngIf="this.options && this.options.length > 0; else noOptions">
       <span class="dropdown-item-container" *ngFor="let option of options">
-        <div class="dropdown-body-item" [ngClass]="{ 'highlight': option.highlight }"
+        <div class="dropdown-body-item" [ngClass]="{ 'highlight': option.highlight }" [ngStyle]="{'cursor': action ? 'pointer' : 'default'}"
           (click)="onClick(option)">{{option.shownValue}}</div>
-        <!-- <hr class="divider" /> -->
       </span>
     </span>
     <ng-template #noOptions>
       <span class="dropdown-item-container">
-        <div class="dropdown-body-item">
+        <div class="dropdown-body-item"[ngStyle]="{'cursor': 'default'}">
           Üres...
         </div>
       </span>

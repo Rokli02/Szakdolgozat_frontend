@@ -70,14 +70,14 @@ export const DropdownBar: FC<DropdownBarProps> = ({ options, width = '280px', he
             {
               options.map((option, index) => (
                 <div className={`${styles["dropdown-body-item"]} ${option.highlight ? styles['highlight'] : ''}`}
-                onClick={() => selectHandle(option)} key={index}
+                onClick={() => selectHandle(option)} key={index} style={{ cursor: action ? 'pointer' : 'default' }}
                   >{option.shownValue}</div>
               ))
             }
             </span>
           </span>
           : <span className={styles["dropdown-item-container"]}>
-            <div className={styles["dropdown-body-item"]}>
+            <div className={styles["dropdown-body-item"]} style={{ cursor: 'default' }}>
               Üres...
             </div>
           </span>

@@ -7,7 +7,7 @@
     <div class="search" *ngIf="!addNew">
       <app-search-bar [options]="seriesOptions" (searchValue)="captureValue($event)" (selectedValue)="autocompleteValue($event)"></app-search-bar>
     </div>
-    <div class="form-container" *ngIf="addNew || seriesId">
+    <div class="form-container" *ngIf="addNew || selectedSeries">
       <form [formGroup]="formGroup" novalidate (submit)="submit()">
         <div class="form-header">
           <div class="title">
@@ -87,7 +87,7 @@
               >
                 <mat-icon>delete</mat-icon>
               </button>
-              <div>
+              <div *ngIf="tempImage || (selectedSeries && selectedSeries.image)">
                 <mat-form-field class="image-offset" title="Horizontális eltolás">
                   <mat-label>X</mat-label>
                   <input matInput autocomplete="off" [formControl]="xOffset"/>

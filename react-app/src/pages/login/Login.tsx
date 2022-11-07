@@ -65,7 +65,7 @@ export const Login = () => {
           error={errorMessage.password !== undefined} helperText={errorMessage.password}
           label="Jelszó" onChange={(event) => handleChange(event, "password")} variant="standard"/>
         </div>
-        <Button type="submit" disabled={!LoginSchema.isValidSync(state)} variant='contained'>Bejelentkezés</Button>
+        <Button type="submit" variant='contained'>Bejelentkezés</Button>
       </form>
     </div>
   )
