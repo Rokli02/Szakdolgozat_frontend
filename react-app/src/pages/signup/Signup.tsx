@@ -46,11 +46,11 @@ export const Signup = () => {
 
       delete result.emailAgain;
       delete result.passwordAgain;
+      const correctedBirthdate = new Date(result.birthdate.getTime() + (1000 * 60 * 60 * 24));
       const newUser: NewUser = {
         ...result,
-        birthdate: result.birthdate.toISOString().split("T")[0]
+        birthdate: correctedBirthdate.toISOString().split("T")[0]
       };
-
       const response = await signup(newUser);
 
       resetState();
@@ -98,7 +98,7 @@ export const Signup = () => {
           </div>
           <div className={styles['form-field']}>
             <TextField type={'date'} className={styles['form-field-input']} InputLabelProps={{ 
-                style:{transformOrigin: "50%" }, shrink: true}} label="Születési dátum"
+                style:{transformOrigin: "50%" }, shrink: true}} label="Születési dátum" 
                 error={errorMessage.birthdate !== undefined} helperText={errorMessage.birthdate}
                 onChange={(event) => handleChange(event, "birthdate")} variant="standard" value={state.birthdate}/>
           </div>
