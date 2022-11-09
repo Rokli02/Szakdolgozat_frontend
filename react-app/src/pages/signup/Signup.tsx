@@ -46,10 +46,9 @@ export const Signup = () => {
 
       delete result.emailAgain;
       delete result.passwordAgain;
-      const correctedBirthdate = new Date(result.birthdate.getTime() + (1000 * 60 * 60 * 24));
       const newUser: NewUser = {
         ...result,
-        birthdate: correctedBirthdate.toISOString().split("T")[0]
+        birthdate: result.birthdate.toISOString().split("T")[0]
       };
       const response = await signup(newUser);
 
