@@ -2,7 +2,8 @@
   position: relative;
   display: block;
   width: 405px;
-  height: 250px;
+  min-height: fit-content;
+  overflow-x: hidden;
   border-radius: 12px;
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.4);
   background-color: rgba(var(--primary-color-rgb), 0.15);
@@ -15,7 +16,7 @@
 
 .series-item > header {
   text-align: center;
-  padding: 1.4em;
+  padding: 1.8em;
   height: fit-content;
 }
 
@@ -75,6 +76,8 @@
   text-align: center;
   padding: 6px 4px;
   min-width: 30%;
+  max-width: 80%;
+  overflow-x: hidden;
   font-size: 18px;
   font-weight: 400;
   border-radius: 6px;

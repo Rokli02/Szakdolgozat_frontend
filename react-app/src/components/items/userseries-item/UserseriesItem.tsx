@@ -48,33 +48,35 @@ export const UserseriesItem: FC<UserSeriesItemProps> = ({ userseries, user }) =>
   }, [user]);
 
   return (
-    <div className={`${styles["series-item"]} ${image.isDefault ? styles["defaultImage"] : ""}`}
-        style={{
-          backgroundImage: `url(${image.url})`,
-          backgroundPosition: `top ${userseries.series.image?.y_offset} left ${userseries.series.image?.x_offset}`
-        }}
-    >
-        <div className={styles["float-button"]}>
-          {state.canEdit &&
-            <IconButton onClick={editSeries}>
-            <Icon fontSize='small' className={styles["float-icon"]}>build</Icon>
-          </IconButton>}
+    <div>
+      <div className={`${styles["series-item"]} ${image.isDefault ? styles["defaultImage"] : ""}`}
+          style={{
+            backgroundImage: `url(${image.url})`,
+            backgroundPosition: `top ${userseries.series.image?.y_offset} left ${userseries.series.image?.x_offset}`
+          }}
+      >
+          <div className={styles["float-button"]}>
+            {state.canEdit &&
+              <IconButton onClick={editSeries}>
+              <Icon fontSize='small' className={styles["float-icon"]}>build</Icon>
+            </IconButton>}
+          </div>
+        <header>
+          <label className={styles["series-name"]}>{userseries.series.title}</label>
+        </header>
+        <div className={styles['series-item-body']}>
+          <div className={styles["seasons"]}>{userseries.season}. évad, {userseries.episode}. rész</div>
+          <div className={styles["series-prodyear"]}>{userseries.series.prodYear}</div>
+          <div className={styles["series-length"]}>{userseries.series.length} perc</div>
+          <div className={styles["series-category"]}>{categories}</div>
         </div>
-      <header>
-        <label className={styles["series-name"]}>{userseries.series.title}</label>
-      </header>
-      <div className={styles['series-item-body']}>
-        <div className={styles["seasons"]}>{userseries.season}. évad, {userseries.episode}. rész</div>
-        <div className={styles["series-prodyear"]}>{userseries.series.prodYear}</div>
-        <div className={styles["series-length"]}>{userseries.series.length} perc</div>
-        <div className={styles["series-category"]}>{categories}</div>
+        <footer>
+          <label className={styles["age-limit"]} style={{ borderColor: getLimitColor(userseries.series.ageLimit)}}>{userseries.series.ageLimit}</label>
+          <div className={styles["status"]}>
+            <label>{userseries.status.name}</label>
+          </div>
+        </footer>
       </div>
-      <footer>
-        <label className={styles["age-limit"]} style={{ borderColor: getLimitColor(userseries.series.ageLimit)}}>{userseries.series.ageLimit}</label>
-        <div className={styles["status"]}>
-          <label>{userseries.status.name}</label>
-        </div>
-      </footer>
     </div>
   )
 }

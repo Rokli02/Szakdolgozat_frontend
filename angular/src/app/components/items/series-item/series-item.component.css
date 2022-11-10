@@ -3,6 +3,7 @@
   display: block;
   width: 405px;
   min-height: fit-content;
+  overflow-x: hidden;
   border-radius: 12px;
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.4);
   background-color: rgba(var(--primary-color-rgb), 0.15);
@@ -15,7 +16,7 @@
 
 .series-item > header {
   text-align: center;
-  padding: 1.4em;
+  padding: 1.8em;
   height: fit-content;
 }
 

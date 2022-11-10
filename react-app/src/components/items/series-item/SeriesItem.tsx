@@ -73,34 +73,36 @@ export const SeriesItem: FC<SeriesItemProps> = ({ series, user }) => {
   }
 
   return (
-    <div className={`${styles["series-item"]} ${image.isDefault ? styles["defaultImage"] : ""}`}
-        style={{
-          backgroundImage: `url(${image.url})`,
-          backgroundPosition: `top ${series.image?.y_offset} left ${series.image?.x_offset}`
-        }}
-    >
-      <div className={styles["float-button"]}>
-        {state.canEdit && 
-        <IconButton onClick={editSeries}>
-          <Icon fontSize='small' className={styles["float-icon"]}>build</Icon>
-        </IconButton>}
-        { state.canAdd &&
-        <IconButton className={styles["float-button"]} onClick={addSeries}>
-          <Icon fontSize='small' className={styles["float-icon"]}>add</Icon>
-        </IconButton>}
+    <div>
+      <div className={`${styles["series-item"]} ${image.isDefault ? styles["defaultImage"] : ""}`}
+          style={{
+            backgroundImage: `url(${image.url})`,
+            backgroundPosition: `top ${series.image?.y_offset} left ${series.image?.x_offset}`
+          }}
+      >
+        <div className={styles["float-button"]}>
+          {state.canEdit && 
+          <IconButton onClick={editSeries}>
+            <Icon fontSize='small' className={styles["float-icon"]}>build</Icon>
+          </IconButton>}
+          { state.canAdd &&
+          <IconButton className={styles["float-button"]} onClick={addSeries}>
+            <Icon fontSize='small' className={styles["float-icon"]}>add</Icon>
+          </IconButton>}
+        </div>
+        <header>
+          <label className={styles["series-name"]}>{series.title}</label>
+        </header>
+        <div className={styles["series-item-body"]}>
+          <div className={styles["series-prodyear"]}>{series.prodYear}</div>
+          <div className={styles["series-length"]}>{series.length} perc</div>
+          <div className={styles["series-category"]}>{categories}</div>
+        </div>
+        <footer>
+          <label className={styles["age-limit"]} style={{ borderColor: getLimitColor(series.ageLimit)}}>{series.ageLimit}</label>
+          <DropdownBar className={styles["season-drop-down"]} header="Évadok" width="100%" options={options}/>
+        </footer>
       </div>
-      <header>
-        <label className={styles["series-name"]}>{series.title}</label>
-      </header>
-      <div className={styles["series-item-body"]}>
-        <div className={styles["series-prodyear"]}>{series.prodYear}</div>
-        <div className={styles["series-length"]}>{series.length} perc</div>
-        <div className={styles["series-category"]}>{categories}</div>
-      </div>
-      <footer>
-        <label className={styles["age-limit"]} style={{ borderColor: getLimitColor(series.ageLimit)}}>{series.ageLimit}</label>
-        <DropdownBar className={styles["season-drop-down"]} header="Évadok" width="100%" options={options}/>
-      </footer>
     </div>
   );
 }
